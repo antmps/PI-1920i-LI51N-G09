@@ -115,9 +115,9 @@ The following sections describe each API endpoint.
 
 - Request:
   - Method:GET
-  - Path: /groups/:id
+  - Path: /groups/:groupId
     - Path parameters:
-      - id - group identifier
+      - groupId - group identifier
   - Body: none
 - Response:
   - Success: 
@@ -199,9 +199,9 @@ The following sections describe each API endpoint.
 
 - Request:
   - Method: PUT
-  - Path: /groups/:id
+  - Path: /groups/:groupId
     - Path parameters:
-      - id - group id
+      - groupId - group identifier
   - Content-Type: application/json
   - Body:
 
