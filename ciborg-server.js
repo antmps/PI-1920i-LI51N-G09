@@ -1,9 +1,12 @@
 'use strict'
 
 const http = require('http')
+const router = require('./router')
 
 const server = http.createServer(processRequest)
-server.listen('8080',()=>console.log('Listening'))
+server.listen('8080',() => console.log('Listening'))
+
+
 
 function processRequest(req, res){
     console.log(req.method)
@@ -11,9 +14,6 @@ function processRequest(req, res){
     console.log(req.headers)
 
     res.setHeader("Content-Type","application/json")
-    
-    //res.write("Hello World")
-    //res.end("Hello World")
     res.end(JSON.stringify({name:"book1"}))
-
 }
+
