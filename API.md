@@ -1,6 +1,6 @@
 # CIBORG API documentation
 
-The base part of the URI path for the bundles API is `/api`
+The base part of the URI path for the CIBORG API is `/api`
 
 The following sections describe each API endpoint.
 
