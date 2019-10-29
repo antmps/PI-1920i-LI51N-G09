@@ -3,9 +3,9 @@
 import { isNull } from "util";
 
 class Node {
-  constructor(value, children) {
+  constructor(value) {
     this.value = value;
-    this.children = children;
+    this.children = [];
   }
 }
 
@@ -15,11 +15,11 @@ class Tree {
         this._root = root || null
     }
 
-    _searchNode(parentValue){
+    _searchNode(searchValue){
         const self = this
 
         function goThrough(node){
-            if(node.value === parentValue) return node
+            if(node.value === searchValue) return node
             node.children.array.forEach(element => {
                 if(element.value === node) return element
                 if(!element.children.isNull) goThrough(element)
