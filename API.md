@@ -209,7 +209,7 @@ The following sections describe each API endpoint.
   {
     "name": "group1",
     "description": "description of group 1"
-  },  
+  }
 
 ```
 
