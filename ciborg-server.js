@@ -4,18 +4,18 @@ const http = require('http');
 const api = require('./ciborg-web-api');
 
 //ADDING ROUTES AND RESPECTIVE FUNCTIONS TO THE ROUTER
-api.addGETRequest('/games/top',api.getTopGames);
-api.addGETRequest('/games/:name',api.getGameByName);
-api.addGETRequest('/groups',api.getGroups);
-api.addGETRequest('/groups/:groupId',api.getGroupById);
-api.addGETRequest('/groups/:groupId/games/:min&:max',api.getGroupGameByDuration);
+api.addGETRequest('/api/games/top',api.getTopGames);
+api.addGETRequest('/api/games?name={}',api.getGameByName);
+api.addGETRequest('/api/groups',api.getGroups);
+api.addGETRequest('/api/groups?groupId={}',api.getGroupById);
+api.addGETRequest('/api/groups/:groupId/games?min={}&max={}',api.getGroupGameByDuration);
 
-api.addPOSTRequest('/groups',api.postGroup);
+api.addPOSTRequest('/api/groups',api.postGroup);
 
-api.addPUTRequest('/groups/:groupId',api.putGroupInfo);
-api.addPUTRequest('groups/:groupId/games/:gameId',api.putGameIntoGroup);
+api.addPUTRequest('/api/groups/:groupId',api.putGroupInfo);
+api.addPUTRequest('/api/groups/:groupId/games/',api.putGameIntoGroup);
 
-api.addDELETERequest('/groups/:groupId/games/:gameId',api.deleteGameFromGroup);
+api.addDELETERequest('/api/groups/:groupId/games?gameId={}',api.deleteGameFromGroup);
 
 
 //CREATE AND INTIATE SERVER
