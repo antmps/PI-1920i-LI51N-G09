@@ -1,27 +1,46 @@
 'use strict'
 
-function getTopGames(func){
+const data = require('./board-games-data')
 
+
+function getTopGames(cb){
+    data.getTopGames(cb);
 }
 
-function getGameByName(req, res){}
+function getGameByName(name, cb){
+    data.getGameByName(name, cb);
+}
 
-function getGroups(req, res){}
+function getGroups(cb){
+    data.getGroups(cb);
+}
 
-function getGroupById(req, res){}
+function getGroupById(groupId, cb){
+    data.getGroupsById(groupId,cb);
+}
 
-function getGroupGameByDuration(req, res){}
-
-
-function postGroup(req, res){}
-
-
-function putGroupInfo(req, res){}
-
-function putGameIntoGroup(req, res){}
+function getGroupGameByDuration(groupId, min, max, cb){
+    data.getGroupGameByDuration(groupId,min,max,cb);
+}
 
 
-function deleteGameFromGroup(req, res){}
+function postGroup(groupName, description, cb){
+    data.postGroup(groupName,description,cb);
+}
+
+
+function putGroupInfo(groupId, description, cb){
+    data.putGroupInfo(groupId,description,cb);
+}
+
+function putGameIntoGroup(groupId, gameId, cb){
+    data.putGameIntoGroup(groupId,gameId,cb);
+}
+
+
+function deleteGameFromGroup(groupId, gameId, cb){
+    data.deleteGameFromGroup(groupId,gameId,cb);
+}
 
 
 module.exports.getTopGames = getTopGames;
