@@ -1,10 +1,18 @@
 'use strict'
 
+const request = require('request');
 //access to BD ElasticSearch
 
+const host = 'localhost:9200/';
+const baseUrl = `http://${host}`;
 
 function getGroups(cb){
-
+    const options = {
+        url: `${baseUrl}groups/_search`,
+        json: true
+    };
+    request.get
+    
 }
 
 function getGroupsById(groupId, cb){
@@ -19,7 +27,7 @@ function postGroup(groupName, description, cb){
 
 }
 
-function putGroupInfo(groupId, description, cb){
+function putGroupInfo(groupId, groupName, description, cb){
 
 }
 
