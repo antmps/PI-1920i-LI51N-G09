@@ -86,18 +86,19 @@ function functionalRequest(req,res){
 }
 
 
-module.exports.processRequest = processRequest
-module.exports.addGETRequest = addGETRequest
-module.exports.addPOSTRequest = addPOSTRequest
-module.exports.addPUTRequest = addPUTRequest
-module.exports.addDELETERequest = addDELETERequest
-
-module.exports.getTopGames = getTopGames
-module.exports.getGameByName = getGameByName
-module.exports.getGroups = getGroups
-module.exports.getGroupById = getGroupById
-module.exports.getGroupGameByDuration = getGroupGameByDuration
-module.exports.postGroup = postGroup
-module.exports.putGroupInfo = putGroupInfo
-module.exports.putGameIntoGroup = putGameIntoGroup
-module.exports.deleteGameFromGroup = deleteGameFromGroup
+module.exports = {
+    processRequest : processRequest,
+    addGETRequest : addGETRequest,
+    addPOSTRequest : addPOSTRequest,
+    addPUTRequest : addPUTRequest,
+    addDELETERequest : addDELETERequest,
+    getTopGames : getTopGames,
+    getGameByName : getGameByName,
+    getGroups : getGroups,
+    getGroupById : getGroupById,
+    getGroupGameByDuration : getGroupGameByDuration,
+    postGroup : postGroup,
+    putGroupInfo : putGroupInfo,
+    putGameIntoGroup : putGameIntoGroup,
+    deleteGameFromGroup : deleteGameFromGroup
+}
