@@ -1,5 +1,8 @@
 'use strict'
 
+const GROUPS_DATA_HOST = 'localhost:9200'
+const DEFAULT_PORT = '8080'
+
 const http = require('http');
 const api = require('./ciborg-web-api');
 
@@ -20,4 +23,4 @@ api.addDELETERequest('/api/groups/:groupId/games?gameId={}',api.deleteGameFromGr
 
 //CREATE AND INTIATE SERVER
 const server = http.createServer(api.processRequest);
-server.listen('8080',() => console.log('Listening'));
+server.listen(process.argv[2]||DEFAULT_PORT,() => console.log('Listening'));

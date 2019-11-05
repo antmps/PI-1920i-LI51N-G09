@@ -36,11 +36,11 @@
     }
 
     function searchArray(array,url){
-        var toRet
+        var toRet = {func : undefined, params :{}}
         var index = 0
         while(index<array.length){
             var path = array[index].path
-            toRet = array[index].handler
+            toRet.func = array[index].handler
 
             var idx = 0
             var pathSplit = path.split("/").filter(function(str){return str != ""})
@@ -53,6 +53,10 @@
                     
                     //check for variable
                     if(pathSplit[idx].includes(":")){
+                        
+                        let param = pathSplit[idx].replace(':','')
+                        let value = urlSplit[idx]
+                        toRet.params[param] = value
                         idx++
                         continue
                     }
@@ -80,6 +84,7 @@
                             var uParam = urlParams[i].split("=")
 
                             if(pParam[0]!=uParam[0])break
+                            toRet.params[uParam[0]]=uParam[1]
                             i++
                         }
                         
