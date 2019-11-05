@@ -3,7 +3,7 @@
 const router = require('./router')
 const service = require('./ciborg-services')
 
-function processRequest(req, res) {
+function processResponse(req, res) {
     console.log(req.method);
     console.log(req.url);
     console.log(req.headers);
@@ -38,45 +38,48 @@ function addDELETERequest(route, func) {
 //functions that will call service
 function getTopGames(req, res, params) {
 
-    service.getTopGames(processGames);
+    service.getTopGames(processResponse);
 
 }
 
 function getGameByName(req, res, params) {
 
-    service.getGameByName(params["name"], processGames)
+    service.getGameByName(params["name"], processResponse)
 
 }
 
 function getGroups(req, res) {
-    service.getGroups(processGames)
+    service.getGroups(processResponse)
 }
 
 function getGroupById(req, res, params) {
-    service.getGroupById(params["groupId"],processGames)
+    service.getGroupById(params["groupId"], processResponse)
 }
 
 function getGroupGameByDuration(req, res, params) {
-    functionalRequest(req, res)
+    service.getGroupGameByDuration(params["groupId"], params["min"], params["max"], processResponse)
 }
 
 
 function postGroup(req, res) {
-    functionalRequest(req, res)
+    addBodyToRequest(req)
+    service.postGroup(req.body.groupName, req.body.description, processResponse)
 }
 
 
 function putGroupInfo(req, res, params) {
-    functionalRequest(req, res)
+    addBodyToRequest(req)
+    service.putGroupInfo(params["groupId"], req.body.groupName, req.body.description, processResponse)
 }
 
 function putGameIntoGroup(req, res, params) {
-    functionalRequest(req, res)
+    addBodyToRequest(req)
+    service.putGroupInfo(params["groupId"], req.body.id, processResponse)
 }
 
 
 function deleteGameFromGroup(req, res, params) {
-    functionalRequest(req, res)
+    service.putGroupInfo(params["groupId"], req.body.id, processResponse)
 }
 
 function functionalRequest(req, res) {
@@ -91,10 +94,10 @@ function addBodyToRequest(req) {
     req.body = body
 }
 
-function processGames(err, games) {
+function processResponse(err, body) {
     if (err == undefined) {
         res.setHeader('Content-type', 'application/json');
-        res.end(JSON.stringify(games));
+        res.end(JSON.stringify(body));
     }
 
     //deal with error
@@ -102,7 +105,7 @@ function processGames(err, games) {
 }
 
 module.exports = {
-    processRequest: processRequest,
+    processRequest: processResponse,
     addGETRequest: addGETRequest,
     addPOSTRequest: addPOSTRequest,
     addPUTRequest: addPUTRequest,
