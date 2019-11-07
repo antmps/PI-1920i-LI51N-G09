@@ -5,7 +5,7 @@ const request = require('request');
 
 module.exports = function(host) {
 
-    const baseUrl = `http://${host}`;
+    const baseUrl = `http://${host}/`;
 
     return {
         getGroups : getGroups,
@@ -44,7 +44,7 @@ module.exports = function(host) {
 
     function postGroup(groupName, description, cb) {
         const options = {
-            url: `${baseUrl}groups/`,
+            url: `${baseUrl}groups/_doc`,
             headers: {'Content-Type' : 'application/json'},
             json: true,
             body : 
@@ -54,7 +54,7 @@ module.exports = function(host) {
             }
         }
         request.post(options, (err,res,body)=>{
-            cb(err,{id: body._name});
+            cb(err,{id: body._id});
         });
     }
 
