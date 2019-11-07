@@ -29,7 +29,13 @@ module.exports = function(host) {
     }
 
     function getGroupsById(groupId, cb) {
-
+        const options = {
+            url: `${baseUrl}groups/${groupId}`,
+            json: true
+        };
+        request.get(options, (err,res,body)=>{
+            cb(err, body.hits.hits.map(e=>e._source));
+        });
     }
 
     function getGroupGameByDuration(groupId, min, max, cb) {
@@ -37,7 +43,19 @@ module.exports = function(host) {
     }
 
     function postGroup(groupName, description, cb) {
-
+        const options = {
+            url: `${baseUrl}groups/_doc`,
+            headers: {'Content-Type' : 'application/json'},
+            json: true,
+            body : 
+            {
+                'name' : groupName,
+                'description' : description
+            }
+        };
+        request.post(options, (err,res,body)=>{
+            cb(err,{id: body._id});
+        });
     }
 
     function putGroupInfo(groupId, groupName, description, cb) {
