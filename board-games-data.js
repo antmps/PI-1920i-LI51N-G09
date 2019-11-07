@@ -5,18 +5,18 @@ const request = require('request');
 
 module.exports = function(){
 
-    const host = 'https://www.boardgameatlas.com/api/';
     const client_id = 'etqXeYXMnh'; 
-    const baseUrl = `http://${host}`;
+    const baseUrl = 'https://www.boardgameatlas.com/api/';
+    const limit = 'limit=30'
 
     return {
         getTopGames : getTopGames,
         getGameByName : getGameByName
-    };
+    }
 
     function getTopGames(cb){
         const options = {
-            url: `${baseUrl}search?limit=10&order_by=popularity&client_id=${client_id}`,
+            url: `${baseUrl}search?limit=10&order_by=popularity&client_id=${client_id}&${limit}`,
             json: true
         };
         request.get(options,(err,res,body)=>{
@@ -26,11 +26,11 @@ module.exports = function(){
 
     function getGameByName(name, cb){
         const options = {
-            url: `${baseUrl}search?name=${name}&client_id=${client_id}`,
+            url: `${baseUrl}search?name=${name}&client_id=${client_id}&${limit}`,
             json: true
         };
         request.get(options,(err,res,body)=>{
-            cb(err,JSON.parse(body));
+            cb(err,body);
         });
     }
 }
