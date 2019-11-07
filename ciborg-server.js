@@ -3,8 +3,11 @@
 const GROUPS_DATA_HOST = 'localhost:9200'
 const DEFAULT_PORT = '8080'
 
-const http = require('http');
-const api = require('./ciborg-web-api');
+const http = require('http')
+const boardGamesData = require('./board-games-data')
+const ciborgDB = require('./ciborg-db')(GROUPS_DATA_HOST)
+const service = require('./ciborg-services')(boardGamesData,ciborgDB)
+const api = require('./ciborg-web-api')(service)
 
 //ADDING ROUTES AND RESPECTIVE FUNCTIONS TO THE ROUTER
 api.addGETRequest('/api/games/top',api.getTopGames);
