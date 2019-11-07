@@ -4,7 +4,7 @@ const GROUPS_DATA_HOST = 'localhost:9200'
 const DEFAULT_PORT = '8080'
 
 const http = require('http')
-const boardGamesData = require('./board-games-data')
+const boardGamesData = require('./board-games-data')()
 const ciborgDB = require('./ciborg-db')(GROUPS_DATA_HOST)
 const service = require('./ciborg-services')(boardGamesData,ciborgDB)
 const api = require('./ciborg-web-api')(service)

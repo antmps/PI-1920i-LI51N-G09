@@ -54,50 +54,127 @@ module.exports = function (service) {
     //functions that will call service
     function getTopGames(req, res, params) {
         service.getTopGames(processResponse);
+
+        function processResponse(err, body) {
+            if (err == undefined) {
+                res.setHeader('Content-type', 'application/json');
+                res.end(JSON.stringify(body));
+            }
+    
+            //deal with error
+    
+        }
     }
 
     function getGameByName(req, res, params) {
         service.getGameByName(params["name"], processResponse)
+
+        function processResponse(err, body) {
+            if (err == undefined) {
+                res.setHeader('Content-type', 'application/json');
+                res.end(JSON.stringify(body));
+            }
+    
+            //deal with error
+    
+        }
     }
 
     function getGroups(req, res) {
         service.getGroups(processResponse)
+        function processResponse(err, body) {
+            if (err == undefined) {
+                res.setHeader('Content-type', 'application/json');
+                res.end(JSON.stringify(body));
+            }
+    
+            //deal with error
+    
+        }
     }
 
     function getGroupById(req, res, params) {
         service.getGroupById(params["groupId"], processResponse)
+        function processResponse(err, body) {
+            if (err == undefined) {
+                res.setHeader('Content-type', 'application/json');
+                res.end(JSON.stringify(body));
+            }
+    
+            //deal with error
+    
+        }
     }
 
     function getGroupGameByDuration(req, res, params) {
         service.getGroupGameByDuration(params["groupId"], params["min"], params["max"], processResponse)
+        function processResponse(err, body) {
+            if (err == undefined) {
+                res.setHeader('Content-type', 'application/json');
+                res.end(JSON.stringify(body));
+            }
+    
+            //deal with error
+    
+        }
     }
 
 
     function postGroup(req, res) {
         addBodyToRequest(req)
         service.postGroup(req.body.groupName, req.body.description, processResponse)
+        function processResponse(err, body) {
+            if (err == undefined) {
+                res.setHeader('Content-type', 'application/json');
+                res.end(JSON.stringify(body));
+            }
+    
+            //deal with error
+    
+        }
     }
 
 
     function putGroupInfo(req, res, params) {
         addBodyToRequest(req)
         service.putGroupInfo(params["groupId"], req.body.groupName, req.body.description, processResponse)
+        function processResponse(err, body) {
+            if (err == undefined) {
+                res.setHeader('Content-type', 'application/json');
+                res.end(JSON.stringify(body));
+            }
+    
+            //deal with error
+    
+        }
     }
 
     function putGameIntoGroup(req, res, params) {
         addBodyToRequest(req)
         service.putGroupInfo(params["groupId"], req.body.id, processResponse)
+        function processResponse(err, body) {
+            if (err == undefined) {
+                res.setHeader('Content-type', 'application/json');
+                res.end(JSON.stringify(body));
+            }
+    
+            //deal with error
+    
+        }
     }
 
 
     function deleteGameFromGroup(req, res, params) {
         service.putGroupInfo(params["groupId"], req.body.id, processResponse)
-    }
-
-    function functionalRequest(req, res) {
-        res.statusCode = 200
-        res.setHeader('Content-type', 'application/json')
-        res.end(JSON.stringify(req.url))
+        function processResponse(err, body) {
+            if (err == undefined) {
+                res.setHeader('Content-type', 'application/json');
+                res.end(JSON.stringify(body));
+            }
+    
+            //deal with error
+    
+        }
     }
 
     function addBodyToRequest(req) {
@@ -106,13 +183,5 @@ module.exports = function (service) {
         req.body = body
     }
 
-    function processResponse(err, body) {
-        if (err == undefined) {
-            res.setHeader('Content-type', 'application/json');
-            res.end(JSON.stringify(body));
-        }
-
-        //deal with error
-
-    }
+   
 }
