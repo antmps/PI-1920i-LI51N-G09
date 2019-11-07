@@ -44,7 +44,7 @@ module.exports = function(host) {
 
     function postGroup(groupName, description, cb) {
         const options = {
-            url: `${baseUrl}groups/_doc`,
+            url: `${baseUrl}groups/`,
             headers: {'Content-Type' : 'application/json'},
             json: true,
             body : 
@@ -52,9 +52,9 @@ module.exports = function(host) {
                 'name' : groupName,
                 'description' : description
             }
-        };
+        }
         request.post(options, (err,res,body)=>{
-            cb(err,{id: body._id});
+            cb(err,{id: body._name});
         });
     }
 
