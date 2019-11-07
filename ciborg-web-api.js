@@ -3,7 +3,7 @@ const router = require('./router')
 
 module.exports = function (service) {
     return {
-        processRequest: processResponse,
+        processRequest: processRequest,
         addGETRequest: addGETRequest,
         addPOSTRequest: addPOSTRequest,
         addPUTRequest: addPUTRequest,
@@ -19,7 +19,7 @@ module.exports = function (service) {
         deleteGameFromGroup: deleteGameFromGroup
     }
 
-    function processResponse(req, res) {
+    function processRequest(req, res) {
         console.log(req.method);
         console.log(req.url);
         console.log(req.headers);

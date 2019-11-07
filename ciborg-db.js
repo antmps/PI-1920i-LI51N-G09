@@ -9,12 +9,12 @@ module.exports = function(host) {
 
     return {
         getGroups : getGroups,
-        ciborgDbgetGroupsById : getGroupsById,
-        ciborgDbgetGroupGameByDuration : getGroupGameByDuration,
-        ciborgDbpostGroup : postGroup,
-        ciborgDbputGroupInfo : putGroupInfo,
-        ciborgDbputGameIntoGroup : putGameIntoGroup,
-        ciborgDbdeleteGameFromGroup : deleteGameFromGroup
+        getGroupsById : getGroupsById,
+        getGroupGameByDuration : getGroupGameByDuration,
+        postGroup : postGroup,
+        putGroupInfo : putGroupInfo,
+        putGameIntoGroup : putGameIntoGroup,
+        deleteGameFromGroup : deleteGameFromGroup
     };
 
     function getGroups(cb) {
