@@ -51,148 +51,73 @@ module.exports = function (service) {
         router.deleteRoute(route, func)
     }
 
-    //functions that will call service
-    function getTopGames(req, res, params) {
-        service.getTopGames(processResponse);
+    function processResponse(res) {
 
-        function processResponse(err, body) {
+        function innerProcessResponse(err, body) {
             if (err == undefined) {
                 res.setHeader('Content-type', 'application/json');
                 res.end(JSON.stringify(body));
             }
 
             //deal with error
-
         }
+
+        return innerProcessResponse
+    }
+
+    //functions that will call service
+    function getTopGames(req, res, params) {
+        service.getTopGames(processResponse(res));
+
     }
 
     function getGameByName(req, res, params) {
-        service.getGameByName(params["name"], processResponse)
-
-        function processResponse(err, body) {
-            if (err == undefined) {
-                res.setHeader('Content-type', 'application/json');
-                res.end(JSON.stringify(body));
-            }
-
-            //deal with error
-
-        }
+        service.getGameByName(params["name"], processResponse(res))
     }
 
-    function getGroups(req, res) {
-        service.getGroups(processResponse)
-        function processResponse(err, body) {
-            if (err == undefined) {
-                res.setHeader('Content-type', 'application/json');
-                res.end(JSON.stringify(body));
-            }
-
-            //deal with error
-
-        }
+    function getGroups(req, res, params) {
+        service.getGroups(processResponse(res))
     }
 
     function getGroupById(req, res, params) {
-        service.getGroupById(params["groupId"], processResponse)
-        function processResponse(err, body) {
-            if (err == undefined) {
-                res.setHeader('Content-type', 'application/json');
-                res.end(JSON.stringify(body));
-            }
-
-            //deal with error
-
-        }
+        service.getGroupById(params["groupId"], processResponse(res))
     }
 
     function getGroupGameByDuration(req, res, params) {
-        service.getGroupGameByDuration(params["groupId"], params["min"], params["max"], processResponse)
-        function processResponse(err, body) {
-            if (err == undefined) {
-                res.setHeader('Content-type', 'application/json');
-                res.end(JSON.stringify(body));
-            }
-
-            //deal with error
-
-        }
+        service.getGroupGameByDuration(params["groupId"], params["min"], params["max"], processResponse(res))
     }
 
 
-    function postGroup(req, res) {
-
+    function postGroup(req, res, params) {
         let body = ''
         req.on('data', (chunk) => body += chunk.toString())
-
         req.on('end', () => {
             req.body = JSON.parse(body.replace("\r\n", ''))
-            service.postGroup(req.body, processResponse)
-            function processResponse(err, body) {
-                if (err == undefined) {
-                    res.setHeader('Content-type', 'application/json');
-                    res.end(JSON.stringify(body));
-                }
-
-                //deal with error
-
-            }
+            service.postGroup(req.body, processResponse(res))
         })
-
-
     }
 
 
     function putGroupInfo(req, res, params) {
         let body = ''
         req.on('data', (chunk) => body += chunk.toString())
-
         req.on('end', () => {
             req.body = JSON.parse(body.replace("\r\n", ''))
-            service.putGroupInfo(params["groupId"], req.body, processResponse)            
-            function processResponse(err, body) {
-                if (err == undefined) {
-                    res.setHeader('Content-type', 'application/json');
-                    res.end(JSON.stringify(body));
-                }
-
-                //deal with error
-
-            }
+            service.putGroupInfo(params["groupId"], req.body, processResponse(res))
         })
     }
 
     function putGameIntoGroup(req, res, params) {
-
         let body = ''
         req.on('data', (chunk) => body += chunk.toString())
-
         req.on('end', () => {
             req.body = JSON.parse(body.replace("\r\n", ''))
-            service.putGroupInfo(params["groupId"], req.body.id, processResponse)
-            function processResponse(err, body) {
-                if (err == undefined) {
-                    res.setHeader('Content-type', 'application/json');
-                    res.end(JSON.stringify(body));
-                }
-
-                //deal with error
-
-            }
+            service.putGroupInfo(params["groupId"], req.body.id, processResponse(res))
         })
     }
 
 
     function deleteGameFromGroup(req, res, params) {
-        service.putGroupInfo(params["groupId"], req.body.id, processResponse)
-        function processResponse(err, body) {
-            if (err == undefined) {
-                res.setHeader('Content-type', 'application/json');
-                res.end(JSON.stringify(body));
-            }
-
-            //deal with error
-
-        }
+        service.putGroupInfo(params["groupId"], req.body.id, processResponse(res))
     }
 }
