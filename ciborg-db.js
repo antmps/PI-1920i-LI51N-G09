@@ -5,7 +5,7 @@ const request = require('request');
 
 module.exports = function (host) {
 
-    const baseUrl = `http://${host}/`;
+    const baseUrl = `http://${host}`;
 
     return {
         getGroups: getGroups,
@@ -19,7 +19,7 @@ module.exports = function (host) {
 
     function getGroups(cb) {
         const options = {
-            url: `${baseUrl}groups/_search`,
+            url: `${baseUrl}/groups/_search`,
             json: true
         };
         request.get(options, (err, res, body) => {
@@ -30,7 +30,7 @@ module.exports = function (host) {
 
     function getGroupsById(groupId, cb) {
         const options = {
-            url: `${baseUrl}groups/${groupId}`,
+            url: `${baseUrl}/groups/${groupId}`,
             json: true
         };
         request.get(options, (err, res, body) => {
@@ -42,29 +42,32 @@ module.exports = function (host) {
 
     }
 
-    function postGroup(groupName, description, cb) {
+    function postGroup(body, cb) {
         const options = {
             url: `${baseUrl}/groups/_doc`,
             headers: { 'Content-Type': 'application/json' },
             json: true,
-            body:
-            {
-                'name': groupName,
-                'description': description
-                
-            }
+            body:body
         }
         request.post(options, (err, res, body) => {
             cb(err, { id: body._id });
         });
     }
 
-    function putGroupInfo(groupId, groupName, description, cb) {
+    function putGroupInfo(groupId, body, cb) {
 
     }
 
-    function putGameIntoGroup(groupId, gameId, cb) {
-
+    function putGameIntoGroup(body,groupId, cb) {
+        const options = {
+            url : `${baseUrl}/groups/${groupId}/games/_doc`,
+            headers : {'Content-Type': 'application/json'},
+            json : true,
+            body : body
+        }
+        request.post(options, (err, res, body) => {
+            cb(err, { id: body._id });
+        });
     }
 
     function deleteGameFromGroup(groupId, gameId, cb) {
