@@ -11,7 +11,8 @@ module.exports = function(){
 
     return {
         getTopGames : getTopGames,
-        getGameByName : getGameByName
+        getGameByName : getGameByName,
+        getGameById : getGameById
     }
 
     function getTopGames(cb){

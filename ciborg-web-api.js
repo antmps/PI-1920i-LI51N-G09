@@ -127,7 +127,7 @@ module.exports = function (service) {
 
         req.on('end', () => {
             req.body = JSON.parse(body.replace("\r\n", ''))
-            service.postGroup(req.body.name, req.body.description, processResponse)
+            service.postGroup(req.body, processResponse)
             function processResponse(err, body) {
                 if (err == undefined) {
                     res.setHeader('Content-type', 'application/json');
@@ -149,7 +149,7 @@ module.exports = function (service) {
 
         req.on('end', () => {
             req.body = JSON.parse(body.replace("\r\n", ''))
-            service.putGroupInfo(params["groupId"], req.body.groupName, req.body.description, processResponse)            
+            service.putGroupInfo(params["groupId"], req.body, processResponse)            
             function processResponse(err, body) {
                 if (err == undefined) {
                     res.setHeader('Content-type', 'application/json');

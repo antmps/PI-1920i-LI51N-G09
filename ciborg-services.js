@@ -4,18 +4,18 @@
 module.exports = function (boardGamesData, ciborgDb) {
 
     return {
-        getTopGames : getTopGames,
-        getGameByName : getGameByName,
-        getGroups : getGroups,
-        getGroupById : getGroupById,
-        getGroupGameByDuration : getGroupGameByDuration,
+        getTopGames: getTopGames,
+        getGameByName: getGameByName,
+        getGroups: getGroups,
+        getGroupById: getGroupById,
+        getGroupGameByDuration: getGroupGameByDuration,
 
-        postGroup : postGroup,
+        postGroup: postGroup,
 
-        putGroupInfo : putGroupInfo,
-        putGameIntoGroup : putGameIntoGroup,
+        putGroupInfo: putGroupInfo,
+        putGameIntoGroup: putGameIntoGroup,
 
-        deleteGameFromGroup : deleteGameFromGroup
+        deleteGameFromGroup: deleteGameFromGroup
     };
 
     function getTopGames(cb) {
@@ -39,19 +39,26 @@ module.exports = function (boardGamesData, ciborgDb) {
     }
 
 
-    function postGroup(groupName, description, cb) {
-        ciborgDb.postGroup(groupName, description, cb);
+    function postGroup(body, cb) {
+        ciborgDb.postGroup(body, cb);
     }
 
 
-    function putGroupInfo(groupId, groupName, description, cb) {
-        ciborgDb.putGroupInfo(groupId, groupName, description, cb);
+    function putGroupInfo(groupId, body, cb) {
+        ciborgDb.putGroupInfo(groupId, body, cb);
     }
 
     function putGameIntoGroup(groupId, gameId, cb) {
-        
 
-        ciborgDb.putGameIntoGroup(()=>{boardGamesData.getGameById(gameId)},groupId, cb);
+        boardGamesData.getGameById(gameId, (err, body => {
+
+            if (err) cb(err, body)
+
+            ciborgDb.putGameIntoGroup(body, groupId, cb);
+
+        }))
+
+
     }
 
 

@@ -30,11 +30,11 @@ module.exports = function (host) {
 
     function getGroupsById(groupId, cb) {
         const options = {
-            url: `${baseUrl}/groups/${groupId}`,
+            url: `${baseUrl}/groups/_doc/${groupId}`,
             json: true
         };
         request.get(options, (err, res, body) => {
-            cb(err, body.hits.hits.map(e => e._source));
+            cb(err, body._source);
         });
     }
 
@@ -42,35 +42,43 @@ module.exports = function (host) {
 
     }
 
-    function postGroup(groupName, description, cb) {
+    function postGroup(bodyReceived, cb) {
         const options = {
             url: `${baseUrl}/groups/_doc`,
             headers: { 'Content-Type': 'application/json' },
             json: true,
-            body:
-            {
-                'name': groupName,
-                'description': description
-            }
+            body:bodyReceived
         }
         request.post(options, (err, res, body) => {
             cb(err, { id: body._id });
         });
     }
 
-    function putGroupInfo(groupId, groupName, description, cb) {
+    function putGroupInfo(groupId, bodyReceived, cb) {
+        const options = {
+            url: `${baseUrl}/groups/_doc/${groupId}`,
+            headers: {'Content type' : 'application/json'},
+            json: true,
+            body:{
+                'name' : bodyReceived.name,
+                'description': bodyReceived.description
+            }
+        };
+        request.post(options, (err,res,body)=>{
+            cb(err,{id:body._id});
+        });
 
     }
 
-    function putGameIntoGroup(gameName,groupId, gameId, cb) {
+    function putGameIntoGroup(body,groupId, cb) {
         const options = {
-            url: `${baseUrl}/groups/${groupId}/games/_doc`,
-            headers: {'Content-Type' : 'application/json'},
-            json: true,
-            body: gameName()
-        };
-        request.put(options,(err,res,body)=>{
-            cb(err, {id:body._id});
+            url : `${baseUrl}/groups/${groupId}/games/_doc`,
+            headers : {'Content-Type': 'application/json'},
+            json : true,
+            body : body
+        }
+        request.post(options, (err, res, body) => {
+            cb(err, { id: body._id });
         });
     }
 
