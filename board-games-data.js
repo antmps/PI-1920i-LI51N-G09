@@ -20,13 +20,23 @@ module.exports = function(){
             json: true
         };
         request.get(options,(err,res,body)=>{
-            cb(err,JSON.parse(body));
+            cb(err,body);
         });
     }
 
     function getGameByName(name, cb){
         const options = {
             url: `${baseUrl}search?name=${name}&client_id=${client_id}&${limit}`,
+            json: true
+        };
+        request.get(options,(err,res,body)=>{
+            cb(err,body);
+        });
+    }
+
+    function getGameById(gameId, cb){
+        const options = {
+            url: `${baseUrl}search?id=${gameId}&client_id=${client_id}&${limit}`,
             json: true
         };
         request.get(options,(err,res,body)=>{

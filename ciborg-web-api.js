@@ -125,7 +125,6 @@ module.exports = function (service) {
         let body = ''
         req.on('data', (chunk) => body += chunk.toString())
 
-
         req.on('end', () => {
             req.body = JSON.parse(body.replace("\r\n", ''))
             service.postGroup(req.body.name, req.body.description, processResponse)
@@ -145,31 +144,42 @@ module.exports = function (service) {
 
 
     function putGroupInfo(req, res, params) {
-        addBodyToRequest(req)
-        service.putGroupInfo(params["groupId"], req.body.groupName, req.body.description, processResponse)
-        function processResponse(err, body) {
-            if (err == undefined) {
-                res.setHeader('Content-type', 'application/json');
-                res.end(JSON.stringify(body));
+        let body = ''
+        req.on('data', (chunk) => body += chunk.toString())
+
+        req.on('end', () => {
+            req.body = JSON.parse(body.replace("\r\n", ''))
+            service.putGroupInfo(params["groupId"], req.body.groupName, req.body.description, processResponse)            
+            function processResponse(err, body) {
+                if (err == undefined) {
+                    res.setHeader('Content-type', 'application/json');
+                    res.end(JSON.stringify(body));
+                }
+
+                //deal with error
+
             }
-
-            //deal with error
-
-        }
+        })
     }
 
     function putGameIntoGroup(req, res, params) {
-        addBodyToRequest(req)
-        service.putGroupInfo(params["groupId"], req.body.id, processResponse)
-        function processResponse(err, body) {
-            if (err == undefined) {
-                res.setHeader('Content-type', 'application/json');
-                res.end(JSON.stringify(body));
+
+        let body = ''
+        req.on('data', (chunk) => body += chunk.toString())
+
+        req.on('end', () => {
+            req.body = JSON.parse(body.replace("\r\n", ''))
+            service.putGroupInfo(params["groupId"], req.body.id, processResponse)
+            function processResponse(err, body) {
+                if (err == undefined) {
+                    res.setHeader('Content-type', 'application/json');
+                    res.end(JSON.stringify(body));
+                }
+
+                //deal with error
+
             }
-
-            //deal with error
-
-        }
+        })
     }
 
 
@@ -185,12 +195,4 @@ module.exports = function (service) {
 
         }
     }
-
-    function addBodyToRequest(req) {
-        let body = ''
-        req.on('data', (chunk) => body += chunk.toString())
-        req.body = body
-    }
-
-
 }

@@ -49,6 +49,8 @@ module.exports = function (boardGamesData, ciborgDb) {
     }
 
     function putGameIntoGroup(groupId, gameId, cb) {
+        
+
         ciborgDb.putGameIntoGroup(()=>{boardGamesData.getGameById(gameId)},groupId, cb);
     }
 
