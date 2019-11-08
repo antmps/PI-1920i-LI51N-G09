@@ -3,18 +3,18 @@
 const request = require('request');
 //access to BD ElasticSearch
 
-module.exports = function(host) {
+module.exports = function (host) {
 
     const baseUrl = `http://${host}`;
 
     return {
-        getGroups : getGroups,
-        getGroupsById : getGroupsById,
-        getGroupGameByDuration : getGroupGameByDuration,
-        postGroup : postGroup,
-        putGroupInfo : putGroupInfo,
-        putGameIntoGroup : putGameIntoGroup,
-        deleteGameFromGroup : deleteGameFromGroup
+        getGroups: getGroups,
+        getGroupsById: getGroupsById,
+        getGroupGameByDuration: getGroupGameByDuration,
+        postGroup: postGroup,
+        putGroupInfo: putGroupInfo,
+        putGameIntoGroup: putGameIntoGroup,
+        deleteGameFromGroup: deleteGameFromGroup
     };
 
     function getGroups(cb) {
@@ -22,8 +22,8 @@ module.exports = function(host) {
             url: `${baseUrl}groups/_search`,
             json: true
         };
-        request.get(options, (err,res,body)=>{
-            cb(err, body.hits.hits.map(e=>e._source));
+        request.get(options, (err, res, body) => {
+            cb(err, body.hits.hits.map(e => e._source));
         })
 
     }
@@ -33,8 +33,8 @@ module.exports = function(host) {
             url: `${baseUrl}groups/${groupId}`,
             json: true
         };
-        request.get(options, (err,res,body)=>{
-            cb(err, body.hits.hits.map(e=>e._source));
+        request.get(options, (err, res, body) => {
+            cb(err, body.hits.hits.map(e => e._source));
         });
     }
 
@@ -44,17 +44,18 @@ module.exports = function(host) {
 
     function postGroup(groupName, description, cb) {
         const options = {
-            url: `${baseUrl}groups/`,
-            headers: {'Content-Type' : 'application/json'},
+            url: `${baseUrl}/groups/_doc`,
+            headers: { 'Content-Type': 'application/json' },
             json: true,
-            body : 
+            body:
             {
-                'name' : groupName,
-                'description' : description
+                'name': groupName,
+                'description': description
+                
             }
         }
-        request.post(options, (err,res,body)=>{
-            cb(err,{id: body._name});
+        request.post(options, (err, res, body) => {
+            cb(err, { id: body._id });
         });
     }
 

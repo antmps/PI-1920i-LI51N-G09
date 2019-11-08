@@ -60,9 +60,9 @@ module.exports = function (service) {
                 res.setHeader('Content-type', 'application/json');
                 res.end(JSON.stringify(body));
             }
-    
+
             //deal with error
-    
+
         }
     }
 
@@ -74,9 +74,9 @@ module.exports = function (service) {
                 res.setHeader('Content-type', 'application/json');
                 res.end(JSON.stringify(body));
             }
-    
+
             //deal with error
-    
+
         }
     }
 
@@ -87,9 +87,9 @@ module.exports = function (service) {
                 res.setHeader('Content-type', 'application/json');
                 res.end(JSON.stringify(body));
             }
-    
+
             //deal with error
-    
+
         }
     }
 
@@ -100,9 +100,9 @@ module.exports = function (service) {
                 res.setHeader('Content-type', 'application/json');
                 res.end(JSON.stringify(body));
             }
-    
+
             //deal with error
-    
+
         }
     }
 
@@ -113,25 +113,34 @@ module.exports = function (service) {
                 res.setHeader('Content-type', 'application/json');
                 res.end(JSON.stringify(body));
             }
-    
+
             //deal with error
-    
+
         }
     }
 
 
     function postGroup(req, res) {
-        addBodyToRequest(req)
-        service.postGroup(req.body.groupName, req.body.description, processResponse)
-        function processResponse(err, body) {
-            if (err == undefined) {
-                res.setHeader('Content-type', 'application/json');
-                res.end(JSON.stringify(body));
+
+        let body = ''
+        req.on('data', (chunk) => body += chunk.toString())
+
+
+        req.on('end', () => {
+            req.body = JSON.parse(body.replace("\r\n", ''))
+            service.postGroup(req.body.name, req.body.description, processResponse)
+            function processResponse(err, body) {
+                if (err == undefined) {
+                    res.setHeader('Content-type', 'application/json');
+                    res.end(JSON.stringify(body));
+                }
+
+                //deal with error
+
             }
-    
-            //deal with error
-    
-        }
+        })
+
+
     }
 
 
@@ -143,9 +152,9 @@ module.exports = function (service) {
                 res.setHeader('Content-type', 'application/json');
                 res.end(JSON.stringify(body));
             }
-    
+
             //deal with error
-    
+
         }
     }
 
@@ -157,9 +166,9 @@ module.exports = function (service) {
                 res.setHeader('Content-type', 'application/json');
                 res.end(JSON.stringify(body));
             }
-    
+
             //deal with error
-    
+
         }
     }
 
@@ -171,9 +180,9 @@ module.exports = function (service) {
                 res.setHeader('Content-type', 'application/json');
                 res.end(JSON.stringify(body));
             }
-    
+
             //deal with error
-    
+
         }
     }
 
@@ -183,5 +192,5 @@ module.exports = function (service) {
         req.body = body
     }
 
-   
+
 }
