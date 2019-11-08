@@ -5,7 +5,7 @@ const request = require('request');
 
 module.exports = function (host) {
 
-    const baseUrl = `http://${host}`;
+    const baseUrl = `http://${host}/`;
 
     return {
         getGroups: getGroups,
