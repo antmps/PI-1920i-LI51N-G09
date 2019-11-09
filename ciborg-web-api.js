@@ -112,7 +112,7 @@ module.exports = function (service) {
         req.on('data', (chunk) => body += chunk.toString())
         req.on('end', () => {
             req.body = JSON.parse(body.replace("\r\n", ''))
-            service.putGroupInfo(params["groupId"], req.body.id, processResponse(res))
+            service.putGameIntoGroup(params["groupId"], req.body.id, processResponse(res))
         })
     }
 

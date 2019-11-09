@@ -50,13 +50,13 @@ module.exports = function (boardGamesData, ciborgDb) {
 
     function putGameIntoGroup(groupId, gameId, cb) {
 
-        boardGamesData.getGameById(gameId, (err, body => {
+        boardGamesData.getGameById(gameId, (err, body) => {
 
-            if (err) cb(err, body)
+            if (err!=undefined) cb(err, body)
 
             ciborgDb.putGameIntoGroup(body, groupId, cb);
 
-        }))
+        })
 
 
     }

@@ -72,7 +72,6 @@ module.exports = function (host) {
     function putGameIntoGroup(body, groupId, cb) {
         const options = {
             url: `${baseUrl}/groups/_doc/${groupId}/games/_game`,
-            headers: { 'Content type': 'application/json' },
             json: true,
             body: body
         }
@@ -82,8 +81,13 @@ module.exports = function (host) {
     }
 
     function deleteGameFromGroup(groupId, gameId, cb) {
-
+        const options = {
+            url: `${baseUrl}/groups/_doc/${groupId}/games/_game/${gameId}`,
+            headers: { 'Content type': 'application/json' },
+            json: true,
+        }
+        request.delete(options, (err, res, body) => {
+            cb(err, { id: body._id });
+        });
     }
-
-
 }
