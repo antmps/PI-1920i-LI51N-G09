@@ -55,14 +55,14 @@ module.exports = function (host) {
         });
     }
 
-    function putGroupInfo(groupId, gamesArray, bodyReceived, cb) {
+    function putGroupInfo(groupId, arrayBody, bodyReceived, cb) {
         const options = {
             url: `${baseUrl}/groups/_doc/${groupId}`,
             json: true,
             body: {
                 'name': bodyReceived.name,
                 'description':bodyReceived.description,
-                'games': gamesArray()
+                'games': arrayBody
             }
         };
         request.put(options, (err, res, body) => {
@@ -72,7 +72,7 @@ module.exports = function (host) {
 
     function putGameIntoGroup(body, groupId, cb) {
         const options = {
-            url: `${baseUrl}/groups/_doc/${groupId}/_source/games/_game`,
+            url: `${baseUrl}/groups/_doc/${groupId}/_source/`,
             json: true,
             body: body
         }
@@ -94,12 +94,11 @@ module.exports = function (host) {
 
     function getGamesFromGroup(groupId,cb){
         const options = {
-            url: `${baseUrl}/groups/_doc/${groupId}/_source/games`,
-            headers: {'Content-type': 'application/json'},
+            url: `${baseUrl}/groups/_doc/${groupId}/_source`,
             json:true
         };
         request.get(options, (err,res,body)=> {
-            cb(err, body.hits.hits.map(e => e._source));
+            cb(err, body.games);
         });
     }
 }

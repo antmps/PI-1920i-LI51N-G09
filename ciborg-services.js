@@ -15,9 +15,7 @@ module.exports = function (boardGamesData, ciborgDb) {
         putGroupInfo: putGroupInfo,
         putGameIntoGroup: putGameIntoGroup,
 
-        deleteGameFromGroup: deleteGameFromGroup,
-
-        getGamesFromGroup: getGamesFromGroup
+        deleteGameFromGroup: deleteGameFromGroup
     };
 
     function getTopGames(cb) {
@@ -47,16 +45,33 @@ module.exports = function (boardGamesData, ciborgDb) {
 
 
     function putGroupInfo(groupId, body, cb) {
-        ciborgDb.putGroupInfo(groupId, getGamesFromGroup(groupId,cb), body, cb);
+
+        ciborgDb.getGamesFromGroup(groupId, (err,arrayBody) =>{
+
+            if(err!=undefined) cb(err,arrayBody);
+
+            ciborgDb.putGroupInfo(groupId, arrayBody, body, cb);
+        });
     }
 
     function putGameIntoGroup(groupId, gameId, cb) {
 
-        boardGamesData.getGameById(gameId, (err, body) => {
+        boardGamesData.getGameById(gameId, (err, gameBody) => {
 
-            if (err!=undefined) cb(err, body)
+            if (err!=undefined) cb(err, gameBody);
+            ciborgDb.getGamesFromGroup(groupId,(err, arrayBody) =>{
+        
+                if(err!=undefined) cb(err,arrayBody);
+                
+                if(arrayBody['games']===undefined){
+                    arrayBody.push(gameBody);
+                } else {
+                    arrayBody.push(gameBody);
+                }
+                //jsonArray = JSON.parse(array)
 
-            ciborgDb.putGameIntoGroup(body, groupId, cb);
+               ciborgDb.putGameIntoGroup(arrayBody, groupId, cb); 
+            });
 
         });
     }
@@ -64,9 +79,5 @@ module.exports = function (boardGamesData, ciborgDb) {
 
     function deleteGameFromGroup(groupId, gameId, cb) {
         ciborgDb.deleteGameFromGroup(groupId, gameId, cb);
-    }
-
-    function getGamesFromGroup(groupId,cb){
-        ciborgDb.getGamesFromGroup(groupId,cb);
     }
 }
