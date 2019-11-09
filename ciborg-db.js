@@ -14,7 +14,8 @@ module.exports = function (host) {
         postGroup: postGroup,
         putGroupInfo: putGroupInfo,
         putGameIntoGroup: putGameIntoGroup,
-        deleteGameFromGroup: deleteGameFromGroup
+        deleteGameFromGroup: deleteGameFromGroup,
+        getGamesFromGroup: getGamesFromGroup
     };
 
     function getGroups(cb) {
@@ -54,24 +55,24 @@ module.exports = function (host) {
         });
     }
 
-    function putGroupInfo(groupId, bodyReceived, cb) {
+    function putGroupInfo(groupId, gamesArray, bodyReceived, cb) {
         const options = {
             url: `${baseUrl}/groups/_doc/${groupId}`,
             json: true,
             body: {
                 'name': bodyReceived.name,
                 'description':bodyReceived.description,
+                'games': gamesArray()
             }
         };
         request.put(options, (err, res, body) => {
             cb(err, { id: body._id });
         });
-
     }
 
     function putGameIntoGroup(body, groupId, cb) {
         const options = {
-            url: `${baseUrl}/groups/_doc/${groupId}/games/_game`,
+            url: `${baseUrl}/groups/_doc/${groupId}/_source/games/_game`,
             json: true,
             body: body
         }
@@ -83,11 +84,22 @@ module.exports = function (host) {
     function deleteGameFromGroup(groupId, gameId, cb) {
         const options = {
             url: `${baseUrl}/groups/_doc/${groupId}/games/_game/${gameId}`,
-            headers: { 'Content type': 'application/json' },
-            json: true,
+            headers: { 'Content-type': 'application/json' },
+            json: true
         }
         request.delete(options, (err, res, body) => {
             cb(err, { id: body._id });
+        });
+    }
+
+    function getGamesFromGroup(groupId,cb){
+        const options = {
+            url: `${baseUrl}/groups/_doc/${groupId}/_source/games`,
+            headers: {'Content-type': 'application/json'},
+            json:true
+        };
+        request.get(options, (err,res,body)=> {
+            cb(err, body.hits.hits.map(e => e._source));
         });
     }
 }

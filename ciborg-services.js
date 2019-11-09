@@ -15,7 +15,9 @@ module.exports = function (boardGamesData, ciborgDb) {
         putGroupInfo: putGroupInfo,
         putGameIntoGroup: putGameIntoGroup,
 
-        deleteGameFromGroup: deleteGameFromGroup
+        deleteGameFromGroup: deleteGameFromGroup,
+
+        getGamesFromGroup: getGamesFromGroup
     };
 
     function getTopGames(cb) {
@@ -45,7 +47,7 @@ module.exports = function (boardGamesData, ciborgDb) {
 
 
     function putGroupInfo(groupId, body, cb) {
-        ciborgDb.putGroupInfo(groupId, body, cb);
+        ciborgDb.putGroupInfo(groupId, getGamesFromGroup(groupId,cb), body, cb);
     }
 
     function putGameIntoGroup(groupId, gameId, cb) {
@@ -56,13 +58,15 @@ module.exports = function (boardGamesData, ciborgDb) {
 
             ciborgDb.putGameIntoGroup(body, groupId, cb);
 
-        })
-
-
+        });
     }
 
 
     function deleteGameFromGroup(groupId, gameId, cb) {
         ciborgDb.deleteGameFromGroup(groupId, gameId, cb);
+    }
+
+    function getGamesFromGroup(groupId,cb){
+        ciborgDb.getGamesFromGroup(groupId,cb);
     }
 }

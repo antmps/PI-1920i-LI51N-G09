@@ -7,7 +7,7 @@ module.exports = function(){
 
     const client_id = 'etqXeYXMnh'; 
     const baseUrl = 'https://www.boardgameatlas.com/api/';
-    const limit = 'limit=30'
+    const limit = 'limit=1'
 
     return {
         getTopGames : getTopGames,
