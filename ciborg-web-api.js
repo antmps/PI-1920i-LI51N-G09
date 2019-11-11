@@ -33,8 +33,14 @@ module.exports = function (service) {
         }
 
         let func = funcParam.func
-
-        func(req, res, funcParam.params)
+        try {
+            func(req, res, funcParam.params)
+        }
+        catch (err) {
+            res.statusCode = 500
+            res.end("oops that was not suposed to happen")
+            return
+        }
     }
 
     //add requests to router
@@ -54,7 +60,14 @@ module.exports = function (service) {
     function processResponse(res) {
 
         function innerProcessResponse(err, body) {
-            if (!err) {
+
+            //body is undefined meaning that there was no error but it couldnt be found
+            if(body==undefined){
+                res.statusCode = 404;
+                res.end("Not Found")
+            }
+            //there wasn't any errors during the requests
+            else if (err != undefined) {
                 res.setHeader('Content-type', 'application/json');
                 res.end(JSON.stringify(body));
             }
