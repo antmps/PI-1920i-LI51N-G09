@@ -1,0 +1,308 @@
+{
+	"info": {
+		"_postman_id": "cbebac65-c22e-4f33-8576-0eceda5cc738",
+		"name": "CIBORG",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Obtain a specific game",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/games?name=game1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"games"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "game1"
+						}
+					]
+				},
+				"description": "Get games by name"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtain most popular games",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/games/top",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"games",
+						"top"
+					]
+				},
+				"description": "Get top games"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtain all groups",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/groups",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"groups"
+					]
+				},
+				"description": "Get all groups"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtain a specific group",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/groups?groupId=1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"groups"
+					],
+					"query": [
+						{
+							"key": "groupId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get games from group that have a determined interval duration",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/groups/:groupId/games?min=45&max=90",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"groups",
+						":groupId",
+						"games"
+					],
+					"query": [
+						{
+							"key": "min",
+							"value": "45"
+						},
+						{
+							"key": "max",
+							"value": "90"
+						}
+					],
+					"variable": [
+						{
+							"key": "groupId",
+							"value": "1"
+						}
+					]
+				},
+				"description": "get games with certain duration"
+			},
+			"response": []
+		},
+		{
+			"name": "Create a group",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"grupo 3\",\r\n    \"description\": \"grupo 3\"\r\n  } ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/groups",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"groups"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a group",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n    \"name\": \"group35\",\r\n    \"description\": \"Altered description\"\r\n  }"
+				},
+				"url": {
+					"raw": "localhost:8080/api/groups/:groupId",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"groups",
+						":groupId"
+					],
+					"variable": [
+						{
+							"key": "groupId",
+							"value": "FUwXTW4BNP6rY1NlhjQ0",
+							"type": "string"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add a game to group",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"gameId\" : \"RLlDWHh7hR\"\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/groups/:groupId/games",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"groups",
+						":groupId",
+						"games"
+					],
+					"variable": [
+						{
+							"key": "groupId",
+							"value": "injxTG4BVFCKp57TxwIS"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a game from a group",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/groups/:groupId/games?gameId=kPDxpJZ8PD",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"groups",
+						":groupId",
+						"games"
+					],
+					"query": [
+						{
+							"key": "gameId",
+							"value": "kPDxpJZ8PD"
+						}
+					],
+					"variable": [
+						{
+							"key": "groupId",
+							"value": "injxTG4BVFCKp57TxwIS"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtain all groups - elastic",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9200/groups/_search",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"groups",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
