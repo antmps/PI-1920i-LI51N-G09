@@ -28,7 +28,7 @@ module.exports = function (service) {
 
         if (funcParam == undefined || funcParam.func == undefined) {
             res.statusCode = 404
-            res.end()
+            res.end("404: You've reached the void.")
             return
         }
 
@@ -38,7 +38,7 @@ module.exports = function (service) {
         }
         catch (err) {
             res.statusCode = 500
-            res.end("oops that was not suposed to happen")
+            res.end("500: At least we tried.")
             return
         }
     }
@@ -64,7 +64,7 @@ module.exports = function (service) {
             //body is undefined meaning that there was no error but it couldnt be found
             if(body==undefined){
                 res.statusCode = 404;
-                res.end("Not Found")
+                res.end("404: You've reached the void.")
             }
             //there wasn't any errors during the requests
             else if (err != undefined) {
