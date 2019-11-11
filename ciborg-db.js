@@ -41,6 +41,16 @@ module.exports = function (host) {
 
     function getGroupGameByDuration(groupId, min, max, cb) {
 
+        getGamesFromGroup(groupId,(err,games)=>{
+            var array = []
+            for(var i = 0; i< games.length;i++){
+                if(min <= games[i].min_playtime && max >= games[i].max_playtime)
+                array.push(games[i])
+            }
+
+            cb(err,array)
+
+        })
     }
 
     function postGroup(bodyReceived, cb) {
@@ -48,7 +58,11 @@ module.exports = function (host) {
             url: `${baseUrl}/groups/_doc`,
             headers: { 'Content-Type': 'application/json' },
             json: true,
-            body: bodyReceived
+            body: {
+                'name': bodyReceived.name,
+                'description': bodyReceived.description,
+                'games': []
+            }
         }
         request.post(options, (err, res, body) => {
             cb(err, { id: body._id });
@@ -61,7 +75,7 @@ module.exports = function (host) {
             json: true,
             body: {
                 'name': bodyReceived.name,
-                'description':bodyReceived.description,
+                'description': bodyReceived.description,
                 'games': arrayBody
             }
         };
@@ -70,34 +84,43 @@ module.exports = function (host) {
         });
     }
 
-    function putGameIntoGroup(body, groupId, cb) {
+    function putGameIntoGroup(groupBody, groupId, cb) {
         const options = {
-            url: `${baseUrl}/groups/_doc/${groupId}/_source/`,
+            url: `${baseUrl}/groups/_doc/${groupId}`,
             json: true,
-            body: body
+            body: {
+                'name': groupBody.name,
+                'description': groupBody.description,
+                'games': groupBody.games
+            }
+        }
+        request.put(options, (err, res, body) => {
+            cb(err, { id: body._id});
+        });
+    }
+
+    function deleteGameFromGroup(groupId, groupBody, cb) {
+        const options = {
+            url: `${baseUrl}/groups/_doc/${groupId}`,
+            headers: { 'Content-type': 'application/json' },
+            json: true,
+            body: {
+                'name': groupBody.name,
+                'description': groupBody.description,
+                'games': groupBody.games
+            }
         }
         request.post(options, (err, res, body) => {
             cb(err, { id: body._id });
         });
     }
 
-    function deleteGameFromGroup(groupId, gameId, cb) {
-        const options = {
-            url: `${baseUrl}/groups/_doc/${groupId}/games/_game/${gameId}`,
-            headers: { 'Content-type': 'application/json' },
-            json: true
-        }
-        request.delete(options, (err, res, body) => {
-            cb(err, { id: body._id });
-        });
-    }
-
-    function getGamesFromGroup(groupId,cb){
+    function getGamesFromGroup(groupId, cb) {
         const options = {
             url: `${baseUrl}/groups/_doc/${groupId}/_source`,
-            json:true
+            json: true
         };
-        request.get(options, (err,res,body)=> {
+        request.get(options, (err, res, body) => {
             cb(err, body.games);
         });
     }

@@ -54,12 +54,15 @@ module.exports = function (service) {
     function processResponse(res) {
 
         function innerProcessResponse(err, body) {
-            if (err == undefined) {
+            if (!err) {
                 res.setHeader('Content-type', 'application/json');
                 res.end(JSON.stringify(body));
             }
-
-            //deal with error
+            else {
+                //deal with error
+                res.setHeader('Content-type', 'application/json');
+                res.end(JSON.stringify(err));
+            }
         }
 
         return innerProcessResponse
@@ -87,7 +90,6 @@ module.exports = function (service) {
         service.getGroupGameByDuration(params["groupId"], params["min"], params["max"], processResponse(res))
     }
 
-
     function postGroup(req, res, params) {
         let body = ''
         req.on('data', (chunk) => body += chunk.toString())
@@ -112,12 +114,12 @@ module.exports = function (service) {
         req.on('data', (chunk) => body += chunk.toString())
         req.on('end', () => {
             req.body = JSON.parse(body.replace("\r\n", ''))
-            service.putGameIntoGroup(params["groupId"], req.body.id, processResponse(res))
+            service.putGameIntoGroup(params["groupId"], req.body.gameId, processResponse(res))
         })
     }
 
 
     function deleteGameFromGroup(req, res, params) {
-        service.putGroupInfo(params["groupId"], req.body.id, processResponse(res))
+        service.deleteGameFromGroup(params["groupId"], params["gameId"], processResponse(res))
     }
 }
