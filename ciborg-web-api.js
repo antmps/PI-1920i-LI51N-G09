@@ -67,7 +67,7 @@ module.exports = function (service) {
                 res.end("404: You've reached the void.")
             }
             //there wasn't any errors during the requests
-            else if (err != undefined) {
+            else if (err != undefined || err == null) {
                 res.setHeader('Content-type', 'application/json');
                 res.end(JSON.stringify(body));
             }
@@ -84,7 +84,6 @@ module.exports = function (service) {
     //functions that will call service
     function getTopGames(req, res, params) {
         service.getTopGames(processResponse(res));
-
     }
 
     function getGameByName(req, res, params) {
