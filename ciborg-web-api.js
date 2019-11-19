@@ -1,24 +1,25 @@
 'use strict'
-const router = require('./router')
 
-module.exports = function (service) {
-    return {
-        processRequest: processRequest,
-        addGETRequest: addGETRequest,
-        addPOSTRequest: addPOSTRequest,
-        addPUTRequest: addPUTRequest,
-        addDELETERequest: addDELETERequest,
-        getTopGames: getTopGames,
-        getGameByName: getGameByName,
-        getGroups: getGroups,
-        getGroupById: getGroupById,
-        getGroupGameByDuration: getGroupGameByDuration,
-        postGroup: postGroup,
-        putGroupInfo: putGroupInfo,
-        putGameIntoGroup: putGameIntoGroup,
-        deleteGameFromGroup: deleteGameFromGroup
-    }
+module.exports = function (router,service) {
 
+    //ADDING ROUTES AND RESPECTIVE FUNCTIONS TO THE ROUTER
+    router.get('/games/top',getTopGames);
+    router.get('/games/:name', getGameByName);
+    router.get('/groups', getGroups);
+    router.get('/groups/:groupId', getGroupById);
+    router.get('/groups/:groupId/games', getGroupGameByDuration);
+
+    router.post('/groups', postGroup);
+
+    router.put('/groups/:groupId', putGroupInfo);
+    router.put('/groups/:groupId/games/', putGameIntoGroup);
+
+    router.delete('/groups/:groupId/games/:gameId', deleteGameFromGroup);
+
+
+    return router
+
+    
     function processRequest(req, res) {
         console.log(req.method);
         console.log(req.url);
@@ -43,20 +44,6 @@ module.exports = function (service) {
         }
     }
 
-    //add requests to router
-    function addGETRequest(route, func) {
-        router.getRoute(route, func)
-    }
-    function addPOSTRequest(route, func) {
-        router.postRoute(route, func)
-    }
-    function addPUTRequest(route, func) {
-        router.putRoute(route, func)
-    }
-    function addDELETERequest(route, func) {
-        router.deleteRoute(route, func)
-    }
-
     function processResponse(res) {
 
         function innerProcessResponse(err, body) {
@@ -67,7 +54,7 @@ module.exports = function (service) {
                 res.end("404: You've reached the void.")
             }
             //there wasn't any errors during the requests
-            else if (err != undefined) {
+            else if (err === undefined || err===null) {
                 res.setHeader('Content-type', 'application/json');
                 res.end(JSON.stringify(body));
             }
@@ -88,7 +75,7 @@ module.exports = function (service) {
     }
 
     function getGameByName(req, res, params) {
-        service.getGameByName(params["name"], processResponse(res))
+        service.getGameByName(req.params.name, processResponse(res))
     }
 
     function getGroups(req, res, params) {
@@ -96,11 +83,12 @@ module.exports = function (service) {
     }
 
     function getGroupById(req, res, params) {
-        service.getGroupById(params["groupId"], processResponse(res))
+        //service.getGroupById(params["groupId"], processResponse(res))
+        service.getGroupById(req.params.groupId, processResponse(res))
     }
 
     function getGroupGameByDuration(req, res, params) {
-        service.getGroupGameByDuration(params["groupId"], params["min"], params["max"], processResponse(res))
+        service.getGroupGameByDuration(req.params.groupId, req.query.min, req.query.max, processResponse(res))
     }
 
     function postGroup(req, res, params) {
@@ -118,7 +106,7 @@ module.exports = function (service) {
         req.on('data', (chunk) => body += chunk.toString())
         req.on('end', () => {
             req.body = JSON.parse(body.replace("\r\n", ''))
-            service.putGroupInfo(params["groupId"], req.body, processResponse(res))
+            service.putGroupInfo(req.params.groupId, req.body, processResponse(res))
         })
     }
 
@@ -127,12 +115,12 @@ module.exports = function (service) {
         req.on('data', (chunk) => body += chunk.toString())
         req.on('end', () => {
             req.body = JSON.parse(body.replace("\r\n", ''))
-            service.putGameIntoGroup(params["groupId"], req.body.gameId, processResponse(res))
+            service.putGameIntoGroup(req.params.groupId, req.body.gameId, processResponse(res))
         })
     }
 
 
     function deleteGameFromGroup(req, res, params) {
-        service.deleteGameFromGroup(params["groupId"], params["gameId"], processResponse(res))
+        service.deleteGameFromGroup(req.params.groupId, req.params.gameId, processResponse(res))
     }
 }
