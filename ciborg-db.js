@@ -27,6 +27,12 @@ module.exports = function (host) {
             cb(err, body.hits.hits.map(e => e._source));
         })
 
+        /*
+        return request(options)
+            .then(body => body.hits.hits.map(e => e._source))
+            .catch(err => throw err)
+        */
+
     }
 
     function getGroupsById(groupId, cb) {
