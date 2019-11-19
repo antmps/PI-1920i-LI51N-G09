@@ -71,7 +71,6 @@ module.exports = function (router,service) {
     //functions that will call service
     function getTopGames(req, res, params) {
         service.getTopGames(processResponse(res));
-
     }
 
     function getGameByName(req, res, params) {
