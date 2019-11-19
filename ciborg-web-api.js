@@ -1,9 +1,9 @@
 'use strict'
 
-module.exports = function (router,service) {
+module.exports = function (router, service) {
 
     //ADDING ROUTES AND RESPECTIVE FUNCTIONS TO THE ROUTER
-    router.get('/games/top',getTopGames);
+    router.get('/games/top', getTopGames);
     router.get('/games/:name', getGameByName);
     router.get('/groups', getGroups);
     router.get('/groups/:groupId', getGroupById);
@@ -19,7 +19,7 @@ module.exports = function (router,service) {
 
     return router
 
-    
+
     function processRequest(req, res) {
         console.log(req.method);
         console.log(req.url);
@@ -49,12 +49,13 @@ module.exports = function (router,service) {
         function innerProcessResponse(err, body) {
 
             //body is undefined meaning that there was no error but it couldnt be found
-            if(body==undefined){
+            if (body == undefined) {
                 res.statusCode = 404;
                 res.end("404: You've reached the void.")
             }
             //there wasn't any errors during the requests
-            else if (err === undefined || err===null) {
+            else if (err === undefined || err === null) {
+                res.statusCode = 200;
                 res.setHeader('Content-type', 'application/json');
                 res.end(JSON.stringify(body));
             }
@@ -69,57 +70,41 @@ module.exports = function (router,service) {
     }
 
     //functions that will call service
-    function getTopGames(req, res, params) {
+    function getTopGames(req, res) {
         service.getTopGames(processResponse(res));
     }
 
-    function getGameByName(req, res, params) {
+    function getGameByName(req, res) {
         service.getGameByName(req.params.name, processResponse(res))
     }
 
-    function getGroups(req, res, params) {
+    function getGroups(req, res) {
         service.getGroups(processResponse(res))
     }
 
-    function getGroupById(req, res, params) {
-        //service.getGroupById(params["groupId"], processResponse(res))
+    function getGroupById(req, res) {
         service.getGroupById(req.params.groupId, processResponse(res))
     }
 
-    function getGroupGameByDuration(req, res, params) {
+    function getGroupGameByDuration(req, res) {
         service.getGroupGameByDuration(req.params.groupId, req.query.min, req.query.max, processResponse(res))
     }
 
-    function postGroup(req, res, params) {
-        let body = ''
-        req.on('data', (chunk) => body += chunk.toString())
-        req.on('end', () => {
-            req.body = JSON.parse(body.replace("\r\n", ''))
-            service.postGroup(req.body, processResponse(res))
-        })
+    function postGroup(req, res) {
+        service.postGroup(req.body, processResponse(res))
     }
 
 
-    function putGroupInfo(req, res, params) {
-        let body = ''
-        req.on('data', (chunk) => body += chunk.toString())
-        req.on('end', () => {
-            req.body = JSON.parse(body.replace("\r\n", ''))
-            service.putGroupInfo(req.params.groupId, req.body, processResponse(res))
-        })
+    function putGroupInfo(req, res) {
+        service.putGroupInfo(req.params.groupId, req.body, processResponse(res))
     }
 
-    function putGameIntoGroup(req, res, params) {
-        let body = ''
-        req.on('data', (chunk) => body += chunk.toString())
-        req.on('end', () => {
-            req.body = JSON.parse(body.replace("\r\n", ''))
-            service.putGameIntoGroup(req.params.groupId, req.body.gameId, processResponse(res))
-        })
+    function putGameIntoGroup(req, res) {
+        service.putGameIntoGroup(req.params.groupId, req.body.gameId, processResponse(res))
     }
 
 
-    function deleteGameFromGroup(req, res, params) {
+    function deleteGameFromGroup(req, res) {
         service.deleteGameFromGroup(req.params.groupId, req.params.gameId, processResponse(res))
     }
 }

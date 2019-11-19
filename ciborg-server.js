@@ -12,6 +12,7 @@ const service = require('./ciborg-services')(boardGamesData,ciborgDB)
 const api = require('./ciborg-web-api')(express.Router(),service)
 
 //USE THE WEBAPI
+app.use(express.json())
 app.use('/api',api);
 
 //CREATE AND INTIATE SERVER
