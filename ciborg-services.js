@@ -26,11 +26,8 @@ module.exports = function (boardGamesData, ciborgDb) {
         boardGamesData.getGameByName(name, cb);
     }
 
-    function getGroups(cb) {
-        ciborgDb.getGroups(cb);
-        /*
-        
-        */
+    function getGroups() {
+        return ciborgDb.getGroups();
     }
 
     function getGroupById(groupId, cb) {

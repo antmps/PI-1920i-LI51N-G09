@@ -79,7 +79,11 @@ module.exports = function (router, service) {
     }
 
     function getGroups(req, res) {
+        service.getGroups()
+            .then(()=>processResponse(res))
+        /*
         service.getGroups(processResponse(res))
+        */
     }
 
     function getGroupById(req, res) {
@@ -92,6 +96,9 @@ module.exports = function (router, service) {
 
     function postGroup(req, res) {
         service.postGroup(req.body, processResponse(res))
+        /*
+        service.postGroup(req.body).then(processResponse(res))
+        */
     }
 
 

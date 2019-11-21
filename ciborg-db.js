@@ -1,6 +1,7 @@
 'use strict'
 
 const request = require('request');
+const promise = require('./request-promise')()
 //access to BD ElasticSearch
 
 module.exports = function (host) {
@@ -18,22 +19,17 @@ module.exports = function (host) {
         getGamesFromGroup: getGamesFromGroup
     };
 
-    function getGroups(cb) {
+    function getGroups() {
         const options = {
             url: `${baseUrl}/groups/_search`,
+            method: 'GET',
             json: true
         };
-        request.get(options, (err, res, body) => {
-            cb(err, body.hits.hits.map(e => e._source));
-        })
 
-        /*
-        return request(options)
+        return promise.request(options)
             .then(body => body.hits.hits.map(e => e._source))
-            .catch(err => throw err)
-        */
-
-    }
+            .catch(err => {throw err})
+        }
 
     function getGroupsById(groupId, cb) {
         const options = {
