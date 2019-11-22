@@ -19,80 +19,85 @@ module.exports = function (router, service) {
 
     return router
 
-
     function processResponse(res) {
 
         function innerProcessResponse(err, body) {
 
+            if (err) {
+                //deal with error
+                res.setHeader('Content-type', 'application/json')
+                res.end(err.toString())
+            }
+
             //body is undefined meaning that there was no error but it couldnt be found
-            if (body == undefined) {
-                if(err != undefined){
-                    
-                }
+            else if (body == undefined) {
                 res.statusCode = 404;
                 res.end("404: You've reached the void.")
             }
             //there wasn't any errors during the requests
-            else if (err === undefined || err === null) {
+            else {
                 res.statusCode = 200;
                 res.setHeader('Content-type', 'application/json');
                 res.end(JSON.stringify(body));
             }
-            else {
-                //deal with error
-                res.setHeader('Content-type', 'application/json');
-                res.end(JSON.stringify(err));
-            }
         }
 
         return innerProcessResponse
+
     }
 
     //functions that will call service
     function getTopGames(req, res) {
         service.getTopGames()
-            .then((body,err)=>processResponse(res)(err,body))
+            .then((body, err) => processResponse(res)(err, body))
     }
 
     function getGameByName(req, res) {
         service.getGameByName(req.params.name)
-            .then((body,err)=>processResponse(res)(err,body))
+            .then((body, err) => processResponse(res)(err, body))
     }
 
     function getGroups(req, res) {
         service.getGroups()
-            .then((body,err)=>processResponse(res)(err,body))
+            .then((body, err) => processResponse(res)(err, body))
     }
 
     function getGroupById(req, res) {
         service.getGroupById(req.params.groupId)
-            .then((body,err)=>processResponse(res)(err,body))
+            .then((body, err) => processResponse(res)(err, body))
     }
 
     function getGroupGameByDuration(req, res) {
         service.getGroupGameByDuration(req.params.groupId, req.query.min, req.query.max)
-            .then((body,err)=>processResponse(res)(err,body))
+            .then((body, err) => processResponse(res)(err, body))
     }
 
     function postGroup(req, res) {
         service.postGroup(req.body)
-            .then((body,err)=>processResponse(res)(err,body))
+            .then((body, err) => processResponse(res)(err, body))
     }
 
 
     function putGroupInfo(req, res) {
         service.putGroupInfo(req.params.groupId, req.body)
-            .then((body,err)=>processResponse(res)(err,body))
+            .then((body, err) => processResponse(res)(err, body))
     }
 
     function putGameIntoGroup(req, res) {
         service.putGameIntoGroup(req.params.groupId, req.body.gameId)
-            .then((body,err)=>processResponse(res)(err,body))
+            .then((body, err) => processResponse(res)(err, body))
     }
 
 
     function deleteGameFromGroup(req, res) {
         service.deleteGameFromGroup(req.params.groupId, req.params.gameId)
-            .then((body,err)=>processResponse(res)(err,body))
+            .then((body, err) => processResponse(res)(err, body))
+            .catch(err => {
+                if (err == Error("Game doesn´t exist"))
+                    res.statusCode = 400
+                else res.statusCode = 400
+                processResponse(res)(err)
+            })
     }
+
 }
