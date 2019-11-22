@@ -6,25 +6,20 @@
 	},
 	"item": [
 		{
-			"name": "Obtain a specific game",
+			"name": "Obtain a game by name",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/games?name=game1",
+					"raw": "localhost:8080/api/games/catan",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
 						"api",
-						"games"
-					],
-					"query": [
-						{
-							"key": "name",
-							"value": "game1"
-						}
+						"games",
+						"catan"
 					]
 				},
 				"description": "Get games by name"
@@ -78,20 +73,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/groups?groupId=1",
+					"raw": "localhost:8080/api/groups/injxTG4BVFCKp57TxwIS",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
 						"api",
-						"groups"
-					],
-					"query": [
-						{
-							"key": "groupId",
-							"value": "1"
-						}
+						"groups",
+						"injxTG4BVFCKp57TxwIS"
 					]
 				}
 			},
@@ -103,7 +93,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/groups/:groupId/games?min=45&max=90",
+					"raw": "localhost:8080/api/groups/:groupId/games?min=50&max=150",
 					"host": [
 						"localhost"
 					],
@@ -117,17 +107,17 @@
 					"query": [
 						{
 							"key": "min",
-							"value": "45"
+							"value": "50"
 						},
 						{
 							"key": "max",
-							"value": "90"
+							"value": "150"
 						}
 					],
 					"variable": [
 						{
 							"key": "groupId",
-							"value": "1"
+							"value": "injxTG4BVFCKp57TxwIS"
 						}
 					]
 				},
@@ -149,7 +139,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"grupo 3\",\r\n    \"description\": \"grupo 3\"\r\n  } ",
+					"raw": "{\r\n    \"name\": \"grupo4\",\r\n    \"description\": \"grupo 4\"\r\n  } ",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -184,7 +174,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": " {\r\n    \"name\": \"group35\",\r\n    \"description\": \"Altered description\"\r\n  }"
+					"raw": " {\r\n    \"name\": \"New name 1\",\r\n    \"description\": \"new 1 description\"\r\n  }"
 				},
 				"url": {
 					"raw": "localhost:8080/api/groups/:groupId",
@@ -200,7 +190,7 @@
 					"variable": [
 						{
 							"key": "groupId",
-							"value": "FUwXTW4BNP6rY1NlhjQ0",
+							"value": "wTbylG4BFyx0fFalxtJI",
 							"type": "string"
 						}
 					]
@@ -222,7 +212,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"gameId\" : \"RLlDWHh7hR\"\r\n  }",
+					"raw": "{\r\n    \"gameId\" : \"kPDxpJZ8PD\"\r\n  }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -244,7 +234,7 @@
 					"variable": [
 						{
 							"key": "groupId",
-							"value": "injxTG4BVFCKp57TxwIS"
+							"value": "wTbylG4BFyx0fFalxtJI"
 						}
 					]
 				}
@@ -257,7 +247,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/groups/:groupId/games?gameId=kPDxpJZ8PD",
+					"raw": "localhost:8080/api/groups/:groupId/games/kPDxpJZ8PD",
 					"host": [
 						"localhost"
 					],
@@ -266,18 +256,13 @@
 						"api",
 						"groups",
 						":groupId",
-						"games"
-					],
-					"query": [
-						{
-							"key": "gameId",
-							"value": "kPDxpJZ8PD"
-						}
+						"games",
+						"kPDxpJZ8PD"
 					],
 					"variable": [
 						{
 							"key": "groupId",
-							"value": "injxTG4BVFCKp57TxwIS"
+							"value": "wTbylG4BFyx0fFalxtJI"
 						}
 					]
 				}
