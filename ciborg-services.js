@@ -57,10 +57,10 @@ module.exports = function (boardGamesData, ciborgDb) {
         return boardGamesData.getGameById(gameId)
             .then((gameBody) => {
                 return ciborgDb.getGroupsById(groupId)
-            })
-            .then((groupBody) => {
-                groupBody.games.push(boardGamesData.getGameBasicInfo(gameBody.games[0]))
-                return ciborgDb.putGameIntoGroup(groupBody, groupId);
+                    .then((groupBody) => {
+                        groupBody.games.push(boardGamesData.getGameBasicInfo(gameBody.games[0]))
+                        return ciborgDb.putGameIntoGroup(groupBody, groupId);
+                    })
             })
             .catch(err => { throw err })
     }
@@ -83,6 +83,6 @@ module.exports = function (boardGamesData, ciborgDb) {
                 if (size != array.length) ciborgDb.deleteGameFromGroup(groupId, groupBody);
                 else throw new Error("Game doesn´t exist")
             })
-            .catch(err => {throw err})
+            .catch(err => { throw err })
     }
 }

@@ -47,8 +47,8 @@ module.exports = function(){
             json: true
         };
         return promise.request(options)
-        .then(body => body)
-        .catch(err => { throw err })
+            .then(body => body)
+            .catch(err => { throw err })
     }
 
     function getGameById(gameId, cb){
