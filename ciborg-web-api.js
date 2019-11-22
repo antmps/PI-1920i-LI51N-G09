@@ -20,36 +20,15 @@ module.exports = function (router, service) {
     return router
 
 
-    function processRequest(req, res) {
-        console.log(req.method);
-        console.log(req.url);
-        console.log(req.headers);
-
-        var funcParam = router.getFunc(req.method, req.url)
-
-        if (funcParam == undefined || funcParam.func == undefined) {
-            res.statusCode = 404
-            res.end("404: You've reached the void.")
-            return
-        }
-
-        let func = funcParam.func
-        try {
-            func(req, res, funcParam.params)
-        }
-        catch (err) {
-            res.statusCode = 500
-            res.end("500: At least we tried.")
-            return
-        }
-    }
-
     function processResponse(res) {
 
         function innerProcessResponse(err, body) {
 
             //body is undefined meaning that there was no error but it couldnt be found
             if (body == undefined) {
+                if(err != undefined){
+                    
+                }
                 res.statusCode = 404;
                 res.end("404: You've reached the void.")
             }

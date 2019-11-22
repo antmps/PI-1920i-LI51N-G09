@@ -2,6 +2,7 @@
 //access to Board Game Atlas API
 
 const request = require('request');
+const promise = require('./request-promise')()
 
 module.exports = function(){
 
