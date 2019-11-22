@@ -18,79 +18,71 @@ module.exports = function (boardGamesData, ciborgDb) {
         deleteGameFromGroup: deleteGameFromGroup
     };
 
-    function getTopGames(cb) {
-        boardGamesData.getTopGames(cb);
+    function getTopGames() {
+        return boardGamesData.getTopGames();
     }
 
-    function getGameByName(name, cb) {
-        boardGamesData.getGameByName(name, cb);
+    function getGameByName(name) {
+        return boardGamesData.getGameByName(name);
     }
 
     function getGroups() {
         return ciborgDb.getGroups();
     }
 
-    function getGroupById(groupId, cb) {
-        ciborgDb.getGroupsById(groupId, cb);
+    function getGroupById(groupId) {
+        return ciborgDb.getGroupsById(groupId);
     }
 
-    function getGroupGameByDuration(groupId, min, max, cb) {
-        ciborgDb.getGroupGameByDuration(groupId, min, max, cb);
+    function getGroupGameByDuration(groupId, min, max) {
+        return ciborgDb.getGroupGameByDuration(groupId, min, max);
     }
 
 
-    function postGroup(body, cb) {
-        ciborgDb.postGroup(body, cb);
+    function postGroup(body) {
+        return ciborgDb.postGroup(body);
     }
 
-    function putGroupInfo(groupId, body, cb) {
+    function putGroupInfo(groupId, body) {
 
-        ciborgDb.getGamesFromGroup(groupId, (err,arrayBody) =>{
-
-            if(err!=undefined) cb(err,arrayBody);
-
-            ciborgDb.putGroupInfo(groupId, arrayBody, body, cb);
-        });
+        return ciborgDb.getGamesFromGroup(groupId)
+            .then((arrayBody) => {
+                return ciborgDb.putGroupInfo(groupId, arrayBody, body)
+            })
+            .catch(err => { throw err })
     }
 
-    function putGameIntoGroup(groupId, gameId, cb) {
+    function putGameIntoGroup(groupId, gameId) {
 
-        boardGamesData.getGameById(gameId, (err, gameBody) => {
-
-            if (err) cb(err, gameBody);
-            ciborgDb.getGroupsById(groupId,(err, groupBody) =>{
-        
-                if(err) cb(err,groupBody);
-                
+        return boardGamesData.getGameById(gameId)
+            .then((gameBody) => {
+                return ciborgDb.getGroupsById(groupId)
+            })
+            .then((groupBody) => {
                 groupBody.games.push(boardGamesData.getGameBasicInfo(gameBody.games[0]))
-                //jsonArray = JSON.parse(array)
-
-               ciborgDb.putGameIntoGroup(groupBody, groupId, cb); 
-            });
-
-        });
+                return ciborgDb.putGameIntoGroup(groupBody, groupId);
+            })
+            .catch(err => { throw err })
     }
 
-    function deleteGameFromGroup(groupId, gameId, cb) {
+    function deleteGameFromGroup(groupId, gameId) {
 
         //get current _sorce from group
-        ciborgDb.getGroupsById(groupId,(err,groupBody)=>{
-            if(err)cb(err,groupBody)
+        return ciborgDb.getGroupsById(groupId)
+            .then((groupBody) => {
+                var size = groupBody.games.length
+                var array = []
 
-            //remove game with the same ID
-            var size = groupBody.games.length
-            var array = []
+                for (var i = 0; i < size; i++) {
+                    if (groupBody.games[i].id != gameId)
+                        array.push(groupBody.games[i])
+                }
 
-            for(var i = 0; i<size;i++){
-                if(groupBody.games[i].id != gameId)
-                    array.push(groupBody.games[i])
-            }
+                groupBody.games = array
 
-            groupBody.games = array
-
-            if(size!=array.length)ciborgDb.deleteGameFromGroup(groupId, groupBody, cb);
-            else cb(new Error("Game doesn´t exist"),groupBody)
-        })
-        
+                if (size != array.length) ciborgDb.deleteGameFromGroup(groupId, groupBody);
+                else throw new Error("Game doesn´t exist")
+            })
+            .catch(err => {throw err})
     }
 }

@@ -28,37 +28,41 @@ module.exports = function (host) {
 
         return promise.request(options)
             .then(body => body.hits.hits.map(e => e._source))
-            .catch(err => {throw err})
-        }
+            .catch(err => { throw err })
+    }
 
     function getGroupsById(groupId, cb) {
         const options = {
             url: `${baseUrl}/groups/_doc/${groupId}`,
+            method: 'GET',
             json: true
         };
-        request.get(options, (err, res, body) => {
-            cb(err, body._source);
-        });
+
+        return promise.request(options)
+            .then(body => body._source)
+            .catch(err => { throw err })
     }
+
 
     function getGroupGameByDuration(groupId, min, max, cb) {
 
-        getGamesFromGroup(groupId,(err,games)=>{
-            var array = []
-            for(var i = 0; i< games.length;i++){
-                if(min <= games[i].min_playtime && max >= games[i].max_playtime)
-                array.push(games[i])
-            }
-
-            cb(err,array)
-
-        })
+        return getGamesFromGroup(groupId)
+            .then((games) => {
+                var array = []
+                for (var i = 0; i < games.length; i++) {
+                    if (min <= games[i].min_playtime && max >= games[i].max_playtime)
+                        array.push(games[i])
+                }
+                return array
+            })
+            .catch(err => { throw err })
     }
 
     function postGroup(bodyReceived, cb) {
         const options = {
             url: `${baseUrl}/groups/_doc`,
             headers: { 'Content-Type': 'application/json' },
+            method: 'POST',
             json: true,
             body: {
                 'name': bodyReceived.name,
@@ -66,14 +70,17 @@ module.exports = function (host) {
                 'games': []
             }
         }
-        request.post(options, (err, res, body) => {
-            cb(err, { id: body._id });
-        });
+
+        return promise.request(options)
+            .then(body => body._id)
+            .catch(err => { throw err })
     }
+
 
     function putGroupInfo(groupId, arrayBody, bodyReceived, cb) {
         const options = {
             url: `${baseUrl}/groups/_doc/${groupId}`,
+            method: 'PUT',
             json: true,
             body: {
                 'name': bodyReceived.name,
@@ -81,14 +88,17 @@ module.exports = function (host) {
                 'games': arrayBody
             }
         };
-        request.put(options, (err, res, body) => {
-            cb(err, { id: body._id });
-        });
+
+        
+        return promise.request(options)
+            .then(body => body._id)
+            .catch(err => { throw err })
     }
 
     function putGameIntoGroup(groupBody, groupId, cb) {
         const options = {
             url: `${baseUrl}/groups/_doc/${groupId}`,
+            method: 'PUT',
             json: true,
             body: {
                 'name': groupBody.name,
@@ -96,15 +106,16 @@ module.exports = function (host) {
                 'games': groupBody.games
             }
         }
-        request.put(options, (err, res, body) => {
-            cb(err, { id: body._id});
-        });
+        return promise.request(options)
+            .then(body => body._id)
+            .catch(err => { throw err })
     }
 
     function deleteGameFromGroup(groupId, groupBody, cb) {
         const options = {
             url: `${baseUrl}/groups/_doc/${groupId}`,
             headers: { 'Content-type': 'application/json' },
+            method: 'POST',
             json: true,
             body: {
                 'name': groupBody.name,
@@ -112,18 +123,19 @@ module.exports = function (host) {
                 'games': groupBody.games
             }
         }
-        request.post(options, (err, res, body) => {
-            cb(err, { id: body._id });
-        });
+        return promise.request(options)
+            .then(body => body._id)
+            .catch(err => { throw err })
     }
 
     function getGamesFromGroup(groupId, cb) {
         const options = {
             url: `${baseUrl}/groups/_doc/${groupId}/_source`,
+            method: 'GET',
             json: true
         };
-        request.get(options, (err, res, body) => {
-            cb(err, body.games);
-        });
+        return promise.request(options)
+            .then(body => body.games)
+            .catch(err => { throw err })
     }
 }

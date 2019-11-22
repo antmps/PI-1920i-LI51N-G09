@@ -32,30 +32,33 @@ module.exports = function(){
     function getTopGames(cb){
         const options = {
             url: `${baseUrl}search?order_by=popularity&client_id=${client_id}&${limit}`,
+            method: 'GET',
             json: true
         };
-        request.get(options,(err,res,body)=>{
-            cb(err,body);
-        });
+        return promise.request(options)
+            .then(body => body)
+            .catch(err => { throw err })
     }
 
     function getGameByName(name, cb){
         const options = {
             url: `${baseUrl}search?name=${name}&client_id=${client_id}&${limit}`,
+            method: 'GET',
             json: true
         };
-        request.get(options,(err,res,body)=>{
-            cb(err,body);
-        });
+        return promise.request(options)
+        .then(body => body)
+        .catch(err => { throw err })
     }
 
     function getGameById(gameId, cb){
         const options = {
             url: `${baseUrl}search?ids=${gameId}&client_id=${client_id}`,
+            method: 'GET',
             json: true
         };
-        request.get(options,(err,res,body)=>{
-            cb(err,body);
-        });
+        return promise.request(options)
+            .then(body => body)
+            .catch(err => { throw err })
     }
 }

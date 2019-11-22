@@ -71,47 +71,49 @@ module.exports = function (router, service) {
 
     //functions that will call service
     function getTopGames(req, res) {
-        service.getTopGames(processResponse(res));
+        service.getTopGames()
+            .then((body,err)=>processResponse(res)(err,body))
     }
 
     function getGameByName(req, res) {
-        service.getGameByName(req.params.name, processResponse(res))
+        service.getGameByName(req.params.name)
+            .then((body,err)=>processResponse(res)(err,body))
     }
 
     function getGroups(req, res) {
         service.getGroups()
-            .then(()=>processResponse(res))
-        /*
-        service.getGroups(processResponse(res))
-        */
+            .then((body,err)=>processResponse(res)(err,body))
     }
 
     function getGroupById(req, res) {
-        service.getGroupById(req.params.groupId, processResponse(res))
+        service.getGroupById(req.params.groupId)
+            .then((body,err)=>processResponse(res)(err,body))
     }
 
     function getGroupGameByDuration(req, res) {
-        service.getGroupGameByDuration(req.params.groupId, req.query.min, req.query.max, processResponse(res))
+        service.getGroupGameByDuration(req.params.groupId, req.query.min, req.query.max)
+            .then((body,err)=>processResponse(res)(err,body))
     }
 
     function postGroup(req, res) {
-        service.postGroup(req.body, processResponse(res))
-        /*
-        service.postGroup(req.body).then(processResponse(res))
-        */
+        service.postGroup(req.body)
+            .then((body,err)=>processResponse(res)(err,body))
     }
 
 
     function putGroupInfo(req, res) {
-        service.putGroupInfo(req.params.groupId, req.body, processResponse(res))
+        service.putGroupInfo(req.params.groupId, req.body)
+            .then((body,err)=>processResponse(res)(err,body))
     }
 
     function putGameIntoGroup(req, res) {
-        service.putGameIntoGroup(req.params.groupId, req.body.gameId, processResponse(res))
+        service.putGameIntoGroup(req.params.groupId, req.body.gameId)
+            .then((body,err)=>processResponse(res)(err,body))
     }
 
 
     function deleteGameFromGroup(req, res) {
-        service.deleteGameFromGroup(req.params.groupId, req.params.gameId, processResponse(res))
+        service.deleteGameFromGroup(req.params.groupId, req.params.gameId)
+            .then((body,err)=>processResponse(res)(err,body))
     }
 }
