@@ -80,7 +80,7 @@ module.exports = function (boardGamesData, ciborgDb) {
 
                 groupBody.games = array
 
-                if (size != array.length) ciborgDb.deleteGameFromGroup(groupId, groupBody);
+                if (size != array.length) return ciborgDb.deleteGameFromGroup(groupId, groupBody);
                 else throw new Error("Game doesn´t exist")
             })
             .catch(err => { throw err })
