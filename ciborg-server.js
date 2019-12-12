@@ -13,6 +13,7 @@ const api = require('./ciborg-web-api')(express.Router(),service)
 
 //USE THE WEBAPI
 app.use(express.json())
+app.use('/', express.static('app'))
 app.use('/api',api);
 
 //CREATE AND INTIATE SERVER
