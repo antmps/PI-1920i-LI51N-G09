@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -202,7 +202,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(5);
+var	fixUrls = __webpack_require__(7);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -524,13 +524,93 @@ function updateLink (link, options, obj) {
 "use strict";
 
 
-__webpack_require__(3)
-__webpack_require__(6)
-__webpack_require__ (8)
+const Handlebars = __webpack_require__(14)
 
-const templates = __webpack_require__(12)
-const bookshelfImg = __webpack_require__(19)
-const gamesData = __webpack_require__(20)
+const gameDetailsTemplate = __webpack_require__(15).default
+Handlebars.registerPartial('gameDetailsTemplate',gameDetailsTemplate)
+
+module.exports = {
+    home: Handlebars.compile(__webpack_require__(16).default),
+    games: Handlebars.compile(__webpack_require__(17).default),
+    gamesearch : Handlebars.compile(__webpack_require__(18).default),
+    gameDetailsTemplate : Handlebars.compile(gameDetailsTemplate),
+    error: Handlebars.compile(__webpack_require__(19).default)
+} 
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function GamesApiUris() {
+    const baseUri = "http://localhost:8080/api/"
+
+    this.getTopGamesUri = () => `${baseUri}games/top`
+    this.getGameByNameUri = (name) => `${baseUri}games/${name}`
+    this.getGroupsUri = () => `${baseUri}groups`
+    this.getGroupsByIdUri = (groupId) => `${baseUri}groups/${groupId}`
+    this.getGroupGameByDurationUri = (groupId) => `${baseUri}groups/${groupId}/games`
+    
+    this.postGroupUri = () => `${baseUri}groups`
+
+    this.putGroupInfoUri = (groupId)=> `${baseUri}groups/${groupId}`
+    this.putGameIntoGroupUri = (groupId)=> `${baseUri}groups/${groupId}/games/`
+
+    this.deleteGameFromGroup = (groupId,gameId)=> `${baseUri}groups/${groupId}/games/${gameId}`
+}
+
+const Uris = new GamesApiUris()
+
+function getTopGames(){
+    return fetch(Uris.getTopGamesUri())
+            .then(res => res.json())
+}
+
+function getGameByName(name){
+    return fetch(Uris.getGameByNameUri(name))
+            .then(res => res.json())
+}
+
+function getGroups(){
+    return fetch(Uris.getGroupsUri())
+            .then(res => res.json())
+}
+
+function getGroupsById(groupId){
+    return fetch(Uris.getGroupsByIdUri(groupId))
+            .then(res => res.json())
+}
+
+function getGroupGameByDuration(groupId){
+    return fetch(Uris.getGroupGameByDurationUri(groupId))
+            .then(res => res.json())
+}
+
+module.exports = {
+    getTopGames:getTopGames,
+    getGameByName:getGameByName,
+    getGroups:getGroups,
+    getGroupsById:getGroupsById,
+    getGroupGameByDuration,getGroupGameByDuration
+}
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+__webpack_require__(5)
+__webpack_require__(8)
+__webpack_require__ (10)
+
+const templates = __webpack_require__(2)
+const bookshelfImg = __webpack_require__(20)
+const gamesData = __webpack_require__(3)
+const gamesScript = __webpack_require__(21)
 
 window.addEventListener('hashchange', handler)
 handler()
@@ -551,11 +631,11 @@ function handler(){
             break;
         case 'gamesearch' :
             var gameName = document.getElementById('txt_Search_Games').value
-            var gameContainer = document.getElementById('gameContainer')
             gamesData.getGameByName(gameName)
-                .then(games => 
-                    gameContainer.innerHTML = templates.gameDetailsTemplate({games})
-                ).catch(()=>alertContent.innerHTML = templates.error({message : "Something went wrong! Searched Parameter:" + gameName + ";GameContainer:"+gameContainer}))
+                .then(games => {
+                    mainContent.innerHTML = templates.gamesearch({games})
+                    gamesScript()
+                }).catch(()=>alertContent.innerHTML = templates.error({message : "Something went wrong! Searched Parameter:" + gameName + ";GameContainer:"+gameContainer}))
             break;
         default:
             window.location.hash="home"
@@ -564,13 +644,13 @@ function handler(){
 
 
 /***/ }),
-/* 3 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(4);
+var content = __webpack_require__(6);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -595,7 +675,7 @@ if(false) {
 }
 
 /***/ }),
-/* 4 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(0)(undefined);
@@ -609,7 +689,7 @@ exports.push([module.i, "/*!\n * Bootstrap v4.4.1 (https://getbootstrap.com/)\n 
 
 
 /***/ }),
-/* 5 */
+/* 7 */
 /***/ (function(module, exports) {
 
 
@@ -704,13 +784,13 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 6 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(7);
+var content = __webpack_require__(9);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -735,7 +815,7 @@ if(false) {
 }
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(0)(undefined);
@@ -749,7 +829,7 @@ exports.push([module.i, ".titleText {\r\n    color: aliceblue;\r\n    font-size:
 
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -758,7 +838,7 @@ exports.push([module.i, ".titleText {\r\n    color: aliceblue;\r\n    font-size:
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
   */
 (function (global, factory) {
-   true ? factory(exports, __webpack_require__(9), __webpack_require__(10)) :
+   true ? factory(exports, __webpack_require__(11), __webpack_require__(12)) :
   typeof define === 'function' && define.amd ? define(['exports', 'jquery', 'popper.js'], factory) :
   (global = global || self, factory(global.bootstrap = {}, global.jQuery, global.Popper));
 }(this, (function (exports, $, Popper) { 'use strict';
@@ -5276,7 +5356,7 @@ exports.push([module.i, ".titleText {\r\n    color: aliceblue;\r\n    font-size:
 
 
 /***/ }),
-/* 9 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -15881,7 +15961,7 @@ return jQuery;
 
 
 /***/ }),
-/* 10 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18503,10 +18583,10 @@ Popper.Defaults = Defaults;
 /* harmony default export */ __webpack_exports__["default"] = (Popper);
 //# sourceMappingURL=popper.js.map
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(13)))
 
 /***/ }),
-/* 11 */
+/* 13 */
 /***/ (function(module, exports) {
 
 var g;
@@ -18533,26 +18613,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-const Handlebars = __webpack_require__(13)
-
-const gameDetails = __webpack_require__(14).default
-
-module.exports = {
-    home: Handlebars.compile(__webpack_require__(15).default),
-    games: Handlebars.compile(__webpack_require__(16).default),
-    gamesearch : Handlebars.compile(__webpack_require__(17).default),
-    gameDetailsTemplate : Handlebars.compile(gameDetails),
-    error: Handlebars.compile(__webpack_require__(18).default)
-} 
-
-/***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**!
@@ -23397,20 +23458,12 @@ return /******/ (function(modules) { // webpackBootstrap
 ;
 
 /***/ }),
-/* 14 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<tr>\r\n    <td>{{game.name}}</td>\r\n    <td>{{game.year_published}}</td>\r\n    <td>{{game.min_players}}</td>\r\n    <td>{{game.max_players}}</td>\r\n    <td>{{game.description}}</td>\r\n    <td>{{game.price}}</td>\r\n    <td>{{game.designers}}</td>\r\n</tr>");
-
-/***/ }),
 /* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<table>\r\n    <tr>\r\n        <td>\r\n        </td>\r\n    </tr>\r\n</table>");
+/* harmony default export */ __webpack_exports__["default"] = ("<tr>\r\n    <td>NAME:{{game.name}}</td>\r\n    <td>{{game.year_published}}</td>\r\n    <td>{{game.min_players}}</td>\r\n    <td>{{game.max_players}}</td>\r\n    <td>{{game.description}}</td>\r\n    <td>{{game.price}}</td>\r\n    <td>{{game.designers}}</td>\r\n</tr>");
 
 /***/ }),
 /* 16 */
@@ -23418,7 +23471,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\">\r\n    <tr>\r\n        <td>\r\n            <input class=\"textboxStyle\" id=\"txt_Search_Games\" \r\n                type=\"text\" size=\"50px\" >\r\n        </td>\r\n        <td>\r\n            <a class=\"buttonStyle\" href=\"#gamesearch\">SEARCH</a>\r\n        </td>\r\n    </tr>\r\n</table>\r\n<div id=\"searchContent\"></div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<table>\r\n    <tr>\r\n        <td>\r\n        </td>\r\n    </tr>\r\n</table>");
 
 /***/ }),
 /* 17 */
@@ -23426,7 +23479,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<table style=\"color: blanchedalmond;\">\r\n    <tr>\r\n        <td>|Name|</td>\r\n        <td>|Year|</td>\r\n        <td>|Min Players|</td>\r\n        <td>|Max Players|</td>\r\n        <td>|Description|</td>\r\n        <td>|Price|</td>\r\n        <td>|Designer|</td>\r\n    </tr>\r\n    <div id=\"gameContainer\"></div>\r\n</table>");
+/* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\">\r\n    <tr>\r\n        <td>\r\n            <input class=\"textboxStyle\" id=\"txt_Search_Games\" \r\n                type=\"text\" size=\"50px\" >\r\n        </td>\r\n        <td>\r\n            <a class=\"buttonStyle\" href=\"#gamesearch\">SEARCH</a>\r\n        </td>\r\n    </tr>\r\n</table>\r\n<div id=\"searchContent\"></div>");
 
 /***/ }),
 /* 18 */
@@ -23434,71 +23487,42 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"alert alert-warning alert-dismissible fade show\" role=\"alert\">\r\n    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n    <strong>Error</strong>\r\n    <p>{{message}}</p>\r\n    \r\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<table style=\"color: blanchedalmond;\">\r\n    <tr>\r\n        <td>|Name|</td>\r\n        <td>|Year|</td>\r\n        <td>|Min Players|</td>\r\n        <td>|Max Players|</td>\r\n        <td>|Description|</td>\r\n        <td>|Price|</td>\r\n        <td>|Designer|</td>\r\n    </tr>\r\n    <div id=\"gameContainer\">{{gameDetailsTemplate}}</div>\r\n</table>");
 
 /***/ }),
 /* 19 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "f1cf1e92775d1cff8ae42eb6c9cdd94d.jpg";
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"alert alert-warning alert-dismissible fade show\" role=\"alert\">\r\n    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n    <strong>Error</strong>\r\n    <p>{{message}}</p>\r\n    \r\n</div>");
 
 /***/ }),
 /* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = __webpack_require__.p + "f1cf1e92775d1cff8ae42eb6c9cdd94d.jpg";
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
-function GamesApiUris() {
-    const baseUri = "http://localhost:8080/api/"
+const gamesData = __webpack_require__(3)
+const template = __webpack_require__(2)
 
-    this.getTopGamesUri = () => `${baseUri}games/top`
-    this.getGameByNameUri = (name) => `${baseUri}games/${name}`
-    this.getGroupsUri = () => `${baseUri}groups`
-    this.getGroupsByIdUri = (groupId) => `${baseUri}groups/${groupId}`
-    this.getGroupGameByDurationUri = (groupId) => `${baseUri}groups/${groupId}/games`
-    
-    this.postGroupUri = () => `${baseUri}groups`
+module.exports = function(){
 
-    this.putGroupInfoUri = (groupId)=> `${baseUri}groups/${groupId}`
-    this.putGameIntoGroupUri = (groupId)=> `${baseUri}groups/${groupId}/games/`
+    listGamesByName()
 
-    this.deleteGameFromGroup = (groupId,gameId)=> `${baseUri}groups/${groupId}/games/${gameId}`
-}
-
-const Uris = new GamesApiUris()
-
-function getTopGames(){
-    return fetch(Uris.getTopGamesUri())
-            .then(res => res.json())
-}
-
-function getGameByName(name){
-    return fetch(Uris.getGameByNameUri(name))
-            .then(res => res.json())
-}
-
-function getGroups(){
-    return fetch(Uris.getGroupsUri())
-            .then(res => res.json())
-}
-
-function getGroupsById(groupId){
-    return fetch(Uris.getGroupsByIdUri(groupId))
-            .then(res => res.json())
-}
-
-function getGroupGameByDuration(groupId){
-    return fetch(Uris.getGroupGameByDurationUri(groupId))
-            .then(res => res.json())
-}
-
-module.exports = {
-    getTopGames:getTopGames,
-    getGameByName:getGameByName,
-    getGroups:getGroups,
-    getGroupsById:getGroupsById,
-    getGroupGameByDuration,getGroupGameByDuration
+    function listGamesByName(){
+        const gamesContainer = document.getElementById("gameContainer")
+        gamesData.getGameByName("Catan")
+            .then(games => gamesContainer.innerHTML = template.gameDetailsTemplate({games})
+        )
+    }
 }
 
 /***/ })

@@ -7,6 +7,7 @@ require ('bootstrap')
 const templates = require('./templates')
 const bookshelfImg = require('./img/home_image_BW.jpg')
 const gamesData = require('./games-data')
+const gamesScript = require('./games')
 
 window.addEventListener('hashchange', handler)
 handler()
@@ -27,11 +28,11 @@ function handler(){
             break;
         case 'gamesearch' :
             var gameName = document.getElementById('txt_Search_Games').value
-            var gameContainer = document.getElementById('gameContainer')
             gamesData.getGameByName(gameName)
-                .then(games => 
-                    gameContainer.innerHTML = templates.gameDetailsTemplate({games})
-                ).catch(()=>alertContent.innerHTML = templates.error({message : "Something went wrong! Searched Parameter:" + gameName + ";GameContainer:"+gameContainer}))
+                .then(games => {
+                    mainContent.innerHTML = templates.gamesearch({games})
+                    gamesScript()
+                }).catch(()=>alertContent.innerHTML = templates.error({message : "Something went wrong! Searched Parameter:" + gameName + ";GameContainer:"+gameContainer}))
             break;
         default:
             window.location.hash="home"
