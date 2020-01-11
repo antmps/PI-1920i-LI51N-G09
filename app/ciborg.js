@@ -627,7 +627,18 @@ function handler(){
             break;
         case 'games' :
             mainContent.innerHTML = templates.games()
+<<<<<<< HEAD
             gamesScript()
+=======
+            break;
+        case 'gamesearch' :
+            var gameName = document.getElementById('txt_Search_Games').value
+            gamesData.getGameByName(gameName)
+                .then(games => {
+                    mainContent.innerHTML = templates.games() + templates.gamesearch({games})
+                    //gamesScript()
+                }).catch((error)=>alertContent.innerHTML = templates.error({message : "Something went wrong! Searched Parameter:" + gameName + ";GameContainer:"+gameContainer}))
+>>>>>>> 2c1f0876c7630c9975c3193c7b4a64b826279bc9
             break;
         default:
             window.location.hash="home"
