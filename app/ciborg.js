@@ -627,18 +627,7 @@ function handler(){
             break;
         case 'games' :
             mainContent.innerHTML = templates.games()
-<<<<<<< HEAD
             gamesScript()
-=======
-            break;
-        case 'gamesearch' :
-            var gameName = document.getElementById('txt_Search_Games').value
-            gamesData.getGameByName(gameName)
-                .then(games => {
-                    mainContent.innerHTML = templates.games() + templates.gamesearch({games})
-                    //gamesScript()
-                }).catch((error)=>alertContent.innerHTML = templates.error({message : "Something went wrong! Searched Parameter:" + gameName + ";GameContainer:"+gameContainer}))
->>>>>>> 2c1f0876c7630c9975c3193c7b4a64b826279bc9
             break;
         default:
             window.location.hash="home"
@@ -826,7 +815,7 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 
 // module
-exports.push([module.i, ".titleText {\r\n    color: aliceblue;\r\n    font-size: 36px;\r\n}\r\n\r\n.baseText {\r\n    color: aliceblue; \r\n    font-size: 16px;\r\n}\r\n\r\n.textboxStyle {\r\n    margin: 8px 0;\r\n    border: 2px solid;\r\n    padding: 12px 20px;\r\n    border-radius: 4px;\r\n    border-bottom-color: darkcyan;\r\n    border-top-color: darkcyan;\r\n    border-right-color: darkcyan;\r\n    border-left-color: darkcyan;\r\n    background-color: dimgrey;\r\n    color: aliceblue;\r\n}\r\n\r\n.buttonStyle {\r\n    padding: 12px 20px;\r\n    border-radius: 4px;\r\n    border-bottom-color: darkcyan;\r\n    border-top-color: darkcyan;\r\n    border-right-color: darkcyan;\r\n    border-left-color: darkcyan;   \r\n    background-color: transparent;\r\n    color: aliceblue;\r\n    font-weight: bold;\r\n}", ""]);
+exports.push([module.i, ".titleText {\r\n    color: aliceblue;\r\n    font-size: 36px;\r\n}\r\n\r\n.baseText {\r\n    color: aliceblue;\r\n    font-size: 16px;\r\n}\r\n\r\n.textboxStyle {\r\n    margin: 8px 0;\r\n    border: 2px solid;\r\n    padding: 12px 20px;\r\n    border-radius: 4px;\r\n    border-bottom-color: darkcyan;\r\n    border-top-color: darkcyan;\r\n    border-right-color: darkcyan;\r\n    border-left-color: darkcyan;\r\n    background-color: dimgrey;\r\n    color: aliceblue;\r\n}\r\n\r\n.buttonStyle {\r\n    padding: 12px 20px;\r\n    border-radius: 4px;\r\n    border-bottom-color: darkcyan;\r\n    border-top-color: darkcyan;\r\n    border-right-color: darkcyan;\r\n    border-left-color: darkcyan;\r\n    background-color: transparent;\r\n    color: aliceblue;\r\n    font-weight: bold;\r\n}\r\n\r\n.TableNameStyle {\r\n    margin: 8px 0;\r\n    border: 2px solid;\r\n    padding: 12px 20px;\r\n    border-radius: 4px;\r\n    border-bottom-color: darkcyan;\r\n    border-top-color: darkcyan;\r\n    border-right-color: darkcyan;\r\n    border-left-color: darkcyan;\r\n    background-color: dimgrey;\r\n    color: aliceblue;\r\n    font-weight: bold;\r\n}\r\n\r\n.TableDataStyle {\r\n    margin: 8px 0;\r\n    border: 2px solid;\r\n    padding: 12px 20px;\r\n    border-radius: 4px;\r\n    border-bottom-color: darkcyan;\r\n    border-top-color: darkcyan;\r\n    border-right-color: darkcyan;\r\n    border-left-color: darkcyan;\r\n    background-color: dimgrey;\r\n    color: aliceblue;\r\n}", ""]);
 
 // exports
 
@@ -23466,7 +23455,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<table class=\"table\" style=\"color: blanchedalmond;\">\r\n    <tr>\r\n        <td>|Name|</td>\r\n        <td>|Year|</td>\r\n        <td>|Min Players|</td>\r\n        <td>|Max Players|</td>\r\n        <td>|Description|</td>\r\n        <td>|Price|</td>\r\n        <td>|Designer|</td>\r\n    </tr>\r\n    {{#each games.games}}\r\n        <tr>\r\n            <td>{{name}}</td>\r\n            <td>{{year_published}}</td>\r\n        </tr>\r\n    {{/each}}\r\n</table>");
+/* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\">\r\n    <tr>\r\n        <td class=\"TableNameStyle\">Name</td>\r\n        <td class=\"TableNameStyle\">Year</td>\r\n        <td class=\"TableNameStyle\">Rating</td>\r\n        <!--\r\n        <td class=\"TableNameStyle\">Min Players</td>\r\n        <td class=\"TableNameStyle\">Max Players</td>\r\n        <td class=\"TableNameStyle\">Description</td>\r\n        <td class=\"TableNameStyle\">Price</td>\r\n        <td class=\"TableNameStyle\">Designer</td>\r\n        -->\r\n    </tr>\r\n    {{#each games.games}}\r\n        <tr class=\"TableDataStyle\">\r\n            <td >{{name}}</td>\r\n            <td>{{year_published}}</td>\r\n            <td>{{average_user_rating}}</td>\r\n        </tr>\r\n    {{/each}}\r\n</table>");
 
 /***/ }),
 /* 16 */

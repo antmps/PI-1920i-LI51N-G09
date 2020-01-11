@@ -1,17 +1,21 @@
-<table class="table" style="color: blanchedalmond;">
+<table align="center">
     <tr>
-        <td>|Name|</td>
-        <td>|Year|</td>
-        <td>|Min Players|</td>
-        <td>|Max Players|</td>
-        <td>|Description|</td>
-        <td>|Price|</td>
-        <td>|Designer|</td>
+        <td class="TableNameStyle">Name</td>
+        <td class="TableNameStyle">Year</td>
+        <td class="TableNameStyle">Rating</td>
+        <!--
+        <td class="TableNameStyle">Min Players</td>
+        <td class="TableNameStyle">Max Players</td>
+        <td class="TableNameStyle">Description</td>
+        <td class="TableNameStyle">Price</td>
+        <td class="TableNameStyle">Designer</td>
+        -->
     </tr>
     {{#each games.games}}
-        <tr>
-            <td>{{name}}</td>
+        <tr class="TableDataStyle">
+            <td >{{name}}</td>
             <td>{{year_published}}</td>
+            <td>{{average_user_rating}}</td>
         </tr>
     {{/each}}
 </table>

@@ -4,7 +4,7 @@
 }
 
 .baseText {
-    color: aliceblue; 
+    color: aliceblue;
     font-size: 16px;
 }
 
@@ -27,8 +27,35 @@
     border-bottom-color: darkcyan;
     border-top-color: darkcyan;
     border-right-color: darkcyan;
-    border-left-color: darkcyan;   
+    border-left-color: darkcyan;
     background-color: transparent;
     color: aliceblue;
     font-weight: bold;
+}
+
+.TableNameStyle {
+    margin: 8px 0;
+    border: 2px solid;
+    padding: 12px 20px;
+    border-radius: 4px;
+    border-bottom-color: darkcyan;
+    border-top-color: darkcyan;
+    border-right-color: darkcyan;
+    border-left-color: darkcyan;
+    background-color: dimgrey;
+    color: aliceblue;
+    font-weight: bold;
+}
+
+.TableDataStyle {
+    margin: 8px 0;
+    border: 2px solid;
+    padding: 12px 20px;
+    border-radius: 4px;
+    border-bottom-color: darkcyan;
+    border-top-color: darkcyan;
+    border-right-color: darkcyan;
+    border-left-color: darkcyan;
+    background-color: dimgrey;
+    color: aliceblue;
 }
