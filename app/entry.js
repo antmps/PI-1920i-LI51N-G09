@@ -30,9 +30,9 @@ function handler(){
             var gameName = document.getElementById('txt_Search_Games').value
             gamesData.getGameByName(gameName)
                 .then(games => {
-                    mainContent.innerHTML = templates.gamesearch({games})
-                    gamesScript()
-                }).catch(()=>alertContent.innerHTML = templates.error({message : "Something went wrong! Searched Parameter:" + gameName + ";GameContainer:"+gameContainer}))
+                    mainContent.innerHTML = templates.games() + templates.gamesearch({games})
+                    //gamesScript()
+                }).catch((error)=>alertContent.innerHTML = templates.error({message : "Something went wrong! Searched Parameter:" + gameName + ";GameContainer:"+gameContainer}))
             break;
         default:
             window.location.hash="home"

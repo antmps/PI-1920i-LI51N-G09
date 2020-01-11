@@ -633,9 +633,9 @@ function handler(){
             var gameName = document.getElementById('txt_Search_Games').value
             gamesData.getGameByName(gameName)
                 .then(games => {
-                    mainContent.innerHTML = templates.gamesearch({games})
-                    gamesScript()
-                }).catch(()=>alertContent.innerHTML = templates.error({message : "Something went wrong! Searched Parameter:" + gameName + ";GameContainer:"+gameContainer}))
+                    mainContent.innerHTML = templates.games() + templates.gamesearch({games})
+                    //gamesScript()
+                }).catch((error)=>alertContent.innerHTML = templates.error({message : "Something went wrong! Searched Parameter:" + gameName + ";GameContainer:"+gameContainer}))
             break;
         default:
             window.location.hash="home"
@@ -23487,7 +23487,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<table style=\"color: blanchedalmond;\">\r\n    <tr>\r\n        <td>|Name|</td>\r\n        <td>|Year|</td>\r\n        <td>|Min Players|</td>\r\n        <td>|Max Players|</td>\r\n        <td>|Description|</td>\r\n        <td>|Price|</td>\r\n        <td>|Designer|</td>\r\n    </tr>\r\n    <div id=\"gameContainer\">{{gameDetailsTemplate}}</div>\r\n</table>");
+/* harmony default export */ __webpack_exports__["default"] = ("<table style=\"color: blanchedalmond;\">\r\n    <tr>\r\n        <td>|Name|</td>\r\n        <td>|Year|</td>\r\n        <td>|Min Players|</td>\r\n        <td>|Max Players|</td>\r\n        <td>|Description|</td>\r\n        <td>|Price|</td>\r\n        <td>|Designer|</td>\r\n    </tr>\r\n    <!--\r\n        <div id=\"gameContainer\">{{gameDetailsTemplate}}</div>\r\n    -->\r\n    {{#each games.games}}\r\n        <tr>\r\n            <td>{{name}}</td>\r\n            <td>{{year_published}}</td>\r\n        </tr>\r\n    {{/each}} \r\n</table>");
 
 /***/ }),
 /* 19 */
@@ -23517,7 +23517,7 @@ module.exports = function(){
 
     listGamesByName()
 
-    function listGamesByName(){
+    function listGamesByName(){        
         const gamesContainer = document.getElementById("gameContainer")
         gamesData.getGameByName("Catan")
             .then(games => gamesContainer.innerHTML = template.gameDetailsTemplate({games})
