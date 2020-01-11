@@ -1,4 +1,4 @@
-<table style="color: blanchedalmond;">
+<table class="table" style="color: blanchedalmond;">
     <tr>
         <td>|Name|</td>
         <td>|Year|</td>
@@ -8,5 +8,10 @@
         <td>|Price|</td>
         <td>|Designer|</td>
     </tr>
-    <div id="gameContainer">{{gameDetailsTemplate}}</div>
+    {{#each games.games}}
+        <tr>
+            <td>{{name}}</td>
+            <td>{{year_published}}</td>
+        </tr>
+    {{/each}}
 </table>

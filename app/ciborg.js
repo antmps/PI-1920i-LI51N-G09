@@ -526,15 +526,14 @@ function updateLink (link, options, obj) {
 
 const Handlebars = __webpack_require__(14)
 
-const gameDetailsTemplate = __webpack_require__(15).default
-Handlebars.registerPartial('gameDetailsTemplate',gameDetailsTemplate)
+const tableGamesTemplate = __webpack_require__(15).default
+Handlebars.registerPartial('tableGamesTemplate',tableGamesTemplate)
 
 module.exports = {
     home: Handlebars.compile(__webpack_require__(16).default),
     games: Handlebars.compile(__webpack_require__(17).default),
-    gamesearch : Handlebars.compile(__webpack_require__(18).default),
-    gameDetailsTemplate : Handlebars.compile(gameDetailsTemplate),
-    error: Handlebars.compile(__webpack_require__(19).default)
+    error: Handlebars.compile(__webpack_require__(18).default),
+    tableGamesTemplate : Handlebars.compile(tableGamesTemplate)
 } 
 
 /***/ }),
@@ -608,9 +607,9 @@ __webpack_require__(8)
 __webpack_require__ (10)
 
 const templates = __webpack_require__(2)
-const bookshelfImg = __webpack_require__(20)
+const bookshelfImg = __webpack_require__(19)
 const gamesData = __webpack_require__(3)
-const gamesScript = __webpack_require__(21)
+const gamesScript = __webpack_require__(20)
 
 window.addEventListener('hashchange', handler)
 handler()
@@ -628,14 +627,7 @@ function handler(){
             break;
         case 'games' :
             mainContent.innerHTML = templates.games()
-            break;
-        case 'gamesearch' :
-            var gameName = document.getElementById('txt_Search_Games').value
-            gamesData.getGameByName(gameName)
-                .then(games => {
-                    mainContent.innerHTML = templates.gamesearch({games})
-                    gamesScript()
-                }).catch(()=>alertContent.innerHTML = templates.error({message : "Something went wrong! Searched Parameter:" + gameName + ";GameContainer:"+gameContainer}))
+            gamesScript()
             break;
         default:
             window.location.hash="home"
@@ -23463,7 +23455,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<tr>\r\n    <td>NAME:{{game.name}}</td>\r\n    <td>{{game.year_published}}</td>\r\n    <td>{{game.min_players}}</td>\r\n    <td>{{game.max_players}}</td>\r\n    <td>{{game.description}}</td>\r\n    <td>{{game.price}}</td>\r\n    <td>{{game.designers}}</td>\r\n</tr>");
+/* harmony default export */ __webpack_exports__["default"] = ("<table class=\"table\" style=\"color: blanchedalmond;\">\r\n    <tr>\r\n        <td>|Name|</td>\r\n        <td>|Year|</td>\r\n        <td>|Min Players|</td>\r\n        <td>|Max Players|</td>\r\n        <td>|Description|</td>\r\n        <td>|Price|</td>\r\n        <td>|Designer|</td>\r\n    </tr>\r\n    {{#each games.games}}\r\n        <tr>\r\n            <td>{{name}}</td>\r\n            <td>{{year_published}}</td>\r\n        </tr>\r\n    {{/each}}\r\n</table>");
 
 /***/ }),
 /* 16 */
@@ -23479,7 +23471,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\">\r\n    <tr>\r\n        <td>\r\n            <input class=\"textboxStyle\" id=\"txt_Search_Games\" \r\n                type=\"text\" size=\"50px\" >\r\n        </td>\r\n        <td>\r\n            <a class=\"buttonStyle\" href=\"#gamesearch\">SEARCH</a>\r\n        </td>\r\n    </tr>\r\n</table>\r\n<div id=\"searchContent\"></div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\">\r\n    <tr>\r\n        <td>\r\n            <input class=\"textboxStyle\" id=\"txt_Search_Games\" \r\n                type=\"text\" size=\"50px\" >\r\n        </td>\r\n        <td>\r\n            <button id=\"buttonSearch\" class=\"buttonStyle\">SEARCH</button>\r\n        </td>\r\n    </tr>\r\n</table>\r\n<div id=\"searchContent\">\r\n    {{> tableGamesTemplate}}\r\n</div>");
 
 /***/ }),
 /* 18 */
@@ -23487,24 +23479,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<table style=\"color: blanchedalmond;\">\r\n    <tr>\r\n        <td>|Name|</td>\r\n        <td>|Year|</td>\r\n        <td>|Min Players|</td>\r\n        <td>|Max Players|</td>\r\n        <td>|Description|</td>\r\n        <td>|Price|</td>\r\n        <td>|Designer|</td>\r\n    </tr>\r\n    <div id=\"gameContainer\">{{gameDetailsTemplate}}</div>\r\n</table>");
-
-/***/ }),
-/* 19 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ("<div class=\"alert alert-warning alert-dismissible fade show\" role=\"alert\">\r\n    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n    <strong>Error</strong>\r\n    <p>{{message}}</p>\r\n    \r\n</div>");
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "f1cf1e92775d1cff8ae42eb6c9cdd94d.jpg";
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23513,15 +23497,24 @@ module.exports = __webpack_require__.p + "f1cf1e92775d1cff8ae42eb6c9cdd94d.jpg";
 const gamesData = __webpack_require__(3)
 const template = __webpack_require__(2)
 
+
 module.exports = function(){
+    
+    registerSearch()
 
-    listGamesByName()
-
-    function listGamesByName(){
-        const gamesContainer = document.getElementById("gameContainer")
-        gamesData.getGameByName("Catan")
-            .then(games => gamesContainer.innerHTML = template.gameDetailsTemplate({games})
-        )
+    function registerSearch() {
+        const buttonSearch = document.getElementById("buttonSearch")
+        buttonSearch.addEventListener('click', handleSearch)
+        console.log("REGISTERED")
+        function handleSearch(e){
+            console.log("HANDLE")
+            e.preventDefault()
+            const gamesContainer = document.getElementById("searchContent")
+            const gameName = document.getElementById("txt_Search_Games").value
+            gamesData.getGameByName(gameName)
+                .then(games => gamesContainer.innerHTML = template.tableGamesTemplate({games})
+            )
+        }
     }
 }
 
