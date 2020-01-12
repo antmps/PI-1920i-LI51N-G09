@@ -29,7 +29,11 @@ module.exports = function (host) {
         };
 
         return promise.request(options)
-            .then(body => body.hits.hits.map(e => e._source))
+            .then(body => body.hits.hits.map(e => {
+                var group = e._source
+                group.id = e._id
+                return group
+            }))
             .catch(err => { throw err })
     }
 
@@ -66,7 +70,7 @@ module.exports = function (host) {
             method: 'POST',
             json: true,
             body: {
-                'username':bodyReceived.username,
+                'username': bodyReceived.username,
                 'name': bodyReceived.name,
                 'description': bodyReceived.description,
                 'games': []
@@ -84,7 +88,7 @@ module.exports = function (host) {
             method: 'PUT',
             json: true,
             body: {
-                'username':bodyReceived.username,
+                'username': bodyReceived.username,
                 'name': bodyReceived.name,
                 'description': bodyReceived.description,
                 'games': arrayBody
@@ -103,7 +107,7 @@ module.exports = function (host) {
             method: 'PUT',
             json: true,
             body: {
-                'username':groupBody.username,
+                'username': groupBody.username,
                 'name': groupBody.name,
                 'description': groupBody.description,
                 'games': groupBody.games
