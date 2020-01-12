@@ -1,6 +1,21 @@
-<h2 class="headerText">{{group.name}}</h2>
+<h2 class="headerText">{{group.body.name}}</h2>
 <table style="width: 100%; margin-bottom: 2%;">
     <tr>
         <td bgcolor="#ff9900" colspan="20"></td>
     </tr>
+</table>
+
+<table align="center">
+    <tr>
+        <td class="TableNameStyle">Name</td>
+        <td class="TableNameStyle">Year</td>
+        <td class="TableNameStyle">Rating</td>
+    </tr>
+    {{#each group.body.games}}
+        <tr class="TableDataStyle">
+            <td> <a style="color: aliceblue;" href="#gameDetails/{{id}}">{{name}}</a></td>
+            <td>{{year_published}}</td>
+            <td>{{average_user_rating}}</td>
+        </tr>
+    {{/each}}
 </table>

@@ -666,17 +666,25 @@ function handler() {
                         mainContent.innerHTML = templates.gameDetails({ game })
                     })
                 break;
-            case 'groups':
+            case 'Mygroups':
                 fetch('http://localhost:8080/api/auth/session')
-                .then(res => res.json())
-                .then((user) => {
-                    groupsData.getGroupsByUsername(user)
-                        .then(group => {
-                            mainContent.innerHTML = templates.groups({group})
-                        }
-                    )
-                }
-                ).catch((err)=>  document.getElementById("alertContent").innerHTML = templates.info({message : err.message}))
+                    .then(res => res.json())
+                    .then((user) => {
+                        groupsData.getGroupsByUsername(user)
+                            .then(groups => {
+                                mainContent.innerHTML = templates.groups({ groups })
+                            }
+                            )
+                    }
+                    ).catch((err) => document.getElementById("alertContent").innerHTML = templates.info({ message: err.message }))
+                break;
+            case 'groups':
+                var id = args[0]
+                groupsData.getGroupById(id)
+                    .then(group => {
+                        mainContent.innerHTML = templates.groupDetails({group})
+                    })
+                    .catch((err) => document.getElementById("alertContent").innerHTML = templates.info({ message: err.message }))
                 break;
             default:
                 window.location.hash = "home"
@@ -23572,7 +23580,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\">\r\n    <tr>\r\n        <td class=\"TableNameStyle\">Name</td>\r\n        <td class=\"TableNameStyle\">Num of Games</td>\r\n    </tr>\r\n    {{#each groups.body.groups}}\r\n        <tr class=\"TableDataStyle\">\r\n            <td> <a style=\"color: aliceblue;\" href=\"#groups/{{id}}\">{{name}}</a></td>\r\n            <td>{{games.length}}</td>\r\n        </tr>\r\n    {{/each}}\r\n</table>");
+/* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\">\r\n    <tr>\r\n        <td class=\"TableNameStyle\">Name</td>\r\n        <td class=\"TableNameStyle\">Num of Games</td>\r\n    </tr>\r\n    {{#each groups.body}}\r\n        <tr class=\"TableDataStyle\">\r\n\r\n            <td> <a style=\"color: aliceblue;\" href=\"#groups/{{id}}\">{{name}}</a></td>\r\n            <td>{{games.length}}</td>\r\n        </tr>\r\n    {{/each}}\r\n</table>");
 
 /***/ }),
 /* 24 */
@@ -23580,7 +23588,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<h2 class=\"headerText\">{{group.name}}</h2>\r\n<table style=\"width: 100%; margin-bottom: 2%;\">\r\n    <tr>\r\n        <td bgcolor=\"#ff9900\" colspan=\"20\"></td>\r\n    </tr>\r\n</table>");
+/* harmony default export */ __webpack_exports__["default"] = ("<h2 class=\"headerText\">{{group.body.name}}</h2>\r\n<table style=\"width: 100%; margin-bottom: 2%;\">\r\n    <tr>\r\n        <td bgcolor=\"#ff9900\" colspan=\"20\"></td>\r\n    </tr>\r\n</table>\r\n\r\n<table align=\"center\">\r\n    <tr>\r\n        <td class=\"TableNameStyle\">Name</td>\r\n        <td class=\"TableNameStyle\">Year</td>\r\n        <td class=\"TableNameStyle\">Rating</td>\r\n    </tr>\r\n    {{#each group.body.games}}\r\n        <tr class=\"TableDataStyle\">\r\n            <td> <a style=\"color: aliceblue;\" href=\"#gameDetails/{{id}}\">{{name}}</a></td>\r\n            <td>{{year_published}}</td>\r\n            <td>{{average_user_rating}}</td>\r\n        </tr>\r\n    {{/each}}\r\n</table>");
 
 /***/ }),
 /* 25 */

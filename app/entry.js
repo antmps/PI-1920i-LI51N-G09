@@ -51,17 +51,25 @@ function handler() {
                         mainContent.innerHTML = templates.gameDetails({ game })
                     })
                 break;
-            case 'groups':
+            case 'Mygroups':
                 fetch('http://localhost:8080/api/auth/session')
-                .then(res => res.json())
-                .then((user) => {
-                    groupsData.getGroupsByUsername(user)
-                        .then(group => {
-                            mainContent.innerHTML = templates.groups({group})
-                        }
-                    )
-                }
-                ).catch((err)=>  document.getElementById("alertContent").innerHTML = templates.info({message : err.message}))
+                    .then(res => res.json())
+                    .then((user) => {
+                        groupsData.getGroupsByUsername(user)
+                            .then(groups => {
+                                mainContent.innerHTML = templates.groups({ groups })
+                            }
+                            )
+                    }
+                    ).catch((err) => document.getElementById("alertContent").innerHTML = templates.info({ message: err.message }))
+                break;
+            case 'groups':
+                var id = args[0]
+                groupsData.getGroupById(id)
+                    .then(group => {
+                        mainContent.innerHTML = templates.groupDetails({group})
+                    })
+                    .catch((err) => document.getElementById("alertContent").innerHTML = templates.info({ message: err.message }))
                 break;
             default:
                 window.location.hash = "home"
