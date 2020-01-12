@@ -8,6 +8,7 @@ module.exports = function (router, service, authService) {
     router.get('/games/id/:id', getGameById);
     router.get('/groups', getGroups);
     router.get('/groups/:groupId', getGroupById);
+    router.get('/:username/groups', getGroupByUsername);
     router.get('/groups/:groupId/games', getGroupGameByDuration);
 
     router.post('/groups', postGroup);
@@ -39,7 +40,7 @@ module.exports = function (router, service, authService) {
             else {
                 res.statusCode = 200;
                 res.setHeader('Content-type', 'application/json');
-                res.end(JSON.stringify(body));
+                res.end(JSON.stringify({ 'body': body, 'isAutenticated': res.isAuthenticated }));
             }
         }
 
@@ -58,10 +59,11 @@ module.exports = function (router, service, authService) {
             .then((body, err) => processResponse(res)(err, body))
     }
 
-    function getGameById(req,res){
+    function getGameById(req, res) {
         service.getGameById(req.params.id)
-            .then((body,err)=> processResponse(res)(err,body))
+            .then((body, err) => processResponse(res)(err, body))
     }
+
 
     function getGroups(req, res) {
         service.getGroups()
@@ -70,6 +72,11 @@ module.exports = function (router, service, authService) {
 
     function getGroupById(req, res) {
         service.getGroupById(req.params.groupId)
+            .then((body, err) => processResponse(res)(err, body))
+    }
+
+    function getGroupByUsername(req, res) {
+        service.getGroupByUsername(req.params.username)
             .then((body, err) => processResponse(res)(err, body))
     }
 

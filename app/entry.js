@@ -45,9 +45,12 @@ function handler() {
                 var id = args[0]
                 gamesData.getGameById(id)
                     .then(games => {
-                        var game = games.games[0]
-                        mainContent.innerHTML = templates.gameDetails({ game: game, isAuth: false })
+                        var game = games.body.games[0]
+                        game.isAuthenticated = games.isAuthenticated
+                        mainContent.innerHTML = templates.gameDetails({ game })
                     })
+                break;
+            case 'groups':
                 break;
             default:
                 window.location.hash = "home"

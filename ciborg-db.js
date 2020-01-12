@@ -18,7 +18,6 @@ module.exports = function (host) {
         deleteGameFromGroup: deleteGameFromGroup,
         getGamesFromGroup: getGamesFromGroup,
         postUser: postUser,
-        getUserByID: getUserById,
         getAllUsers: getAllUsers
     };
 
@@ -67,6 +66,7 @@ module.exports = function (host) {
             method: 'POST',
             json: true,
             body: {
+                'username':bodyReceived.username,
                 'name': bodyReceived.name,
                 'description': bodyReceived.description,
                 'games': []
@@ -84,6 +84,7 @@ module.exports = function (host) {
             method: 'PUT',
             json: true,
             body: {
+                'username':bodyReceived.username,
                 'name': bodyReceived.name,
                 'description': bodyReceived.description,
                 'games': arrayBody
@@ -102,6 +103,7 @@ module.exports = function (host) {
             method: 'PUT',
             json: true,
             body: {
+                'username':groupBody.username,
                 'name': groupBody.name,
                 'description': groupBody.description,
                 'games': groupBody.games
@@ -155,7 +157,7 @@ module.exports = function (host) {
 
         return promise.request(options)
             .then(body => {
-            user.id = body._id
+                user.id = body._id
                 return user
             })
             .catch(err => { throw err })
@@ -173,7 +175,4 @@ module.exports = function (host) {
             .catch(err => { throw err })
     }
 
-    function getUserById(user,cb){
-
-    }
 }

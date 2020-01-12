@@ -4,7 +4,7 @@
         <td class="TableNameStyle">Year</td>
         <td class="TableNameStyle">Rating</td>
     </tr>
-    {{#each games.games}}
+    {{#each games.body.games}}
         <tr class="TableDataStyle">
             <td> <a style="color: aliceblue;" href="#gameDetails/{{id}}">{{name}}</a></td>
             <td>{{year_published}}</td>

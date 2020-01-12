@@ -9,6 +9,7 @@ module.exports = function (boardGamesData, ciborgDb) {
         getGameById: getGameById,
         getGroups: getGroups,
         getGroupById: getGroupById,
+        getGroupByUsername: getGroupByUsername,
         getGroupGameByDuration: getGroupGameByDuration,
 
         postGroup: postGroup,
@@ -27,7 +28,7 @@ module.exports = function (boardGamesData, ciborgDb) {
         return boardGamesData.getGameByName(name);
     }
 
-    function getGameById(id){
+    function getGameById(id) {
         return boardGamesData.getGameById(id);
     }
 
@@ -37,6 +38,14 @@ module.exports = function (boardGamesData, ciborgDb) {
 
     function getGroupById(groupId) {
         return ciborgDb.getGroupsById(groupId);
+    }
+
+    function getGroupByUsername(username) {
+        return ciborgDb.getGroups()
+            .then(groups => {
+                return groups.filter(group => group.username == username)
+            })
+            .catch(err => { throw err })
     }
 
     function getGroupGameByDuration(groupId, min, max) {

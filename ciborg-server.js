@@ -12,23 +12,27 @@ const ciborgDB = require('./ciborg-db')(GROUPS_DATA_HOST)
 const authService = require('./auth-service')(ciborgDB)
 const authApi = require('./auth-web-api')(app, express.Router(), authService)
 const boardGamesData = require('./board-games-data')()
-const service = require('./ciborg-services')(boardGamesData,ciborgDB)
-const api = require('./ciborg-web-api')(express.Router(),service,authService)
+const service = require('./ciborg-services')(boardGamesData, ciborgDB)
+const api = require('./ciborg-web-api')(express.Router(), service, authService)
 
 //USE THE WEBAPI
 app.use(expressSession({ secret: 'keyboard cat' }))
 app.use(express.json())
+app.use(function (req, res, next) {
+  res.isAuthenticated = req.isAuthenticated()
+  next()
+})
 app.use('/', express.static('app'))
-app.use('/api',api);
-app.use('/api/auth',authApi)
+app.use('/api', api);
+app.use('/api/auth', authApi)
 app.use('/api/groups', verifyAuthenticated, api)
 
 //CREATE AND INTIATE SERVER
 //const server = http.createServer(api.processRequest);
-app.listen(process.argv[2]||DEFAULT_PORT,() => console.log('Listening'));
+app.listen(process.argv[2] || DEFAULT_PORT, () => console.log('Listening'));
 
 function verifyAuthenticated(req, rsp, next) {
-    if(req.isAuthenticated())
-      return next()
-    rsp.status(403).json({message:"Not Authenticated"})
-  }
+  if (req.isAuthenticated())
+    return next()
+  rsp.status(403).json({ message: "Not Authenticated" })
+}
