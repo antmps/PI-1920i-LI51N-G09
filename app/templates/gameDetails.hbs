@@ -1,35 +1,38 @@
 <h2 class="headerText">{{game.name}}</h2>
-<table class="gameDetailsTable">
+<table style="width: 100%; margin-bottom: 2%;">
     <tr>
-        <td style="white-space: nowrap;"><img src="{{game.image_url}}"/></td>
+        <td bgcolor="#ff9900" colspan="20"></td>
+    </tr>
+</table>
+<table style="margin-left: 5%;" colspan="2">
+    <tr>
+        <td style="white-space: nowrap; width: fit-content;"><img src="{{game.image_url}}"/></td>
         <td>
             <table class="gameDetailsTable">
-
-            <tr>
-                <td>Year published: {{game.year_published}}</td>
-            </tr>
-            <tr>
-                <td>Min Players: {{game.min_players}}</td>
-            </tr>
-            <tr>
-                <td>Players: {{game.max_players}}</td>
-            </tr>
-            <tr>
-                <td>Min Playtime: {{game.min_playtime}}</td>
-            </tr>
-            <tr>
-                <td>Max Playtime: {{game.max_playtime}}</td>
-            </tr>
-            <tr>
-                <td>Min age: {{game.min_age}}</td>
-            </tr>
-
+                <tr>
+                    <td>Year published: {{game.year_published}}</td>
+                </tr>
+                <tr>
+                    <td>Min Players: {{game.min_players}}</td>
+                </tr>
+                <tr>
+                    <td>Players: {{game.max_players}}</td>
+                </tr>
+                <tr>
+                    <td>Min Playtime: {{game.min_playtime}}</td>
+                </tr>
+                <tr>
+                    <td>Max Playtime: {{game.max_playtime}}</td>
+                </tr>
+                <tr>
+                    <td>Min age: {{game.min_age}}</td>
+                </tr>
         </table>
-
         </td>
     </tr>
-
-    <tr style="color: aliceblue; ">
+</table>
+<table class="DescriptionBox">
+    <tr>
         <td>{{game.description}}</td>
     </tr>
 </table>
