@@ -612,7 +612,7 @@ module.exports = {
 
 __webpack_require__(5)
 __webpack_require__(8)
-__webpack_require__ (10)
+__webpack_require__(10)
 
 const templates = __webpack_require__(2)
 const bookshelfImg = __webpack_require__(20)
@@ -622,32 +622,40 @@ const gamesScript = __webpack_require__(21)
 window.addEventListener('hashchange', handler)
 handler()
 
-function handler(){
+function handler() {
 
     const hash = window.location.hash.substring(1)
     const [state, ...args] = hash.split('/')
     const mainContent = document.getElementById('mainContent')
     const alertContent = document.getElementById('alertContent')
-    
-    switch(state){
-        case 'home' :
-            mainContent.innerHTML = templates.home({bookshelfImg})
-            break;
-        case 'games' :
-            mainContent.innerHTML = templates.games()
-            gamesScript()
-            break;
-        case 'gameDetails':
-            var id = args[0]
-            gamesData.getGameById(id)
-                .then(games =>{
-                    var game = games.games[0]
-                    mainContent.innerHTML = templates.gameDetails({game})
-                })
-            break;
-        default:
-            window.location.hash="home"
+    try {
+        switch (state) {
+            case 'home':
+                mainContent.innerHTML = templates.home({ bookshelfImg })
+                break;
+            case 'search':
+                mainContent.innerHTML = templates.games()
+                gamesScript()
+                break;
+            case 'top':
+                gamesData.getTopGames()
+                    .then(games=>mainContent.innerHTML = templates.tableGamesTemplate({games}))
+                break;
+            case 'gameDetails':
+                var id = args[0]
+                gamesData.getGameById(id)
+                    .then(games => {
+                        var game = games.games[0]
+                        mainContent.innerHTML = templates.gameDetails({ game })
+                    })
+                break;
+            default:
+                window.location.hash = "home"
+        }
+    } catch (err) {
+        alertContent.innerHTML = templates.error(err.message)
     }
+
 }
 
 
@@ -23487,7 +23495,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\">\r\n    <tr>\r\n        <td>\r\n            <input class=\"textboxStyle\" id=\"txt_Search_Games\" \r\n                type=\"text\" size=\"50px\" >\r\n        </td>\r\n        <td>\r\n            <button id=\"buttonSearch\" class=\"buttonStyle\">SEARCH</button>\r\n        </td>\r\n    </tr>\r\n</table>\r\n<div id=\"searchContent\">\r\n    {{> tableGamesTemplate}}\r\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\">\r\n    <tr>\r\n        <td>\r\n            <input class=\"textboxStyle\" id=\"txt_Search_Games\" \r\n                type=\"search\" size=\"50px\" >\r\n        </td>\r\n        <td>\r\n            <button id=\"buttonSearch\" class=\"buttonStyle\">SEARCH</button>\r\n        </td>\r\n    </tr>\r\n</table>\r\n<div id=\"searchContent\">\r\n    {{> tableGamesTemplate}}\r\n</div>");
 
 /***/ }),
 /* 18 */
