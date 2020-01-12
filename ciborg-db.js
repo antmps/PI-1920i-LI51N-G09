@@ -16,7 +16,10 @@ module.exports = function (host) {
         putGroupInfo: putGroupInfo,
         putGameIntoGroup: putGameIntoGroup,
         deleteGameFromGroup: deleteGameFromGroup,
-        getGamesFromGroup: getGamesFromGroup
+        getGamesFromGroup: getGamesFromGroup,
+        postUser: postUser,
+        getUserByID: getUserById,
+        getAllUsers: getAllUsers
     };
 
     function getGroups() {
@@ -42,7 +45,6 @@ module.exports = function (host) {
             .then(body => body._source)
             .catch(err => { throw err })
     }
-
 
     function getGroupGameByDuration(groupId, min, max, cb) {
 
@@ -76,7 +78,6 @@ module.exports = function (host) {
             .catch(err => { throw err })
     }
 
-
     function putGroupInfo(groupId, arrayBody, bodyReceived, cb) {
         const options = {
             url: `${baseUrl}/groups/_doc/${groupId}`,
@@ -89,7 +90,7 @@ module.exports = function (host) {
             }
         };
 
-        
+
         return promise.request(options)
             .then(body => body._id)
             .catch(err => { throw err })
@@ -137,5 +138,42 @@ module.exports = function (host) {
         return promise.request(options)
             .then(body => body.games)
             .catch(err => { throw err })
+    }
+
+    function postUser(user, cb) {
+        const options = {
+            url: `${baseUrl}/users/_doc`,
+            headers: { 'Content-Type': 'application/json' },
+            method: 'POST',
+            json: true,
+            body: {
+                'fullName': user.fullName,
+                'username': user.username,
+                'password': user.password
+            }
+        }
+
+        return promise.request(options)
+            .then(body => {
+            user.id = body._id
+                return user
+            })
+            .catch(err => { throw err })
+    }
+
+    function getAllUsers(cb) {
+        const options = {
+            url: `${baseUrl}/users/_search`,
+            method: 'GET',
+            json: true
+        };
+
+        return promise.request(options)
+            .then(body => body.hits.hits.map(e => e._source))
+            .catch(err => { throw err })
+    }
+
+    function getUserById(user,cb){
+
     }
 }

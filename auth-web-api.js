@@ -41,7 +41,7 @@ module.exports = function (global, router, authService) {
     }
     function signup(req, resp) {
         authService
-            .createUser(req.body.fullname, req.body.username, req.body.password)
+            .createUser(req.body.username, req.body.password)
             .then(user => {
                 console.log("Service Signup",user)
                 req.login(user, (err) => {
@@ -49,6 +49,7 @@ module.exports = function (global, router, authService) {
                     else resp.json(user)
                 })
             })
+            .catch(err => sendUnauthorized(resp,err))
     }
 
     function serializeUser(user, done) {
@@ -65,7 +66,7 @@ module.exports = function (global, router, authService) {
     }
 
     function sendUnauthorized(resp,err){
-        resp.status(403).json({status:"Unauthorized" , message : err})
+        resp.status(403).json({status:"Unauthorized" , message : err.message})
     }
 
 }

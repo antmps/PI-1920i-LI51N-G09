@@ -534,7 +534,9 @@ module.exports = {
     games: Handlebars.compile(__webpack_require__(18).default),
     error: Handlebars.compile(__webpack_require__(19).default),
     tableGamesTemplate : Handlebars.compile(tableGamesTemplate),
-    gameDetails : Handlebars.compile(__webpack_require__(20).default)
+    login: Handlebars.compile(__webpack_require__(20).default),
+    logout: Handlebars.compile(__webpack_require__(21).default),
+    gameDetails : Handlebars.compile(__webpack_require__(22).default)
 } 
 
 /***/ }),
@@ -610,19 +612,19 @@ module.exports = {
 "use strict";
 
 
-const Handlebars = __webpack_require__(24)
+const Handlebars = __webpack_require__(26)
 
-const tableBundlesTemplate = __webpack_require__(25).default
+const tableBundlesTemplate = __webpack_require__(27).default
 Handlebars.registerPartial('tableBundlesTemplate', tableBundlesTemplate)
 
 module.exports = {
     tableBundlesTemplate : Handlebars.compile(tableBundlesTemplate),
-    home: Handlebars.compile(__webpack_require__(26).default),
-    bundles: Handlebars.compile(__webpack_require__(27).default),
-    bundleDetails: Handlebars.compile(__webpack_require__(28).default),
-    login: Handlebars.compile(__webpack_require__(29).default),
-    logout: Handlebars.compile(__webpack_require__(30).default),
-    info: Handlebars.compile(__webpack_require__(31).default)
+    home: Handlebars.compile(__webpack_require__(28).default),
+    bundles: Handlebars.compile(__webpack_require__(29).default),
+    bundleDetails: Handlebars.compile(__webpack_require__(30).default),
+    login: Handlebars.compile(__webpack_require__(31).default),
+    logout: Handlebars.compile(__webpack_require__(32).default),
+    info: Handlebars.compile(__webpack_require__(33).default)
 } 
 
 /***/ }),
@@ -637,14 +639,14 @@ __webpack_require__(9)
 __webpack_require__(11)
 
 const templates = __webpack_require__(2)
-const bookshelfImg = __webpack_require__(21)
+const bookshelfImg = __webpack_require__(23)
 const gamesData = __webpack_require__(3)
-const gamesScript = __webpack_require__(22)
+const gamesScript = __webpack_require__(24)
 
 const mainContent = document.getElementById('mainContent')
 const alertContent = document.getElementById('alertContent')
-const loginHandler = __webpack_require__(23)
-const logoutHandler = __webpack_require__(32)
+const loginHandler = __webpack_require__(25)
+const logoutHandler = __webpack_require__(34)
 
 window.addEventListener('hashchange', handler)
 handler()
@@ -23543,16 +23545,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<h2 class=\"headerText\">{{game.name}}</h2>\r\n<table style=\"width: 100%; margin-bottom: 2%;\">\r\n    <tr>\r\n        <td bgcolor=\"#ff9900\" colspan=\"20\"></td>\r\n    </tr>\r\n</table>\r\n<table style=\"margin-left: 5%;\" colspan=\"2\">\r\n    <tr>\r\n        <td style=\"white-space: nowrap; width: fit-content;\"><img src=\"{{game.image_url}}\"/></td>\r\n        <td>\r\n            <table class=\"gameDetailsTable\">\r\n                <tr>\r\n                    <td>Year published: {{game.year_published}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Min Players: {{game.min_players}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Players: {{game.max_players}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Min Playtime: {{game.min_playtime}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Max Playtime: {{game.max_playtime}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Min age: {{game.min_age}}</td>\r\n                </tr>\r\n        </table>\r\n        </td>\r\n    </tr>\r\n</table>\r\n<table class=\"DescriptionBox\">\r\n    <tr>\r\n        <td>{{game.description}}</td>\r\n    </tr>\r\n</table>");
+/* harmony default export */ __webpack_exports__["default"] = ("<form>\r\n    <p>\r\n        <label class=\"baseText\">Username:</label>\r\n        <input class=\"textboxStyle\" type=\"text\" id=\"inputUsername\">\r\n    </p>\r\n    <p>\r\n        <label class=\"baseText\">Password:</label>\r\n        <input class=\"textboxStyle\" type=\"password\" id=\"inputPassword\">\r\n    </p>\r\n    <p>\r\n        <button class=\"buttonStyle\" type=\"submit\" id=\"buttonSignup\">Signup</button>\r\n        <button class=\"buttonStyle\" type=\"submit\" id=\"buttonLogin\">Login</button>\r\n    </p>\r\n</form>\r\n");
 
 /***/ }),
 /* 21 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("<form>\r\n    <p>\r\n        <h1 class=\"baseText\">Are you sure?</h1>\r\n        <button class=\"buttonStyle\" type=\"submit\" id=\"buttonLogout\">Logout</button>\r\n    </p>\r\n</form>");
+
+/***/ }),
+/* 22 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("<h2 class=\"headerText\">{{game.name}}</h2>\r\n<table style=\"width: 100%; margin-bottom: 2%;\">\r\n    <tr>\r\n        <td bgcolor=\"#ff9900\" colspan=\"20\"></td>\r\n    </tr>\r\n</table>\r\n<table style=\"margin-left: 5%;\" colspan=\"2\">\r\n    <tr>\r\n        <td style=\"white-space: nowrap; width: fit-content;\"><img src=\"{{game.image_url}}\"/></td>\r\n        <td>\r\n            <table class=\"gameDetailsTable\">\r\n                <tr>\r\n                    <td>Year published: {{game.year_published}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Min Players: {{game.min_players}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Players: {{game.max_players}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Min Playtime: {{game.min_playtime}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Max Playtime: {{game.max_playtime}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Min age: {{game.min_age}}</td>\r\n                </tr>\r\n        </table>\r\n        </td>\r\n    </tr>\r\n</table>\r\n<table class=\"DescriptionBox\">\r\n    <tr>\r\n        <td>{{game.description}}</td>\r\n    </tr>\r\n</table>");
+
+/***/ }),
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "f1cf1e92775d1cff8ae42eb6c9cdd94d.jpg";
 
 /***/ }),
-/* 22 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23583,7 +23601,7 @@ module.exports = function(){
 }
 
 /***/ }),
-/* 23 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const templates = __webpack_require__(4)
@@ -23620,7 +23638,7 @@ module.exports = () => {
 }
 
 /***/ }),
-/* 24 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**!
@@ -28465,7 +28483,7 @@ return /******/ (function(modules) { // webpackBootstrap
 ;
 
 /***/ }),
-/* 25 */
+/* 27 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -28473,7 +28491,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ("<table class=\"table\">\r\n    <tr>\r\n        <th>Name</th>\r\n        <th>Description</th>\r\n    </tr>\r\n    {{#each bundles}}\r\n        <tr>\r\n            <td><a href=\"#bundleDetails/{{id}}\">{{name}}</a> </td>\r\n            <td>{{description}}</td>\r\n        </tr>\r\n    {{/each}}    \r\n</table>");
 
 /***/ }),
-/* 26 */
+/* 28 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -28481,7 +28499,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ("<h1>B4-Bundles</h1>\r\n<img src=\"{{bookImg}}\">");
 
 /***/ }),
-/* 27 */
+/* 29 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -28489,7 +28507,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = (" <div id=\"bundlesContainer\"> \r\n    {{> tableBundlesTemplate}}\r\n</div>\r\n<form id = \"createBundle\" action=\"/api/bundles\" method=\"POST\">\r\n    <label>Name</label>\r\n    <input type=\"text\" id=\"inputName\" >\r\n    <label>Description</label>\r\n    <input type=\"text\" id=\"inputDescription\" >\r\n    <input type=\"submit\" >\r\n</form>\r\n");
 
 /***/ }),
-/* 28 */
+/* 30 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -28497,7 +28515,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ("<ul>\r\n    <li>Name : {{bundle.name}}</li>\r\n    <li>Description : {{bundle.description}}</li>    \r\n</ul>");
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -28505,7 +28523,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ("<form>\r\n    <p>\r\n        <label>Username:</label>\r\n        <input type=\"text\" id=\"inputUsername\">\r\n    </p>\r\n    <p>\r\n        <label>Password:</label>\r\n        <input type=\"password\" id=\"inputPassword\">\r\n    </p>\r\n    <p>\r\n        <button type=\"submit\" id=\"buttonSignup\">Signup</button>\r\n        <button type=\"submit\" id=\"buttonLogin\">Login</button>\r\n    </p>\r\n</form>\r\n");
 
 /***/ }),
-/* 30 */
+/* 32 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -28513,7 +28531,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ("<form>\r\n    <p>\r\n        <h1>Are you sure?</h1>\r\n        <button type=\"submit\" id=\"buttonLogout\">Logout</button>\r\n    </p>\r\n</form>");
 
 /***/ }),
-/* 31 */
+/* 33 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -28521,7 +28539,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ("<div class=\"alert alert-warning alert-dismissible fade show\" role=\"alert\">\r\n    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n    <p>{{message}}</p>\r\n    \r\n</div>");
 
 /***/ }),
-/* 32 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const templates = __webpack_require__(4)

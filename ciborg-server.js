@@ -8,11 +8,10 @@ const expressSession = require('express-session')
 const express = require('express');
 const app = express();
 
-const authService = require('./auth-service-mem')()
-
+const ciborgDB = require('./ciborg-db')(GROUPS_DATA_HOST)
+const authService = require('./auth-service-mem')(ciborgDB)
 const authApi = require('./auth-web-api')(app, express.Router(), authService)
 const boardGamesData = require('./board-games-data')()
-const ciborgDB = require('./ciborg-db')(GROUPS_DATA_HOST)
 const service = require('./ciborg-services')(boardGamesData,ciborgDB)
 const api = require('./ciborg-web-api')(express.Router(),service)
 
