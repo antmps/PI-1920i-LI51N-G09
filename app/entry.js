@@ -6,8 +6,13 @@ require('bootstrap')
 
 const templates = require('./templates')
 const bookshelfImg = require('./img/home_image_BW.jpg')
-const gamesData = require('./games-data')
-const gamesScript = require('./games')
+const gamesData = require('./data/games-data')
+const gamesScript = require('./handlers/games')
+
+const mainContent = document.getElementById('mainContent')
+const alertContent = document.getElementById('alertContent')
+const loginHandler = require('./handlers/login')
+const logoutHandler = require('./handlers/logout')
 
 window.addEventListener('hashchange', handler)
 handler()
@@ -16,8 +21,7 @@ function handler() {
 
     const hash = window.location.hash.substring(1)
     const [state, ...args] = hash.split('/')
-    const mainContent = document.getElementById('mainContent')
-    const alertContent = document.getElementById('alertContent')
+
     try {
         switch (state) {
             case 'home':
@@ -29,7 +33,13 @@ function handler() {
                 break;
             case 'top':
                 gamesData.getTopGames()
-                    .then(games=>mainContent.innerHTML = templates.tableGamesTemplate({games}))
+                    .then(games => mainContent.innerHTML = templates.tableGamesTemplate({ games }))
+                break;
+            case 'login':
+                loginHandler()
+                break;
+            case 'logout':
+                logoutHandler()
                 break;
             case 'gameDetails':
                 var id = args[0]

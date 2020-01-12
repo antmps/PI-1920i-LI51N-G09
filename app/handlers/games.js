@@ -1,7 +1,7 @@
 'use strict'
 
-const gamesData = require('./games-data')
-const template = require('./templates')
+const gamesData = require('../data/games-data')
+const template = require('../templates')
 
 
 module.exports = function(){
