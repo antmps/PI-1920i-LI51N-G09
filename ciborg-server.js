@@ -11,7 +11,6 @@ const expressSession = require('express-session')
 const express = require('express');
 const app = express();
 
-const authApi = require('./auth-web-api')(app, express.Router(), authService)
 const boardGamesData = require('./board-games-data')()
 const service = require('./ciborg-services')(boardGamesData, ciborgDB)
 const api = require('./ciborg-web-api')(express.Router(), service, authService)
@@ -26,16 +25,12 @@ app.use(function (req, res, next) {
   next()
 })
 app.use('/', express.static('app'))
+
+const authApi = require('./auth-web-api')(app, express.Router(), authService)
 app.use('/api', api);
 app.use('/api/auth', authApi)
-app.use('/api/groups', verifyAuthenticated, api)
 
 //CREATE AND INTIATE SERVER
 //const server = http.createServer(api.processRequest);
 app.listen(process.argv[2] || DEFAULT_PORT, () => console.log('Listening'));
 
-function verifyAuthenticated(req, rsp, next) {
-  if (req.isAuthenticated())
-    return next()
-  rsp.status(403).json({ message: "Not Authenticated" })
-}

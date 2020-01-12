@@ -7,6 +7,7 @@ require('bootstrap')
 const templates = require('./templates')
 const bookshelfImg = require('./img/home_image_BW.jpg')
 const gamesData = require('./data/games-data')
+const groupsData = require('./data/groups-data')
 const gamesScript = require('./handlers/games')
 
 const mainContent = document.getElementById('mainContent')
@@ -51,6 +52,7 @@ function handler() {
                     })
                 break;
             case 'groups':
+                   
                 break;
             default:
                 window.location.hash = "home"

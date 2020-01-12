@@ -568,7 +568,7 @@ function GamesApiUris() {
 const Uris = new GamesApiUris()
 
 function getTopGames(){
-    return fetch(Uris.getTopGamesUri(),{credentials: 'include'})
+    return fetch(Uris.getTopGamesUri())
             .then(res => res.json())
 }
 
