@@ -40,7 +40,7 @@ module.exports = function (router, service, authService) {
             else {
                 res.statusCode = 200;
                 res.setHeader('Content-type', 'application/json');
-                res.end(JSON.stringify({ 'body': body, 'isAutenticated': res.isAuthenticated }));
+                res.end(JSON.stringify({ 'body': body, 'isAuthenticated': res.isAuthenticated }));
             }
         }
 

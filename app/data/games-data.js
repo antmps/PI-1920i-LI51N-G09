@@ -21,32 +21,32 @@ function GamesApiUris() {
 const Uris = new GamesApiUris()
 
 function getTopGames(){
-    return fetch(Uris.getTopGamesUri())
+    return fetch(Uris.getTopGamesUri(),{credentials: 'include'})
             .then(res => res.json())
 }
 
 function getGameByName(name){
-    return fetch(Uris.getGameByNameUri(name))
+    return fetch(Uris.getGameByNameUri(name),{credentials: 'include'})
             .then(res => res.json())
 }
 
 function getGameById(id){
-    return fetch(Uris.getGameByIdUri(id))
+    return fetch(Uris.getGameByIdUri(id),{credentials: 'include'})
             .then(res => res.json())
 }
 
 function getGroups(){
-    return fetch(Uris.getGroupsUri())
+    return fetch(Uris.getGroupsUri()),{credentials: 'include'}
             .then(res => res.json())
 }
 
 function getGroupsById(groupId){
-    return fetch(Uris.getGroupsByIdUri(groupId))
+    return fetch(Uris.getGroupsByIdUri(groupId),{credentials: 'include'})
             .then(res => res.json())
 }
 
 function getGroupGameByDuration(groupId){
-    return fetch(Uris.getGroupGameByDurationUri(groupId))
+    return fetch(Uris.getGroupGameByDurationUri(groupId),{credentials: 'include'})
             .then(res => res.json())
 }
 

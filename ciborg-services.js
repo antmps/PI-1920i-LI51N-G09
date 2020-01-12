@@ -52,7 +52,6 @@ module.exports = function (boardGamesData, ciborgDb) {
         return ciborgDb.getGroupGameByDuration(groupId, min, max);
     }
 
-
     function postGroup(body) {
         return ciborgDb.postGroup(body);
     }

@@ -1,9 +1,9 @@
 const passport = require('passport')
 
 module.exports = function (global, router, authService) {
-    
+
     global.use(passport.initialize())
-    //global.use(passport.session())
+    global.use(passport.session())
 
     passport.serializeUser(serializeUser)
     passport.deserializeUser(deserializeUser)
@@ -26,13 +26,13 @@ module.exports = function (global, router, authService) {
         authService
             .authenticate(req.body.username, req.body.password)
             .then(user => {
-                console.log("Service Login",user)
+                console.log("Service Login", user)
                 req.login(user, (err) => {
-                    if (err) sendUnauthorized(resp,err)
+                    if (err) sendUnauthorized(resp, err)
                     else resp.json(user)
                 })
             })
-            .catch((err)=>sendUnauthorized(resp, "Couldnt Authenticate"))
+            .catch((err) => sendUnauthorized(resp, "Couldnt Authenticate"))
     }
     function logout(req, resp) {
         console.log("Service Signout")
@@ -40,16 +40,28 @@ module.exports = function (global, router, authService) {
         getSession(req, resp)
     }
     function signup(req, resp) {
-        authService
-            .createUser(req.body.username, req.body.password)
+
+        createUser(req.body.username, req.body.password)
             .then(user => {
-                console.log("Service Signup",user)
+                console.log("Service Signup", user)
                 req.login(user, (err) => {
-                    if (err) sendUnauthorized(resp,err)
+                    if (err) sendUnauthorized(resp, err)
                     else resp.json(user)
                 })
             })
-            .catch(err => sendUnauthorized(resp,err))
+            .catch(err => sendUnauthorized(resp, err))
+    }
+
+    async function createUser(username, pass) {
+        return ciborgDB.getAllUsers()
+            .then(users => {
+                var result = users.find(user => { return user.username == username })
+                if (result == undefined) return ciborgDB.postUser({
+                    username: username,
+                    password: pass
+                })
+                else throw new Error("User already exists")
+            })
     }
 
     function serializeUser(user, done) {
@@ -65,8 +77,8 @@ module.exports = function (global, router, authService) {
             .catch(err => done(err))
     }
 
-    function sendUnauthorized(resp,err){
-        resp.status(403).json({status:"Unauthorized" , message : err.message})
+    function sendUnauthorized(resp, err) {
+        resp.status(403).json({ status: "Unauthorized", message: err.message })
     }
 
 }

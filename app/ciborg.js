@@ -568,32 +568,32 @@ function GamesApiUris() {
 const Uris = new GamesApiUris()
 
 function getTopGames(){
-    return fetch(Uris.getTopGamesUri())
+    return fetch(Uris.getTopGamesUri(),{credentials: 'include'})
             .then(res => res.json())
 }
 
 function getGameByName(name){
-    return fetch(Uris.getGameByNameUri(name))
+    return fetch(Uris.getGameByNameUri(name),{credentials: 'include'})
             .then(res => res.json())
 }
 
 function getGameById(id){
-    return fetch(Uris.getGameByIdUri(id))
+    return fetch(Uris.getGameByIdUri(id),{credentials: 'include'})
             .then(res => res.json())
 }
 
 function getGroups(){
-    return fetch(Uris.getGroupsUri())
+    return fetch(Uris.getGroupsUri()),{credentials: 'include'}
             .then(res => res.json())
 }
 
 function getGroupsById(groupId){
-    return fetch(Uris.getGroupsByIdUri(groupId))
+    return fetch(Uris.getGroupsByIdUri(groupId),{credentials: 'include'})
             .then(res => res.json())
 }
 
 function getGroupGameByDuration(groupId){
-    return fetch(Uris.getGroupGameByDurationUri(groupId))
+    return fetch(Uris.getGroupGameByDurationUri(groupId),{credentials: 'include'})
             .then(res => res.json())
 }
 
@@ -23551,7 +23551,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<h2 class=\"headerText\">{{game.name}}</h2>\r\n<table style=\"width: 100%; margin-bottom: 2%;\">\r\n    <tr>\r\n        <td bgcolor=\"#ff9900\" colspan=\"20\"></td>\r\n    </tr>\r\n</table>\r\n<table style=\"margin-left: 5%;\" colspan=\"2\">\r\n    <tr>\r\n        <td style=\"width: 20%; height: 20%;\"><img src=\"{{game.image_url}}\"/></td>\r\n        <td>\r\n            <table class=\"gameDetailsTable\">\r\n                <tr>\r\n                    <td>Year published: {{game.year_published}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Min Players: {{game.min_players}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Players: {{game.max_players}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Min Playtime: {{game.min_playtime}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Max Playtime: {{game.max_playtime}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Min age: {{game.min_age}}</td>\r\n                </tr>\r\n        </table>\r\n        </td>\r\n    </tr>\r\n</table>\r\n<table class=\"DescriptionBox\">\r\n    <tr>\r\n        <td>{{{game.description}}}</td>\r\n    </tr>\r\n</table>");
+/* harmony default export */ __webpack_exports__["default"] = ("<h2 class=\"headerText\">{{game.name}}</h2>\r\n<table style=\"width: 100%; margin-bottom: 2%;\">\r\n    <tr>\r\n        <td bgcolor=\"#ff9900\" colspan=\"20\"></td>\r\n    </tr>\r\n</table>\r\n<table style=\"margin-left: 5%;\" colspan=\"2\">\r\n    <tr>\r\n        <td style=\"white-space: nowrap; width: fit-content;\"><img width=\"500\" height=\"500\" src=\"{{game.image_url}}\"/></td>\r\n        <td>\r\n            <table class=\"gameDetailsTable\">\r\n                <tr>\r\n                    <td>Year published: {{game.year_published}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Min Players: {{game.min_players}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Players: {{game.max_players}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Min Playtime: {{game.min_playtime}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Max Playtime: {{game.max_playtime}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Min age: {{game.min_age}}</td>\r\n                </tr>\r\n        </table>\r\n        </td>\r\n    </tr>\r\n</table>\r\n<table class=\"DescriptionBox\">\r\n    <tr>\r\n        <td>{{{game.description}}}</td>\r\n    </tr>\r\n</table>");
 
 /***/ }),
 /* 23 */
@@ -23612,6 +23612,7 @@ module.exports = () => {
         ev.preventDefault()    
         const options = {
             method: 'POST',
+            credentials: 'include',
             body: JSON.stringify({
                 'username': inputUsername.value,
                 'password': inputPassword.value
@@ -23623,7 +23624,7 @@ module.exports = () => {
         fetch('http://localhost:8080/api/auth/login', options)
             .then(res => res.json())
             .then((user) =>{
-                document.getElementById("alertContent").innerHTML = templates.info({message : "Login " + user.body.username})
+                document.getElementById("alertContent").innerHTML = templates.info({message : "Login " + user.username})
                 document.getElementById("login").style.visibility = "hidden"
                 document.getElementById("logout").style.visibility = "visible"
                 document.getElementById("groups").style.visibility = "visible"
@@ -23638,6 +23639,7 @@ module.exports = () => {
         ev.preventDefault()    
         const options = {
             method: 'POST',
+            credentials: 'include',
             body: JSON.stringify({
                 'username': inputUsername.value,
                 'password': inputPassword.value
@@ -23649,7 +23651,7 @@ module.exports = () => {
         fetch('http://localhost:8080/api/auth/signup', options)
             .then(res => res.json())
             .then((user) =>{
-                document.getElementById("alertContent").innerHTML = templates.info({message : "Registered " + user.body.username})
+                document.getElementById("alertContent").innerHTML = templates.info({message : "Registered " + user.username})
                 window.location.hash = '#login'
             })
             .catch((err)=>  document.getElementById("alertContent").innerHTML = templates.info({message : err.message}))
@@ -23674,6 +23676,7 @@ module.exports = () => {
         const url = 'http://localhost:8080/api/auth/logout'
         const options = {
             method: 'POST',
+            credentials: 'include',
         }
         fetch(url, options)
             .then(res => res.json())

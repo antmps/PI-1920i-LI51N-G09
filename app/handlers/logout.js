@@ -12,6 +12,7 @@ module.exports = () => {
         const url = 'http://localhost:8080/api/auth/logout'
         const options = {
             method: 'POST',
+            credentials: 'include',
         }
         fetch(url, options)
             .then(res => res.json())

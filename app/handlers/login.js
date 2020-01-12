@@ -16,6 +16,7 @@ module.exports = () => {
         ev.preventDefault()    
         const options = {
             method: 'POST',
+            credentials: 'include',
             body: JSON.stringify({
                 'username': inputUsername.value,
                 'password': inputPassword.value
@@ -27,7 +28,7 @@ module.exports = () => {
         fetch('http://localhost:8080/api/auth/login', options)
             .then(res => res.json())
             .then((user) =>{
-                document.getElementById("alertContent").innerHTML = templates.info({message : "Login " + user.body.username})
+                document.getElementById("alertContent").innerHTML = templates.info({message : "Login " + user.username})
                 document.getElementById("login").style.visibility = "hidden"
                 document.getElementById("logout").style.visibility = "visible"
                 document.getElementById("groups").style.visibility = "visible"
@@ -42,6 +43,7 @@ module.exports = () => {
         ev.preventDefault()    
         const options = {
             method: 'POST',
+            credentials: 'include',
             body: JSON.stringify({
                 'username': inputUsername.value,
                 'password': inputPassword.value
@@ -53,7 +55,7 @@ module.exports = () => {
         fetch('http://localhost:8080/api/auth/signup', options)
             .then(res => res.json())
             .then((user) =>{
-                document.getElementById("alertContent").innerHTML = templates.info({message : "Registered " + user.body.username})
+                document.getElementById("alertContent").innerHTML = templates.info({message : "Registered " + user.username})
                 window.location.hash = '#login'
             })
             .catch((err)=>  document.getElementById("alertContent").innerHTML = templates.info({message : err.message}))
