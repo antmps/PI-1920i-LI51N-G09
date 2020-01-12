@@ -3,9 +3,31 @@
     font-size: 36px;
 }
 
+.headerText {
+    margin-left: 5%;
+    color: aliceblue;
+    font-size: 26px;
+}
+
 .baseText {
     color: aliceblue;
     font-size: 16px;
+    margin-left: 5%;
+}
+
+.bottomText {
+    color: aliceblue;
+    font-size: 16px;
+    margin-left: 5%;
+    position: fixed;
+    bottom: 0;
+}
+
+.gameDetailsTable{
+    font-size: 16px;
+    margin-left: 5%;
+    color: aliceblue;
+    align-items: baseline;
 }
 
 .textboxStyle {
@@ -48,7 +70,7 @@
 }
 
 .TableDataStyle {
-    margin: 8px 0;
+    margin-left: 5%;
     border: 2px solid;
     padding: 12px 20px;
     border-radius: 4px;

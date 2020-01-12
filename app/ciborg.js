@@ -533,7 +533,8 @@ module.exports = {
     home: Handlebars.compile(__webpack_require__(16).default),
     games: Handlebars.compile(__webpack_require__(17).default),
     error: Handlebars.compile(__webpack_require__(18).default),
-    tableGamesTemplate : Handlebars.compile(tableGamesTemplate)
+    tableGamesTemplate : Handlebars.compile(tableGamesTemplate),
+    gameDetails : Handlebars.compile(__webpack_require__(19).default)
 } 
 
 /***/ }),
@@ -548,6 +549,7 @@ function GamesApiUris() {
 
     this.getTopGamesUri = () => `${baseUri}games/top`
     this.getGameByNameUri = (name) => `${baseUri}games/${name}`
+    this.getGameByIdUri = (id) => `${baseUri}games/id/${id}`
     this.getGroupsUri = () => `${baseUri}groups`
     this.getGroupsByIdUri = (groupId) => `${baseUri}groups/${groupId}`
     this.getGroupGameByDurationUri = (groupId) => `${baseUri}groups/${groupId}/games`
@@ -572,6 +574,11 @@ function getGameByName(name){
             .then(res => res.json())
 }
 
+function getGameById(id){
+    return fetch(Uris.getGameByIdUri(id))
+            .then(res => res.json())
+}
+
 function getGroups(){
     return fetch(Uris.getGroupsUri())
             .then(res => res.json())
@@ -590,6 +597,7 @@ function getGroupGameByDuration(groupId){
 module.exports = {
     getTopGames:getTopGames,
     getGameByName:getGameByName,
+    getGameById:getGameById,
     getGroups:getGroups,
     getGroupsById:getGroupsById,
     getGroupGameByDuration,getGroupGameByDuration
@@ -607,9 +615,9 @@ __webpack_require__(8)
 __webpack_require__ (10)
 
 const templates = __webpack_require__(2)
-const bookshelfImg = __webpack_require__(19)
+const bookshelfImg = __webpack_require__(20)
 const gamesData = __webpack_require__(3)
-const gamesScript = __webpack_require__(20)
+const gamesScript = __webpack_require__(21)
 
 window.addEventListener('hashchange', handler)
 handler()
@@ -628,6 +636,14 @@ function handler(){
         case 'games' :
             mainContent.innerHTML = templates.games()
             gamesScript()
+            break;
+        case 'gameDetails':
+            var id = args[0]
+            gamesData.getGameById(id)
+                .then(games =>{
+                    var game = games.games[0]
+                    mainContent.innerHTML = templates.gameDetails({game})
+                })
             break;
         default:
             window.location.hash="home"
@@ -815,7 +831,7 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 
 // module
-exports.push([module.i, ".titleText {\r\n    color: aliceblue;\r\n    font-size: 36px;\r\n}\r\n\r\n.baseText {\r\n    color: aliceblue;\r\n    font-size: 16px;\r\n}\r\n\r\n.textboxStyle {\r\n    margin: 8px 0;\r\n    border: 2px solid;\r\n    padding: 12px 20px;\r\n    border-radius: 4px;\r\n    border-bottom-color: darkcyan;\r\n    border-top-color: darkcyan;\r\n    border-right-color: darkcyan;\r\n    border-left-color: darkcyan;\r\n    background-color: dimgrey;\r\n    color: aliceblue;\r\n}\r\n\r\n.buttonStyle {\r\n    padding: 12px 20px;\r\n    border-radius: 4px;\r\n    border-bottom-color: darkcyan;\r\n    border-top-color: darkcyan;\r\n    border-right-color: darkcyan;\r\n    border-left-color: darkcyan;\r\n    background-color: transparent;\r\n    color: aliceblue;\r\n    font-weight: bold;\r\n}\r\n\r\n.TableNameStyle {\r\n    margin: 8px 0;\r\n    border: 2px solid;\r\n    padding: 12px 20px;\r\n    border-radius: 4px;\r\n    border-bottom-color: darkcyan;\r\n    border-top-color: darkcyan;\r\n    border-right-color: darkcyan;\r\n    border-left-color: darkcyan;\r\n    background-color: dimgrey;\r\n    color: aliceblue;\r\n    font-weight: bold;\r\n}\r\n\r\n.TableDataStyle {\r\n    margin: 8px 0;\r\n    border: 2px solid;\r\n    padding: 12px 20px;\r\n    border-radius: 4px;\r\n    border-bottom-color: darkcyan;\r\n    border-top-color: darkcyan;\r\n    border-right-color: darkcyan;\r\n    border-left-color: darkcyan;\r\n    background-color: dimgrey;\r\n    color: aliceblue;\r\n}", ""]);
+exports.push([module.i, ".titleText {\r\n    color: aliceblue;\r\n    font-size: 36px;\r\n}\r\n\r\n.headerText {\r\n    margin-left: 5%;\r\n    color: aliceblue;\r\n    font-size: 26px;\r\n}\r\n\r\n.baseText {\r\n    color: aliceblue;\r\n    font-size: 16px;\r\n    margin-left: 5%;\r\n}\r\n\r\n.bottomText {\r\n    color: aliceblue;\r\n    font-size: 16px;\r\n    margin-left: 5%;\r\n    position: fixed;\r\n    bottom: 0;\r\n}\r\n\r\n.gameDetailsTable{\r\n    font-size: 16px;\r\n    margin-left: 5%;\r\n    color: aliceblue;\r\n    align-items: baseline;\r\n}\r\n\r\n.textboxStyle {\r\n    margin: 8px 0;\r\n    border: 2px solid;\r\n    padding: 12px 20px;\r\n    border-radius: 4px;\r\n    border-bottom-color: darkcyan;\r\n    border-top-color: darkcyan;\r\n    border-right-color: darkcyan;\r\n    border-left-color: darkcyan;\r\n    background-color: dimgrey;\r\n    color: aliceblue;\r\n}\r\n\r\n.buttonStyle {\r\n    padding: 12px 20px;\r\n    border-radius: 4px;\r\n    border-bottom-color: darkcyan;\r\n    border-top-color: darkcyan;\r\n    border-right-color: darkcyan;\r\n    border-left-color: darkcyan;\r\n    background-color: transparent;\r\n    color: aliceblue;\r\n    font-weight: bold;\r\n}\r\n\r\n.TableNameStyle {\r\n    margin: 8px 0;\r\n    border: 2px solid;\r\n    padding: 12px 20px;\r\n    border-radius: 4px;\r\n    border-bottom-color: darkcyan;\r\n    border-top-color: darkcyan;\r\n    border-right-color: darkcyan;\r\n    border-left-color: darkcyan;\r\n    background-color: dimgrey;\r\n    color: aliceblue;\r\n    font-weight: bold;\r\n}\r\n\r\n.TableDataStyle {\r\n    margin-left: 5%;\r\n    border: 2px solid;\r\n    padding: 12px 20px;\r\n    border-radius: 4px;\r\n    border-bottom-color: darkcyan;\r\n    border-top-color: darkcyan;\r\n    border-right-color: darkcyan;\r\n    border-left-color: darkcyan;\r\n    background-color: dimgrey;\r\n    color: aliceblue;\r\n}", ""]);
 
 // exports
 
@@ -23455,7 +23471,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\">\r\n    <tr>\r\n        <td class=\"TableNameStyle\">Name</td>\r\n        <td class=\"TableNameStyle\">Year</td>\r\n        <td class=\"TableNameStyle\">Rating</td>\r\n        <!--\r\n        <td class=\"TableNameStyle\">Min Players</td>\r\n        <td class=\"TableNameStyle\">Max Players</td>\r\n        <td class=\"TableNameStyle\">Description</td>\r\n        <td class=\"TableNameStyle\">Price</td>\r\n        <td class=\"TableNameStyle\">Designer</td>\r\n        -->\r\n    </tr>\r\n    {{#each games.games}}\r\n        <tr class=\"TableDataStyle\">\r\n            <td >{{name}}</td>\r\n            <td>{{year_published}}</td>\r\n            <td>{{average_user_rating}}</td>\r\n        </tr>\r\n    {{/each}}\r\n</table>");
+/* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\">\r\n    <tr>\r\n        <td class=\"TableNameStyle\">Name</td>\r\n        <td class=\"TableNameStyle\">Year</td>\r\n        <td class=\"TableNameStyle\">Rating</td>\r\n        <!--\r\n        <td class=\"TableNameStyle\">Min Players</td>\r\n        <td class=\"TableNameStyle\">Max Players</td>\r\n        <td class=\"TableNameStyle\">Description</td>\r\n        <td class=\"TableNameStyle\">Price</td>\r\n        <td class=\"TableNameStyle\">Designer</td>\r\n        -->\r\n    </tr>\r\n    {{#each games.games}}\r\n        <tr class=\"TableDataStyle\">\r\n            <td> <a style=\"color: aliceblue;\" href=\"#gameDetails/{{id}}\">{{name}}</a></td>\r\n            <td>{{year_published}}</td>\r\n            <td>{{average_user_rating}}</td>\r\n        </tr>\r\n    {{/each}}\r\n</table>");
 
 /***/ }),
 /* 16 */
@@ -23483,12 +23499,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 /* 19 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("<h2 class=\"headerText\">{{game.name}}</h2>\r\n<table class=\"gameDetailsTable\">\r\n    <tr>\r\n        <td style=\"white-space: nowrap;\"><img src=\"{{game.image_url}}\"/></td>\r\n        <td>\r\n            <table class=\"gameDetailsTable\">\r\n\r\n            <tr>\r\n                <td>Year published: {{game.year_published}}</td>\r\n            </tr>\r\n            <tr>\r\n                <td>Min Players: {{game.min_players}}</td>\r\n            </tr>\r\n            <tr>\r\n                <td>Players: {{game.max_players}}</td>\r\n            </tr>\r\n            <tr>\r\n                <td>Min Playtime: {{game.min_playtime}}</td>\r\n            </tr>\r\n            <tr>\r\n                <td>Max Playtime: {{game.max_playtime}}</td>\r\n            </tr>\r\n            <tr>\r\n                <td>Min age: {{game.min_age}}</td>\r\n            </tr>\r\n\r\n        </table>\r\n\r\n        </td>\r\n    </tr>\r\n\r\n    <tr style=\"color: aliceblue; \">\r\n        <td>{{game.description}}</td>\r\n    </tr>\r\n</table>");
+
+/***/ }),
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "f1cf1e92775d1cff8ae42eb6c9cdd94d.jpg";
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

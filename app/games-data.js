@@ -5,6 +5,7 @@ function GamesApiUris() {
 
     this.getTopGamesUri = () => `${baseUri}games/top`
     this.getGameByNameUri = (name) => `${baseUri}games/${name}`
+    this.getGameByIdUri = (id) => `${baseUri}games/id/${id}`
     this.getGroupsUri = () => `${baseUri}groups`
     this.getGroupsByIdUri = (groupId) => `${baseUri}groups/${groupId}`
     this.getGroupGameByDurationUri = (groupId) => `${baseUri}groups/${groupId}/games`
@@ -29,6 +30,11 @@ function getGameByName(name){
             .then(res => res.json())
 }
 
+function getGameById(id){
+    return fetch(Uris.getGameByIdUri(id))
+            .then(res => res.json())
+}
+
 function getGroups(){
     return fetch(Uris.getGroupsUri())
             .then(res => res.json())
@@ -47,6 +53,7 @@ function getGroupGameByDuration(groupId){
 module.exports = {
     getTopGames:getTopGames,
     getGameByName:getGameByName,
+    getGameById:getGameById,
     getGroups:getGroups,
     getGroupsById:getGroupsById,
     getGroupGameByDuration,getGroupGameByDuration

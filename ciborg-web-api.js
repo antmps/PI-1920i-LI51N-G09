@@ -5,6 +5,7 @@ module.exports = function (router, service) {
     //ADDING ROUTES AND RESPECTIVE FUNCTIONS TO THE ROUTER
     router.get('/games/top', getTopGames);
     router.get('/games/:name', getGameByName);
+    router.get('/games/id/:id', getGameById);
     router.get('/groups', getGroups);
     router.get('/groups/:groupId', getGroupById);
     router.get('/groups/:groupId/games', getGroupGameByDuration);
@@ -55,6 +56,11 @@ module.exports = function (router, service) {
     function getGameByName(req, res) {
         service.getGameByName(req.params.name)
             .then((body, err) => processResponse(res)(err, body))
+    }
+
+    function getGameById(req,res){
+        service.getGameById(req.params.id)
+            .then((body,err)=> processResponse(res)(err,body))
     }
 
     function getGroups(req, res) {

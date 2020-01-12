@@ -9,5 +9,6 @@ module.exports = {
     home: Handlebars.compile(require('./templates/home.hbs').default),
     games: Handlebars.compile(require('./templates/games.hbs').default),
     error: Handlebars.compile(require('./templates/error.hbs').default),
-    tableGamesTemplate : Handlebars.compile(tableGamesTemplate)
+    tableGamesTemplate : Handlebars.compile(tableGamesTemplate),
+    gameDetails : Handlebars.compile(require('./templates/gameDetails.hbs').default)
 } 

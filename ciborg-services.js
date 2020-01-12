@@ -6,6 +6,7 @@ module.exports = function (boardGamesData, ciborgDb) {
     return {
         getTopGames: getTopGames,
         getGameByName: getGameByName,
+        getGameById: getGameById,
         getGroups: getGroups,
         getGroupById: getGroupById,
         getGroupGameByDuration: getGroupGameByDuration,
@@ -24,6 +25,10 @@ module.exports = function (boardGamesData, ciborgDb) {
 
     function getGameByName(name) {
         return boardGamesData.getGameByName(name);
+    }
+
+    function getGameById(id){
+        return boardGamesData.getGameById(id);
     }
 
     function getGroups() {

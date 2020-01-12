@@ -4,32 +4,33 @@
 const request = require('request');
 const promise = require('./request-promise')()
 
-module.exports = function(){
+module.exports = function () {
 
-    const client_id = 'etqXeYXMnh'; 
+    const client_id = 'etqXeYXMnh';
     const baseUrl = 'https://www.boardgameatlas.com/api/';
     const limit = 'limit=10'
 
 
     return {
-        getTopGames : getTopGames,
-        getGameByName : getGameByName,
-        getGameById : getGameById,
-        getGameBasicInfo : getGameBasicInfo
+        getTopGames: getTopGames,
+        getGameByName: getGameByName,
+        getGameById: getGameById,
+        getGameById: getGameById,
+        getGameBasicInfo: getGameBasicInfo
     }
 
-    function getGameBasicInfo(gameBody){
+    function getGameBasicInfo(gameBody) {
 
-        return{
-            id : gameBody.id,
-            name : gameBody.name,
-            min_playtime : gameBody.min_playtime,
-            max_playtime : gameBody.max_playtime
+        return {
+            id: gameBody.id,
+            name: gameBody.name,
+            min_playtime: gameBody.min_playtime,
+            max_playtime: gameBody.max_playtime
         }
 
     }
 
-    function getTopGames(cb){
+    function getTopGames(cb) {
         const options = {
             url: `${baseUrl}search?order_by=popularity&client_id=${client_id}&${limit}`,
             method: 'GET',
@@ -40,7 +41,7 @@ module.exports = function(){
             .catch(err => { throw err })
     }
 
-    function getGameByName(name, cb){
+    function getGameByName(name, cb) {
         const options = {
             url: `${baseUrl}search?name=${name}&client_id=${client_id}&${limit}`,
             method: 'GET',
@@ -51,7 +52,7 @@ module.exports = function(){
             .catch(err => { throw err })
     }
 
-    function getGameById(gameId, cb){
+    function getGameById(gameId, cb) {
         const options = {
             url: `${baseUrl}search?ids=${gameId}&client_id=${client_id}`,
             method: 'GET',

@@ -27,6 +27,14 @@ function handler(){
             mainContent.innerHTML = templates.games()
             gamesScript()
             break;
+        case 'gameDetails':
+            var id = args[0]
+            gamesData.getGameById(id)
+                .then(games =>{
+                    var game = games.games[0]
+                    mainContent.innerHTML = templates.gameDetails({game})
+                })
+            break;
         default:
             window.location.hash="home"
     }
