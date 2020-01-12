@@ -50,11 +50,27 @@ function getGroupGameByDuration(groupId){
             .then(res => res.json())
 }
 
+function putGameIntoGroup(groupId, gameId){
+    const options = {
+        method: "PUT",
+        headers: {
+            "Content-Type" : "application/json",
+            "Accept" : "application/json"
+        },
+        body : JSON.stringify({
+            gameId : gameId
+        })
+    }
+    return fetch(Uris.putGameIntoGroupUri(groupId), options)
+            .then(res => res.json())
+}
+
 module.exports = {
     getTopGames:getTopGames,
     getGameByName:getGameByName,
     getGameById:getGameById,
     getGroups:getGroups,
     getGroupsById:getGroupsById,
-    getGroupGameByDuration,getGroupGameByDuration
+    getGroupGameByDuration,getGroupGameByDuration,
+    putGameIntoGroup : putGameIntoGroup
 }

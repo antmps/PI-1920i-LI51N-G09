@@ -20,6 +20,8 @@ handler()
 
 function handler() {
 
+    let currentGameId;
+
     const hash = window.location.hash.substring(1)
     const [state, ...args] = hash.split('/')
 
@@ -30,7 +32,7 @@ function handler() {
                 break;
             case 'search':
                 mainContent.innerHTML = templates.games()
-                gamesScript()
+                gamesScript.registerSearch()
                 break;
             case 'top':
                 gamesData.getTopGames()
@@ -58,10 +60,27 @@ function handler() {
                     groupsData.getGroupsByUsername(user)
                         .then(group => {
                             mainContent.innerHTML = templates.groups({group})
-                        }
-                    )
-                }
-                ).catch((err)=>  document.getElementById("alertContent").innerHTML = templates.info({message : err.message}))
+                        })
+                }).catch((err)=>  document.getElementById("alertContent").innerHTML = templates.info({message : err.message}))
+                break;
+            case 'groupsToPut':
+                currentGameId = args[0]
+                fetch('http://localhost:8080/api/auth/session')
+                .then(res => res.json())
+                .then((user) => {
+                    groupsData.getGroupsByUsername(user)
+                        .then(group => {
+                            mainContent.innerHTML = templates.groups({group})
+                        })
+                }).catch((err)=>  document.getElementById("alertContent").innerHTML = templates.info("Não se encontra logado."))
+                break;
+            case 'addGameToGroup':
+                var id = args[0]
+                fetch('http://localhost:8080/api/auth/session')
+                .then(res => res.json())
+                .then((user) => {
+                    gamesScript.registerAddToGroup(id,currentGameId)
+                }).catch((err)=>document.getElementById("alertContent").innerHTML = templates.info({message : err.message}))
                 break;
             default:
                 window.location.hash = "home"
