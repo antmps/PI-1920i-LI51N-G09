@@ -23613,10 +23613,12 @@ module.exports = () => {
     const inputPassword = document.querySelector('#inputPassword')
     const inputUsername = document.querySelector('#inputUsername')
     const buttonLogin = document.querySelector("#buttonLogin")
+    const buttonSigUp = document.querySelector("#buttonSignup")
 
-    buttonLogin.addEventListener('click', handler)
+    buttonLogin.addEventListener('click', handlerLogin)
+    buttonSigUp.addEventListener('click', handlerSignUp)
 
-    function handler(ev) {
+    function handlerLogin(ev) {
         ev.preventDefault()    
         const options = {
             method: 'POST',
@@ -23632,7 +23634,30 @@ module.exports = () => {
             .then(res => res.json())
             .then((user) =>{
                 document.getElementById("alertContent").innerHTML = templates.info({message : "Login " + user.username})
+                document.getElementById("login").style.visibility = "hidden"
+                document.getElementById("username").innerText = user.username
+                document.getElementById("username").style.visibility = "visible"
                 window.location.hash = '#home'
+            })
+    }
+
+    function handlerSignUp(ev){
+        ev.preventDefault()    
+        const options = {
+            method: 'POST',
+            body: JSON.stringify({
+                'username': inputUsername.value,
+                'password': inputPassword.value
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        fetch('http://localhost:8080/api/auth/signup', options)
+            .then(res => res.json())
+            .then((user) =>{
+                document.getElementById("alertContent").innerHTML = templates.info({message : "Registered " + user.username})
+                window.location.hash = '#login'
             })
     }
 }

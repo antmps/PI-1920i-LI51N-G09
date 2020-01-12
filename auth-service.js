@@ -12,7 +12,7 @@ module.exports = function (ciborgDB) {
     return ciborgDB.getAllUsers()
       .then(users => {
         var result = users.find(user => { return user.username == username })
-        if (result == undefined) ciborgDB.postUser({
+        if (result == undefined) return ciborgDB.postUser({
           username: username,
           password: pass
         })
@@ -22,12 +22,15 @@ module.exports = function (ciborgDB) {
 
   async function authenticate(username, pass) {
 
-
-
-    return currentUser = {
-      id: 1,
-      username: username
-    }
+    return ciborgDB.getAllUsers()
+      .then(users => {
+        var result = users.find(user => { return user.username == username })
+        if (result != undefined) {
+          if (result.password == pass) return result
+          else throw new Error("Wrong password")
+        }
+        else throw new Error("User does not exist")
+      })
   }
 
   async function getUser(userId) {

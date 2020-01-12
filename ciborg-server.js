@@ -9,7 +9,7 @@ const express = require('express');
 const app = express();
 
 const ciborgDB = require('./ciborg-db')(GROUPS_DATA_HOST)
-const authService = require('./auth-service-mem')(ciborgDB)
+const authService = require('./auth-service')(ciborgDB)
 const authApi = require('./auth-web-api')(app, express.Router(), authService)
 const boardGamesData = require('./board-games-data')()
 const service = require('./ciborg-services')(boardGamesData,ciborgDB)
