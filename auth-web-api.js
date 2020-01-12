@@ -3,7 +3,7 @@ const passport = require('passport')
 module.exports = function (global, router, authService) {
     
     global.use(passport.initialize())
-    global.use(passport.session())
+    //global.use(passport.session())
 
     passport.serializeUser(serializeUser)
     passport.deserializeUser(deserializeUser)
@@ -32,7 +32,7 @@ module.exports = function (global, router, authService) {
                     else resp.json(user)
                 })
             })
-            .catch(()=>sendUnauthorized(resp, "Couldnt Authenticate"))
+            .catch((err)=>sendUnauthorized(resp, "Couldnt Authenticate"))
     }
     function logout(req, resp) {
         console.log("Service Signout")
@@ -54,7 +54,7 @@ module.exports = function (global, router, authService) {
 
     function serializeUser(user, done) {
         console.log('serializeUser')
-        done(null, user.id)
+        done(null, user)
     }
 
     function deserializeUser(userId, done) {

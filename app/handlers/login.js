@@ -1,4 +1,4 @@
-const templates = require('../../../PI-1920i-LI51N/aula27/passport/app/templates')
+const templates = require('../templates')
 
 module.exports = () => {
    
@@ -33,6 +33,7 @@ module.exports = () => {
                 document.getElementById("username").style.visibility = "visible"
                 window.location.hash = '#home'
             })
+            .catch((err)=>  document.getElementById("alertContent").innerHTML = templates.info({message : err.message}))
     }
 
     function handlerSignUp(ev){
@@ -53,5 +54,6 @@ module.exports = () => {
                 document.getElementById("alertContent").innerHTML = templates.info({message : "Registered " + user.username})
                 window.location.hash = '#login'
             })
+            .catch((err)=>  document.getElementById("alertContent").innerHTML = templates.info({message : err.message}))
     }
 }

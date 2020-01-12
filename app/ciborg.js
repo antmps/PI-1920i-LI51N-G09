@@ -60,11 +60,34 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+const Handlebars = __webpack_require__(14)
+
+const tableGamesTemplate = __webpack_require__(15).default
+Handlebars.registerPartial('tableGamesTemplate',tableGamesTemplate)
+
+module.exports = {
+    home: Handlebars.compile(__webpack_require__(16).default),
+    games: Handlebars.compile(__webpack_require__(17).default),
+    error: Handlebars.compile(__webpack_require__(18).default),
+    info: Handlebars.compile(__webpack_require__(19).default),
+    tableGamesTemplate : Handlebars.compile(tableGamesTemplate),
+    login: Handlebars.compile(__webpack_require__(20).default),
+    logout: Handlebars.compile(__webpack_require__(21).default),
+    gameDetails : Handlebars.compile(__webpack_require__(22).default)
+} 
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports) {
 
 /*
@@ -146,7 +169,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -202,7 +225,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(8);
+var	fixUrls = __webpack_require__(7);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -518,28 +541,6 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-const Handlebars = __webpack_require__(15)
-
-const tableGamesTemplate = __webpack_require__(16).default
-Handlebars.registerPartial('tableGamesTemplate',tableGamesTemplate)
-
-module.exports = {
-    home: Handlebars.compile(__webpack_require__(17).default),
-    games: Handlebars.compile(__webpack_require__(18).default),
-    error: Handlebars.compile(__webpack_require__(19).default),
-    tableGamesTemplate : Handlebars.compile(tableGamesTemplate),
-    login: Handlebars.compile(__webpack_require__(20).default),
-    logout: Handlebars.compile(__webpack_require__(21).default),
-    gameDetails : Handlebars.compile(__webpack_require__(22).default)
-} 
-
-/***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -612,33 +613,11 @@ module.exports = {
 "use strict";
 
 
-const Handlebars = __webpack_require__(26)
+__webpack_require__(5)
+__webpack_require__(8)
+__webpack_require__(10)
 
-const tableBundlesTemplate = __webpack_require__(27).default
-Handlebars.registerPartial('tableBundlesTemplate', tableBundlesTemplate)
-
-module.exports = {
-    tableBundlesTemplate : Handlebars.compile(tableBundlesTemplate),
-    home: Handlebars.compile(__webpack_require__(28).default),
-    bundles: Handlebars.compile(__webpack_require__(29).default),
-    bundleDetails: Handlebars.compile(__webpack_require__(30).default),
-    login: Handlebars.compile(__webpack_require__(31).default),
-    logout: Handlebars.compile(__webpack_require__(32).default),
-    info: Handlebars.compile(__webpack_require__(33).default)
-} 
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-__webpack_require__(6)
-__webpack_require__(9)
-__webpack_require__(11)
-
-const templates = __webpack_require__(2)
+const templates = __webpack_require__(0)
 const bookshelfImg = __webpack_require__(23)
 const gamesData = __webpack_require__(3)
 const gamesScript = __webpack_require__(24)
@@ -646,7 +625,7 @@ const gamesScript = __webpack_require__(24)
 const mainContent = document.getElementById('mainContent')
 const alertContent = document.getElementById('alertContent')
 const loginHandler = __webpack_require__(25)
-const logoutHandler = __webpack_require__(34)
+const logoutHandler = __webpack_require__(26)
 
 window.addEventListener('hashchange', handler)
 handler()
@@ -694,13 +673,13 @@ function handler() {
 
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(7);
+var content = __webpack_require__(6);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -708,7 +687,7 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(1)(content, options);
+var update = __webpack_require__(2)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -725,10 +704,10 @@ if(false) {
 }
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(undefined);
+exports = module.exports = __webpack_require__(1)(undefined);
 // imports
 
 
@@ -739,7 +718,7 @@ exports.push([module.i, "/*!\n * Bootstrap v4.4.1 (https://getbootstrap.com/)\n 
 
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports) {
 
 
@@ -834,13 +813,13 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(10);
+var content = __webpack_require__(9);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -848,7 +827,7 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(1)(content, options);
+var update = __webpack_require__(2)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -865,10 +844,10 @@ if(false) {
 }
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(undefined);
+exports = module.exports = __webpack_require__(1)(undefined);
 // imports
 
 
@@ -879,7 +858,7 @@ exports.push([module.i, ".titleText {\r\n    color: aliceblue;\r\n    font-size:
 
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -888,7 +867,7 @@ exports.push([module.i, ".titleText {\r\n    color: aliceblue;\r\n    font-size:
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
   */
 (function (global, factory) {
-   true ? factory(exports, __webpack_require__(12), __webpack_require__(13)) :
+   true ? factory(exports, __webpack_require__(11), __webpack_require__(12)) :
   typeof define === 'function' && define.amd ? define(['exports', 'jquery', 'popper.js'], factory) :
   (global = global || self, factory(global.bootstrap = {}, global.jQuery, global.Popper));
 }(this, (function (exports, $, Popper) { 'use strict';
@@ -5406,7 +5385,7 @@ exports.push([module.i, ".titleText {\r\n    color: aliceblue;\r\n    font-size:
 
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -16011,7 +15990,7 @@ return jQuery;
 
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18633,10 +18612,10 @@ Popper.Defaults = Defaults;
 /* harmony default export */ __webpack_exports__["default"] = (Popper);
 //# sourceMappingURL=popper.js.map
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(14)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(13)))
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports) {
 
 var g;
@@ -18663,7 +18642,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**!
@@ -23508,7 +23487,7 @@ return /******/ (function(modules) { // webpackBootstrap
 ;
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -23516,7 +23495,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\">\r\n    <tr>\r\n        <td class=\"TableNameStyle\">Name</td>\r\n        <td class=\"TableNameStyle\">Year</td>\r\n        <td class=\"TableNameStyle\">Rating</td>\r\n        <!--\r\n        <td class=\"TableNameStyle\">Min Players</td>\r\n        <td class=\"TableNameStyle\">Max Players</td>\r\n        <td class=\"TableNameStyle\">Description</td>\r\n        <td class=\"TableNameStyle\">Price</td>\r\n        <td class=\"TableNameStyle\">Designer</td>\r\n        -->\r\n    </tr>\r\n    {{#each games.games}}\r\n        <tr class=\"TableDataStyle\">\r\n            <td> <a style=\"color: aliceblue;\" href=\"#gameDetails/{{id}}\">{{name}}</a></td>\r\n            <td>{{year_published}}</td>\r\n            <td>{{average_user_rating}}</td>\r\n        </tr>\r\n    {{/each}}\r\n</table>");
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -23524,7 +23503,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ("<table>\r\n    <tr>\r\n        <td>\r\n        </td>\r\n    </tr>\r\n</table>");
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -23532,12 +23511,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\">\r\n    <tr>\r\n        <td>\r\n            <input class=\"textboxStyle\" id=\"txt_Search_Games\" \r\n                type=\"search\" size=\"50px\" >\r\n        </td>\r\n        <td>\r\n            <button id=\"buttonSearch\" class=\"buttonStyle\">SEARCH</button>\r\n        </td>\r\n    </tr>\r\n</table>\r\n<div id=\"searchContent\">\r\n    {{> tableGamesTemplate}}\r\n</div>");
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ("<div class=\"alert alert-warning alert-dismissible fade show\" role=\"alert\">\r\n    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n    <strong>Error</strong>\r\n    <p>{{message}}</p>\r\n    \r\n</div>");
+
+/***/ }),
+/* 19 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"alert alert-warning alert-dismissible fade show\" role=\"alert\">\r\n    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n    <p>{{message}}</p>\r\n    \r\n</div>");
 
 /***/ }),
 /* 20 */
@@ -23577,7 +23564,7 @@ module.exports = __webpack_require__.p + "f1cf1e92775d1cff8ae42eb6c9cdd94d.jpg";
 
 
 const gamesData = __webpack_require__(3)
-const template = __webpack_require__(2)
+const template = __webpack_require__(0)
 
 
 module.exports = function(){
@@ -23604,7 +23591,7 @@ module.exports = function(){
 /* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const templates = __webpack_require__(4)
+const templates = __webpack_require__(0)
 
 module.exports = () => {
    
@@ -23639,6 +23626,7 @@ module.exports = () => {
                 document.getElementById("username").style.visibility = "visible"
                 window.location.hash = '#home'
             })
+            .catch((err)=>  document.getElementById("alertContent").innerHTML = templates.info({message : err.message}))
     }
 
     function handlerSignUp(ev){
@@ -23659,11 +23647,64 @@ module.exports = () => {
                 document.getElementById("alertContent").innerHTML = templates.info({message : "Registered " + user.username})
                 window.location.hash = '#login'
             })
+            .catch((err)=>  document.getElementById("alertContent").innerHTML = templates.info({message : err.message}))
     }
 }
 
 /***/ }),
 /* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const templates = __webpack_require__(27)
+
+module.exports = () => {
+    
+    document.querySelector("#mainContent").innerHTML = templates.logout()
+    document
+        .querySelector('#buttonLogout')
+        .addEventListener('click', logoutHandler)
+    
+    function logoutHandler(ev) {
+        ev.preventDefault()
+        const url = 'http://localhost:8080/api/auth/logout'
+        const options = {
+            method: 'POST',
+        }
+        fetch(url, options)
+            .then(res => res.json())
+            .then(() => {
+                document.getElementById("alertContent").innerHTML = templates.info({message : 'Logout'})
+                window.location.hash = "#home"
+            })
+            .catch((err)=>  document.getElementById("alertContent").innerHTML = templates.info({message : err.message}))
+    }
+
+}
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+const Handlebars = __webpack_require__(28)
+
+const tableBundlesTemplate = __webpack_require__(29).default
+Handlebars.registerPartial('tableBundlesTemplate', tableBundlesTemplate)
+
+module.exports = {
+    tableBundlesTemplate : Handlebars.compile(tableBundlesTemplate),
+    home: Handlebars.compile(__webpack_require__(30).default),
+    bundles: Handlebars.compile(__webpack_require__(31).default),
+    bundleDetails: Handlebars.compile(__webpack_require__(32).default),
+    login: Handlebars.compile(__webpack_require__(33).default),
+    logout: Handlebars.compile(__webpack_require__(34).default),
+    info: Handlebars.compile(__webpack_require__(35).default)
+} 
+
+/***/ }),
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**!
@@ -28508,7 +28549,7 @@ return /******/ (function(modules) { // webpackBootstrap
 ;
 
 /***/ }),
-/* 27 */
+/* 29 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -28516,7 +28557,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ("<table class=\"table\">\r\n    <tr>\r\n        <th>Name</th>\r\n        <th>Description</th>\r\n    </tr>\r\n    {{#each bundles}}\r\n        <tr>\r\n            <td><a href=\"#bundleDetails/{{id}}\">{{name}}</a> </td>\r\n            <td>{{description}}</td>\r\n        </tr>\r\n    {{/each}}    \r\n</table>");
 
 /***/ }),
-/* 28 */
+/* 30 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -28524,7 +28565,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ("<h1>B4-Bundles</h1>\r\n<img src=\"{{bookImg}}\">");
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -28532,7 +28573,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = (" <div id=\"bundlesContainer\"> \r\n    {{> tableBundlesTemplate}}\r\n</div>\r\n<form id = \"createBundle\" action=\"/api/bundles\" method=\"POST\">\r\n    <label>Name</label>\r\n    <input type=\"text\" id=\"inputName\" >\r\n    <label>Description</label>\r\n    <input type=\"text\" id=\"inputDescription\" >\r\n    <input type=\"submit\" >\r\n</form>\r\n");
 
 /***/ }),
-/* 30 */
+/* 32 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -28540,7 +28581,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ("<ul>\r\n    <li>Name : {{bundle.name}}</li>\r\n    <li>Description : {{bundle.description}}</li>    \r\n</ul>");
 
 /***/ }),
-/* 31 */
+/* 33 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -28548,7 +28589,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ("<form>\r\n    <p>\r\n        <label>Username:</label>\r\n        <input type=\"text\" id=\"inputUsername\">\r\n    </p>\r\n    <p>\r\n        <label>Password:</label>\r\n        <input type=\"password\" id=\"inputPassword\">\r\n    </p>\r\n    <p>\r\n        <button type=\"submit\" id=\"buttonSignup\">Signup</button>\r\n        <button type=\"submit\" id=\"buttonLogin\">Login</button>\r\n    </p>\r\n</form>\r\n");
 
 /***/ }),
-/* 32 */
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -28556,41 +28597,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ("<form>\r\n    <p>\r\n        <h1>Are you sure?</h1>\r\n        <button type=\"submit\" id=\"buttonLogout\">Logout</button>\r\n    </p>\r\n</form>");
 
 /***/ }),
-/* 33 */
+/* 35 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ("<div class=\"alert alert-warning alert-dismissible fade show\" role=\"alert\">\r\n    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n    <p>{{message}}</p>\r\n    \r\n</div>");
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const templates = __webpack_require__(4)
-
-module.exports = () => {
-    
-    document.querySelector("#mainContent").innerHTML = templates.logout()
-    document
-        .querySelector('#buttonLogout')
-        .addEventListener('click', logoutHandler)
-    
-    function logoutHandler(ev) {
-        ev.preventDefault()
-        const url = 'http://localhost:8080/api/auth/logout'
-        const options = {
-            method: 'POST',
-        }
-        fetch(url, options)
-            .then(res => res.json())
-            .then(() => {
-                document.querySelector("#alertContent").innerHTML = templates.info({message : "Logout"})
-                window.location.hash = "#home"
-            })
-    }
-
-}
 
 /***/ })
 /******/ ]);

@@ -16,9 +16,10 @@ module.exports = () => {
         fetch(url, options)
             .then(res => res.json())
             .then(() => {
-                document.querySelector("#alertContent").innerHTML = templates.info({message : "Logout"})
+                document.getElementById("alertContent").innerHTML = templates.info({message : 'Logout'})
                 window.location.hash = "#home"
             })
+            .catch((err)=>  document.getElementById("alertContent").innerHTML = templates.info({message : err.message}))
     }
 
 }
