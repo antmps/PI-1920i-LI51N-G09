@@ -29,6 +29,8 @@ module.exports = () => {
             .then((user) =>{
                 document.getElementById("alertContent").innerHTML = templates.info({message : "Login " + user.username})
                 document.getElementById("login").style.visibility = "hidden"
+                document.getElementById("logout").style.visibility = "visible"
+                document.getElementById("groups").style.visibility = "visible"
                 document.getElementById("username").innerText = user.username
                 document.getElementById("username").style.visibility = "visible"
                 window.location.hash = '#home'

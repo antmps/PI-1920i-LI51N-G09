@@ -26,7 +26,7 @@ module.exports = function (ciborgDB) {
       .then(users => {
         var result = users.find(user => { return user.username == username })
         if (result != undefined) {
-          if (result.password == pass) return result
+          if (result.password == pass) return currentUser = result
           else throw new Error("Wrong password")
         }
         else throw new Error("User does not exist")

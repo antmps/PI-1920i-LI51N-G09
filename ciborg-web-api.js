@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = function (router, service) {
+module.exports = function (router, service, authService) {
 
     //ADDING ROUTES AND RESPECTIVE FUNCTIONS TO THE ROUTER
     router.get('/games/top', getTopGames);

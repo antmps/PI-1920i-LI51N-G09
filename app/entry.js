@@ -46,7 +46,7 @@ function handler() {
                 gamesData.getGameById(id)
                     .then(games => {
                         var game = games.games[0]
-                        mainContent.innerHTML = templates.gameDetails({ game })
+                        mainContent.innerHTML = templates.gameDetails({ game: game, isAuth: false })
                     })
                 break;
             default:

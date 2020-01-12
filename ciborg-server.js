@@ -13,7 +13,7 @@ const authService = require('./auth-service')(ciborgDB)
 const authApi = require('./auth-web-api')(app, express.Router(), authService)
 const boardGamesData = require('./board-games-data')()
 const service = require('./ciborg-services')(boardGamesData,ciborgDB)
-const api = require('./ciborg-web-api')(express.Router(),service)
+const api = require('./ciborg-web-api')(express.Router(),service,authService)
 
 //USE THE WEBAPI
 app.use(expressSession({ secret: 'keyboard cat' }))
