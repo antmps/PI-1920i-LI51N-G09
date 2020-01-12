@@ -52,7 +52,16 @@ function handler() {
                     })
                 break;
             case 'groups':
-                   
+                fetch('http://localhost:8080/api/auth/session')
+                .then(res => res.json())
+                .then((user) => {
+                    groupsData.getGroupsByUsername(user)
+                        .then(group => {
+                            mainContent.innerHTML = templates.groups({group})
+                        }
+                    )
+                }
+                ).catch((err)=>  document.getElementById("alertContent").innerHTML = templates.info({message : err.message}))
                 break;
             default:
                 window.location.hash = "home"

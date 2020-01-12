@@ -83,7 +83,9 @@ module.exports = {
     tableGamesTemplate : Handlebars.compile(tableGamesTemplate),
     login: Handlebars.compile(__webpack_require__(20).default),
     logout: Handlebars.compile(__webpack_require__(21).default),
-    gameDetails : Handlebars.compile(__webpack_require__(22).default)
+    gameDetails : Handlebars.compile(__webpack_require__(22).default),
+    groups : Handlebars.compile(__webpack_require__(23).default),
+    groupDetails : Handlebars.compile(__webpack_require__(24).default)
 } 
 
 /***/ }),
@@ -573,27 +575,27 @@ function getTopGames(){
 }
 
 function getGameByName(name){
-    return fetch(Uris.getGameByNameUri(name),{credentials: 'include'})
+    return fetch(Uris.getGameByNameUri(name))
             .then(res => res.json())
 }
 
 function getGameById(id){
-    return fetch(Uris.getGameByIdUri(id),{credentials: 'include'})
+    return fetch(Uris.getGameByIdUri(id))
             .then(res => res.json())
 }
 
 function getGroups(){
-    return fetch(Uris.getGroupsUri()),{credentials: 'include'}
+    return fetch(Uris.getGroupsUri())
             .then(res => res.json())
 }
 
 function getGroupsById(groupId){
-    return fetch(Uris.getGroupsByIdUri(groupId),{credentials: 'include'})
+    return fetch(Uris.getGroupsByIdUri(groupId))
             .then(res => res.json())
 }
 
 function getGroupGameByDuration(groupId){
-    return fetch(Uris.getGroupGameByDurationUri(groupId),{credentials: 'include'})
+    return fetch(Uris.getGroupGameByDurationUri(groupId))
             .then(res => res.json())
 }
 
@@ -618,14 +620,15 @@ __webpack_require__(8)
 __webpack_require__(10)
 
 const templates = __webpack_require__(0)
-const bookshelfImg = __webpack_require__(23)
+const bookshelfImg = __webpack_require__(25)
 const gamesData = __webpack_require__(3)
-const gamesScript = __webpack_require__(24)
+const groupsData = __webpack_require__(26)
+const gamesScript = __webpack_require__(27)
 
 const mainContent = document.getElementById('mainContent')
 const alertContent = document.getElementById('alertContent')
-const loginHandler = __webpack_require__(25)
-const logoutHandler = __webpack_require__(26)
+const loginHandler = __webpack_require__(28)
+const logoutHandler = __webpack_require__(29)
 
 window.addEventListener('hashchange', handler)
 handler()
@@ -664,6 +667,16 @@ function handler() {
                     })
                 break;
             case 'groups':
+                fetch('http://localhost:8080/api/auth/session')
+                .then(res => res.json())
+                .then((user) => {
+                    groupsData.getGroupsByUsername(user)
+                        .then(group => {
+                            mainContent.innerHTML = templates.groups({group})
+                        }
+                    )
+                }
+                ).catch((err)=>  document.getElementById("alertContent").innerHTML = templates.info({message : err.message}))
                 break;
             default:
                 window.location.hash = "home"
@@ -23555,12 +23568,67 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 /* 23 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\">\r\n    <tr>\r\n        <td class=\"TableNameStyle\">Name</td>\r\n        <td class=\"TableNameStyle\">Num of Games</td>\r\n    </tr>\r\n    {{#each groups.body.groups}}\r\n        <tr class=\"TableDataStyle\">\r\n            <td> <a style=\"color: aliceblue;\" href=\"#groups/{{id}}\">{{name}}</a></td>\r\n            <td>{{games.length}}</td>\r\n        </tr>\r\n    {{/each}}\r\n</table>");
+
+/***/ }),
+/* 24 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("<h2 class=\"headerText\">{{group.name}}</h2>\r\n<table style=\"width: 100%; margin-bottom: 2%;\">\r\n    <tr>\r\n        <td bgcolor=\"#ff9900\" colspan=\"20\"></td>\r\n    </tr>\r\n</table>");
+
+/***/ }),
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "f1cf1e92775d1cff8ae42eb6c9cdd94d.jpg";
 
 /***/ }),
-/* 24 */
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function GroupsApiUris() {
+    const baseUri = "http://localhost:8080/api/"
+
+    this.getGroups = () => `${baseUri}groups`
+    this.getGroupByIdUri = (id) => `${baseUri}groups/${id}`
+    this.getGroupsByUsernameUri = (username) => `${baseUri}${username}/groups`
+}
+
+const Uris = new GroupsApiUris()
+
+function getGroups(){
+    return fetch(Uris.getGroups())
+        .then(res => res.json())
+}
+
+function getGroupById(id) {
+    return fetch(Uris.getGroupByIdUri(id))
+        .then(res => res.json())
+}
+
+function getGroupsByUsername(username) {
+    console.log("GROUPBYUSER:" + username.username)
+    return fetch(Uris.getGroupsByUsernameUri(username.username))
+        .then(res => res.json())
+}
+
+module.exports = {
+    getGroups : getGroups,
+    getGroupById: getGroupById, 
+    getGroupsByUsername: getGroupsByUsername
+}
+
+/***/ }),
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23591,7 +23659,7 @@ module.exports = function(){
 }
 
 /***/ }),
-/* 25 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const templates = __webpack_require__(0)
@@ -23659,7 +23727,7 @@ module.exports = () => {
 }
 
 /***/ }),
-/* 26 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const templates = __webpack_require__(0)

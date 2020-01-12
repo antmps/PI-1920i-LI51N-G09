@@ -13,5 +13,7 @@ module.exports = {
     tableGamesTemplate : Handlebars.compile(tableGamesTemplate),
     login: Handlebars.compile(require('./templates/login.hbs').default),
     logout: Handlebars.compile(require('./templates/logout.hbs').default),
-    gameDetails : Handlebars.compile(require('./templates/gameDetails.hbs').default)
+    gameDetails : Handlebars.compile(require('./templates/gameDetails.hbs').default),
+    groups : Handlebars.compile(require('./templates/groups.hbs').default),
+    groupDetails : Handlebars.compile(require('./templates/groupDetails.hbs').default)
 } 
