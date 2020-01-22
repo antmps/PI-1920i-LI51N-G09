@@ -20,10 +20,6 @@ app.use(expressSession({
   secret: 'keyboard cat'
 }))
 app.use(express.json())
-app.use(function (req, res, next) {
-  res.isAuthenticated = req.isAuthenticated()
-  next()
-})
 app.use('/', express.static('app'))
 
 const authApi = require('./auth-web-api')(app, express.Router(), authService)
@@ -33,4 +29,3 @@ app.use('/api/auth', authApi)
 //CREATE AND INTIATE SERVER
 //const server = http.createServer(api.processRequest);
 app.listen(process.argv[2] || DEFAULT_PORT, () => console.log('Listening'));
-

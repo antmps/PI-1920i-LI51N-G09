@@ -687,7 +687,6 @@ function handler() {
                 break;
             case 'Mygroups':
                 fetch('http://localhost:8080/api/auth/session')
-<<<<<<< HEAD
                 .then(res => res.json())
                 .then((user) => {
                     groupsData.getGroupsByUsername(user)
@@ -714,7 +713,6 @@ function handler() {
                 .then((user) => {
                     gamesScript.registerAddToGroup(id,currentGameId)
                 }).catch((err)=>document.getElementById("alertContent").innerHTML = templates.info({message : err.message}))
-=======
                     .then(res => res.json())
                     .then((user) => {
                         groupsData.getGroupsByUsername(user)
@@ -732,7 +730,6 @@ function handler() {
                         mainContent.innerHTML = templates.groupDetails({group})
                     })
                     .catch((err) => document.getElementById("alertContent").innerHTML = templates.info({ message: err.message }))
->>>>>>> a68b012fef6675409fbba581a64960da119adfaa
                 break;
             default:
                 window.location.hash = "home"
@@ -23620,7 +23617,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<h2 class=\"headerText\">{{game.name}}</h2>\r\n<table style=\"width: 100%; margin-bottom: 2%;\">\r\n    <tr>\r\n        <td bgcolor=\"#ff9900\" colspan=\"20\"></td>\r\n    </tr>\r\n</table>\r\n<table style=\"margin-left: 5%;\" colspan=\"2\">\r\n    <tr>\r\n        <td style=\"white-space: nowrap; width: fit-content;\"><img width=\"500\" height=\"500\" src=\"{{game.image_url}}\"/></td>\r\n        <td>\r\n            <table class=\"gameDetailsTable\">\r\n                <tr>\r\n                    <td>Year published: {{game.year_published}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Min Players: {{game.min_players}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Players: {{game.max_players}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Min Playtime: {{game.min_playtime}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Max Playtime: {{game.max_playtime}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Min age: {{game.min_age}}</td>\r\n                </tr>\r\n        </table>\r\n        </td>\r\n        <td>\r\n            <button id=\"buttonAddToGroup\" class=\"buttonStyle\" href=\"#groupsToPut/{{game.id}}\">ADD TO GROUP</button>\r\n        </td>\r\n    </tr>\r\n</table>\r\n<table class=\"DescriptionBox\">\r\n    <tr>\r\n        <td>{{{game.description}}}</td>\r\n    </tr>\r\n</table>");
+/* harmony default export */ __webpack_exports__["default"] = ("<h2 class=\"headerText\">{{game.name}}</h2>\r\n<table style=\"width: 100%; margin-bottom: 2%;\">\r\n    <tr>\r\n        <td bgcolor=\"#ff9900\" colspan=\"20\"></td>\r\n    </tr>\r\n</table>\r\n<table style=\"margin-left: 5%;\" colspan=\"2\">\r\n    <tr>\r\n        <td style=\"white-space: nowrap; width: fit-content;\"><img width=\"500\" height=\"500\" src=\"{{game.image_url}}\"/></td>\r\n        <td>\r\n            <table class=\"gameDetailsTable\">\r\n                <tr>\r\n                    <td>Year published: {{game.year_published}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Min Players: {{game.min_players}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Players: {{game.max_players}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Min Playtime: {{game.min_playtime}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Max Playtime: {{game.max_playtime}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Min age: {{game.min_age}}</td>\r\n                </tr>\r\n        </table>\r\n        </td>\r\n        <td>\r\n            <button id=\"buttonAddToGroup\" class=\"buttonStyle\" href=\"#addGameToGroup/{{game.id}}\">ADD TO GROUP</button>\r\n        </td>\r\n    </tr>\r\n</table>\r\n<table class=\"DescriptionBox\">\r\n    <tr>\r\n        <td>{{{game.description}}}</td>\r\n    </tr>\r\n</table>");
 
 /***/ }),
 /* 23 */
@@ -23628,7 +23625,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\">\r\n    <tr>\r\n        <td class=\"TableNameStyle\">Name</td>\r\n        <td class=\"TableNameStyle\">Num of Games</td>\r\n    </tr>\r\n    {{#each groups.body}}\r\n        <tr class=\"TableDataStyle\">\r\n\r\n            <td> <a style=\"color: aliceblue;\" href=\"#groups/{{id}}\">{{name}}</a></td>\r\n            <td>{{games.length}}</td>\r\n        </tr>\r\n    {{/each}}\r\n</table>");
+/* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\">\r\n    <tr>\r\n        <td class=\"TableNameStyle\">Name</td>\r\n        <td class=\"TableNameStyle\">Num of Games</td>\r\n    </tr>\r\n    {{#each group.body}}\r\n        <tr class=\"TableDataStyle\">\r\n\r\n            <td> <a style=\"color: aliceblue;\" href=\"#groups/{{id}}\">{{name}}</a></td>\r\n            <td>{{games.length}}</td>\r\n        </tr>\r\n    {{/each}}\r\n</table>");
 
 /***/ }),
 /* 24 */
@@ -23741,9 +23738,9 @@ module.exports = {
 const templates = __webpack_require__(0)
 
 module.exports = () => {
-   
+
     document.querySelector("#mainContent").innerHTML = templates.login()
-    
+
     const inputPassword = document.querySelector('#inputPassword')
     const inputUsername = document.querySelector('#inputUsername')
     const buttonLogin = document.querySelector("#buttonLogin")
@@ -23753,7 +23750,7 @@ module.exports = () => {
     buttonSigUp.addEventListener('click', handlerSignUp)
 
     function handlerLogin(ev) {
-        ev.preventDefault()    
+        ev.preventDefault()
         const options = {
             method: 'POST',
             credentials: 'include',
@@ -23767,20 +23764,27 @@ module.exports = () => {
         }
         fetch('http://localhost:8080/api/auth/login', options)
             .then(res => res.json())
-            .then((user) =>{
-                document.getElementById("alertContent").innerHTML = templates.info({message : "Login " + user.username})
-                document.getElementById("login").style.visibility = "hidden"
-                document.getElementById("logout").style.visibility = "visible"
-                document.getElementById("groups").style.visibility = "visible"
-                document.getElementById("username").innerText = user.username
-                document.getElementById("username").style.visibility = "visible"
-                window.location.hash = '#home'
+            .then((user) => {
+                if (user.username != undefined) {
+                    document.getElementById("alertContent").innerHTML = templates.info({ message: "Login " + user.username })
+                    document.getElementById("login").style.visibility = "hidden"
+                    document.getElementById("logout").style.visibility = "visible"
+                    document.getElementById("groups").style.visibility = "visible"
+                    document.getElementById("username").innerText = user.username
+                    document.getElementById("username").style.visibility = "visible"
+                    window.location.hash = '#home'
+                }
+                else {
+                    document.getElementById("alertContent").innerHTML = templates.info({ message: 'Could not login' })
+                    window.location.hash = '#login'
+                }
+
             })
-            .catch((err)=>  document.getElementById("alertContent").innerHTML = templates.info({message : err.message}))
+            .catch((err) => document.getElementById("alertContent").innerHTML = templates.info({ message: err.message }))
     }
 
-    function handlerSignUp(ev){
-        ev.preventDefault()    
+    function handlerSignUp(ev) {
+        ev.preventDefault()
         const options = {
             method: 'POST',
             credentials: 'include',
@@ -23794,11 +23798,11 @@ module.exports = () => {
         }
         fetch('http://localhost:8080/api/auth/signup', options)
             .then(res => res.json())
-            .then((user) =>{
-                document.getElementById("alertContent").innerHTML = templates.info({message : "Registered " + user.username})
+            .then((user) => {
+                document.getElementById("alertContent").innerHTML = templates.info({ message: "Registered " + user.username })
                 window.location.hash = '#login'
             })
-            .catch((err)=>  document.getElementById("alertContent").innerHTML = templates.info({message : err.message}))
+            .catch((err) => document.getElementById("alertContent").innerHTML = templates.info({ message: err.message }))
     }
 }
 

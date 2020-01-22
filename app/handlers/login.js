@@ -1,9 +1,9 @@
 const templates = require('../templates')
 
 module.exports = () => {
-   
+
     document.querySelector("#mainContent").innerHTML = templates.login()
-    
+
     const inputPassword = document.querySelector('#inputPassword')
     const inputUsername = document.querySelector('#inputUsername')
     const buttonLogin = document.querySelector("#buttonLogin")
@@ -13,7 +13,7 @@ module.exports = () => {
     buttonSigUp.addEventListener('click', handlerSignUp)
 
     function handlerLogin(ev) {
-        ev.preventDefault()    
+        ev.preventDefault()
         const options = {
             method: 'POST',
             credentials: 'include',
@@ -27,20 +27,27 @@ module.exports = () => {
         }
         fetch('http://localhost:8080/api/auth/login', options)
             .then(res => res.json())
-            .then((user) =>{
-                document.getElementById("alertContent").innerHTML = templates.info({message : "Login " + user.username})
-                document.getElementById("login").style.visibility = "hidden"
-                document.getElementById("logout").style.visibility = "visible"
-                document.getElementById("groups").style.visibility = "visible"
-                document.getElementById("username").innerText = user.username
-                document.getElementById("username").style.visibility = "visible"
-                window.location.hash = '#home'
+            .then((user) => {
+                if (user.username != undefined) {
+                    document.getElementById("alertContent").innerHTML = templates.info({ message: "Login " + user.username })
+                    document.getElementById("login").style.visibility = "hidden"
+                    document.getElementById("logout").style.visibility = "visible"
+                    document.getElementById("groups").style.visibility = "visible"
+                    document.getElementById("username").innerText = user.username
+                    document.getElementById("username").style.visibility = "visible"
+                    window.location.hash = '#home'
+                }
+                else {
+                    document.getElementById("alertContent").innerHTML = templates.info({ message: 'Could not login' })
+                    window.location.hash = '#login'
+                }
+
             })
-            .catch((err)=>  document.getElementById("alertContent").innerHTML = templates.info({message : err.message}))
+            .catch((err) => document.getElementById("alertContent").innerHTML = templates.info({ message: err.message }))
     }
 
-    function handlerSignUp(ev){
-        ev.preventDefault()    
+    function handlerSignUp(ev) {
+        ev.preventDefault()
         const options = {
             method: 'POST',
             credentials: 'include',
@@ -54,10 +61,10 @@ module.exports = () => {
         }
         fetch('http://localhost:8080/api/auth/signup', options)
             .then(res => res.json())
-            .then((user) =>{
-                document.getElementById("alertContent").innerHTML = templates.info({message : "Registered " + user.username})
+            .then((user) => {
+                document.getElementById("alertContent").innerHTML = templates.info({ message: "Registered " + user.username })
                 window.location.hash = '#login'
             })
-            .catch((err)=>  document.getElementById("alertContent").innerHTML = templates.info({message : err.message}))
+            .catch((err) => document.getElementById("alertContent").innerHTML = templates.info({ message: err.message }))
     }
 }
