@@ -114,7 +114,7 @@ module.exports = function (host) {
             }
         }
         return promise.request(options)
-            .then(body => body._id)
+            .then(body => body._id)//body.result
             .catch(err => { throw err })
     }
 

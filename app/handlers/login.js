@@ -29,13 +29,7 @@ module.exports = () => {
             .then(res => res.json())
             .then((user) => {
                 if (user.username != undefined) {
-                    document.getElementById("alertContent").innerHTML = templates.info({ message: "Login " + user.username })
-                    document.getElementById("login").style.visibility = "hidden"
-                    document.getElementById("logout").style.visibility = "visible"
-                    document.getElementById("groups").style.visibility = "visible"
-                    document.getElementById("username").innerText = user.username
-                    document.getElementById("username").style.visibility = "visible"
-                    window.location.hash = '#home'
+                    showLogin(user.username)
                 }
                 else {
                     document.getElementById("alertContent").innerHTML = templates.info({ message: 'Could not login' })
@@ -66,5 +60,15 @@ module.exports = () => {
                 window.location.hash = '#login'
             })
             .catch((err) => document.getElementById("alertContent").innerHTML = templates.info({ message: err.message }))
+    }
+
+    function showLogin(username){
+        document.getElementById("alertContent").innerHTML = templates.info({ message: "Login " + username })
+                    document.getElementById("login").style.visibility = "hidden"
+                    document.getElementById("logout").style.visibility = "visible"
+                    document.getElementById("groups").style.visibility = "visible"
+                    document.getElementById("username").innerText = username
+                    document.getElementById("username").style.visibility = "visible"
+                    window.location.hash = '#home'
     }
 }

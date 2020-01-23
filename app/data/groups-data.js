@@ -5,12 +5,13 @@ function GroupsApiUris() {
 
     this.getGroups = () => `${baseUri}groups`
     this.getGroupByIdUri = (id) => `${baseUri}groups/${id}`
-    this.getGroupsByUsernameUri = (username) => `${baseUri}${username}/groups`
+    this.getGroupsByUsernameUri = () => `${baseUri}/groupsByUsername`
+    this.putGameinGroupUri = (groupId) => `${baseUri}/groups/${groupId}/games`
 }
 
 const Uris = new GroupsApiUris()
 
-function getGroups(){
+function getGroups() {
     return fetch(Uris.getGroups())
         .then(res => res.json())
 }
@@ -20,14 +21,29 @@ function getGroupById(id) {
         .then(res => res.json())
 }
 
-function getGroupsByUsername(username) {
-    console.log("GROUPBYUSER:" + username.username)
-    return fetch(Uris.getGroupsByUsernameUri(username.username))
+function getGroupsByUsername() {
+    return fetch(Uris.getGroupsByUsernameUri())
         .then(res => res.json())
 }
 
+function putGameinGroup(groupId, gameId) {
+    const options = {
+        method: 'PUT',
+        credentials: 'include',
+        body: JSON.stringify({
+            'gameId': gameId
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    return fetch(Uris.putGameinGroupUri(groupId), options)
+}
+
 module.exports = {
-    getGroups : getGroups,
-    getGroupById: getGroupById, 
-    getGroupsByUsername: getGroupsByUsername
+    getGroups: getGroups,
+    getGroupById: getGroupById,
+    getGroupsByUsername: getGroupsByUsername,
+    putGameinGroup: putGameinGroup
 }

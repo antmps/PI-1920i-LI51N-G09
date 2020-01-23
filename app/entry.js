@@ -16,11 +16,25 @@ const loginHandler = require('./handlers/login')
 const logoutHandler = require('./handlers/logout')
 
 window.addEventListener('hashchange', handler)
+function isLogedIn() {
+    fetch('http://localhost:8080/api/auth/session')
+        .then(res => res.json())
+        .then((user) => {
+            if (user.auth) {
+                document.getElementById("login").style.visibility = "hidden"
+                document.getElementById("logout").style.visibility = "visible"
+                document.getElementById("groups").style.visibility = "visible"
+                document.getElementById("username").innerText = user.username
+                document.getElementById("username").style.visibility = "visible"
+                window.location.hash = '#home'
+
+            }
+        })
+}
+isLogedIn()
 handler()
 
 function handler() {
-
-    let currentGameId;
 
     const hash = window.location.hash.substring(1)
     const [state, ...args] = hash.split('/')
@@ -51,53 +65,42 @@ function handler() {
                         var game = games.body.games[0]
                         game.isAuthenticated = games.isAuthenticated
                         mainContent.innerHTML = templates.gameDetails({ game })
+                        gamesScript.registerAddToGroup(id)
                     })
                 break;
-            case 'Mygroups':
-                fetch('http://localhost:8080/api/auth/session')
-                .then(res => res.json())
-                .then((user) => {
-                    groupsData.getGroupsByUsername(user)
-                        .then(group => {
-                            mainContent.innerHTML = templates.groups({group})
-                        })
-                }).catch((err)=>  document.getElementById("alertContent").innerHTML = templates.info({message : err.message}))
-                break;
-            case 'groupsToPut':
-                currentGameId = args[0]
-                fetch('http://localhost:8080/api/auth/session')
-                .then(res => res.json())
-                .then((user) => {
-                    groupsData.getGroupsByUsername(user)
-                        .then(group => {
-                            mainContent.innerHTML = templates.groups({group})
-                        })
-                }).catch((err)=>  document.getElementById("alertContent").innerHTML = templates.info("Não se encontra logado."))
-                break;
-            case 'addGameToGroup':
-                var id = args[0]
-                fetch('http://localhost:8080/api/auth/session')
-                .then(res => res.json())
-                .then((user) => {
-                    gamesScript.registerAddToGroup(id,currentGameId)
-                }).catch((err)=>document.getElementById("alertContent").innerHTML = templates.info({message : err.message}))
-                    .then(res => res.json())
-                    .then((user) => {
-                        groupsData.getGroupsByUsername(user)
-                            .then(groups => {
-                                mainContent.innerHTML = templates.groups({ groups })
-                            }
-                            )
-                    }
-                    ).catch((err) => document.getElementById("alertContent").innerHTML = templates.info({ message: err.message }))
-                break;
-            case 'groups':
+            case 'groupDetails':
                 var id = args[0]
                 groupsData.getGroupById(id)
-                    .then(group => {
-                        mainContent.innerHTML = templates.groupDetails({group})
+                    .then(groups => {
+                        mainContent.innerHTML = templates.groupDetails({ groups })
                     })
                     .catch((err) => document.getElementById("alertContent").innerHTML = templates.info({ message: err.message }))
+                break;
+            case 'Mygroups':
+                groupsData.getGroupsByUsername()
+                    .then(groups => {
+                        mainContent.innerHTML = templates.groups({ groups })
+                    })
+                    .catch((err) => document.getElementById("alertContent").innerHTML = templates.info({ message: err.message }))
+                break;
+            case 'addToGroup':
+                var groupId = args[0]
+                var gameId = args[1]
+                groupsData.putGameinGroup(groupId, gameId)
+                    .then(res => res.json())
+                    .then(res => {
+                        if (res.body == groupId) {//sucessfull
+                            document.getElementById("alertContent").innerHTML = templates.info("Successfully added game.")
+                            window.location.hash = `groupDetails/${groupId}`
+                        } else {
+                            document.getElementById("alertContent").innerHTML = templates.info("Could not add game.")
+                        }
+                    })
+                    .catch((err) => {
+                        document.getElementById("alertContent").innerHTML = templates.info("ot logged in.")
+                        window.location.hash = `gameDetails/${gameId}`
+                    })
+
                 break;
             default:
                 window.location.hash = "home"

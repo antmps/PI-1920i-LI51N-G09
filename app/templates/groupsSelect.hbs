@@ -1,12 +1,11 @@
 <table align="center">
     <tr>
         <td class="TableNameStyle">Name</td>
-        <td class="TableNameStyle">Num of Games</td>
     </tr>
+    
     {{#each groups.body}}
         <tr class="TableDataStyle">
-            <td> <a style="color: aliceblue;" href="#groupDetails/{{id}}">{{name}}</a></td>
-            <td>{{games.length}}</td>
+            <td> <a style="color: aliceblue;" href="#addToGroup/{{id}}/{{gameId}}">{{name}}</a></td>
         </tr>
     {{/each}}
 </table>

@@ -8,7 +8,7 @@ module.exports = function (router, service, authService) {
     router.get('/games/id/:id', getGameById);
     router.get('/groups', getGroups);
     router.get('/groups/:groupId', getGroupById);
-    router.get('/:username/groups', getGroupByUsername);
+    router.get('/groupsByUsername', getGroupByUsername);
     router.get('/groups/:groupId/games', getGroupGameByDuration);
 
     router.post('/groups', postGroup);
@@ -76,7 +76,7 @@ module.exports = function (router, service, authService) {
     }
 
     function getGroupByUsername(req, res) {
-        service.getGroupByUsername(req.params.username)
+        service.getGroupByUsername(req.user.username)
             .then((body, err) => processResponse(res)(err, body))
     }
 
