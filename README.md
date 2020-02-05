@@ -4,5 +4,6 @@ Necessário ter o elasticsearch na porta 9200
 
 Executar os seguintes comandos para a base de dados estar completa
 
--curl -X PUT http://localhost:9200/users
--curl -X PUT jttp://localhost:9200/groups
+`-curl -X PUT http://localhost:9200/users`
+
+`-curl -X PUT jttp://localhost:9200/groups`
