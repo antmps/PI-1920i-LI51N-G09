@@ -1,17 +1,24 @@
-<h2 class="headerText">{{groups.body.name}}</h2>
-<table style="width: 100%; margin-bottom: 2%;">
+<h2 class="header2Text">{{groups.name}}</h2>
+<table style="width: 100%; margin-bottom: 1%;">
     <tr>
         <td bgcolor="#ff9900" colspan="20"></td>
     </tr>
 </table>
+<table class="DescriptionBox" style="margin-left: 5%;margin-right: 5%;">
+    <tr>
+        <td>{{{groups.description}}}</td>
+    </tr>
+</table>
 
-<table align="center">
+<table align="center" style="padding: 2%; margin-top: 2%;">
     <tr>
         <td class="TableNameStyle">Name</td>
+        <td></td>
     </tr>
-    {{#each groups.body.games}}
-    <tr class="TableDataStyle">
-        <td> <a style="color: aliceblue;" href="#gameDetails/{{id}}">{{name}}</a></td>
+    {{#each groups.games}}
+    <tr>
+        <td class="TableDataStyle"><a style="color: aliceblue;" href="#gameDetails/{{id}}">{{name}}</a></td>
+        <td class="TableDataStyle"><a style="color: aliceblue;" href="#removeGameFromGroup/{{../groups.id}}/{{id}}">Remove</a></td>
     </tr>
     {{/each}}
 </table>

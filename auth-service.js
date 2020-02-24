@@ -5,6 +5,7 @@ module.exports = function (ciborgDB) {
     authenticate: authenticate,
     getUser: getUser,
     logout: logout,
+    createUser: createUser
   }
 
   async function authenticate(username, pass) {
@@ -27,5 +28,18 @@ module.exports = function (ciborgDB) {
 
   async function logout(userId) {
     currentUser = undefined
+  }
+
+  async function createUser(username, pass) {
+  
+    return ciborgDB.getAllUsers()
+      .then(users => {
+        var result = users.find(user => { return user.username == username })
+        if (result == undefined) return ciborgDB.postUser({
+          username: username,
+          password: pass
+        })
+        else throw new Error("User already exists")
+      })
   }
 }

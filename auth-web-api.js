@@ -53,15 +53,7 @@ module.exports = function (global, router, authService) {
     }
 
     async function createUser(username, pass) {
-        return ciborgDB.getAllUsers()
-            .then(users => {
-                var result = users.find(user => { return user.username == username })
-                if (result == undefined) return ciborgDB.postUser({
-                    username: username,
-                    password: pass
-                })
-                else throw new Error("User already exists")
-            })
+        return authService.createUser(username,pass)
     }
 
     function serializeUser(user, done) {

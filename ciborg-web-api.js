@@ -40,7 +40,7 @@ module.exports = function (router, service, authService) {
             else {
                 res.statusCode = 200;
                 res.setHeader('Content-type', 'application/json');
-                res.end(JSON.stringify({ 'body': body, 'isAuthenticated': res.isAuthenticated }));
+                res.end(JSON.stringify(body));
             }
         }
 
@@ -86,6 +86,7 @@ module.exports = function (router, service, authService) {
     }
 
     function postGroup(req, res) {
+        req.body.username = req.user.username
         service.postGroup(req.body)
             .then((body, err) => processResponse(res)(err, body))
     }

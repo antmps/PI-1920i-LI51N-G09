@@ -1,15 +1,38 @@
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+  
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 .titleText {
     color: aliceblue;
     font-size: 36px;
 }
 
-.headerText {
+.header2Text {
     width: 100%;
     text-align: center;
     color: aliceblue;
     font-size: larger;
     font-weight: bolder;
     font-size: 26px;
+}
+
+.header3Text {
+    width: 100%;
+    text-align: center;
+    color: aliceblue;
+    font-size: larger;
+    font-weight: bolder;
+    font-size: 20px;
 }
 
 .baseText {
@@ -86,7 +109,7 @@
 }
 
 .TableDataStyle {
-    margin-left: 5%;
+    margin: 2px 0;
     border: 2px solid;
     padding: 12px 20px;
     border-radius: 4px;
@@ -99,9 +122,6 @@
 }
 
 .DescriptionBox {
-    margin-left: 5%;
-    margin-right: 5%;
-    margin-top: 5%;
     border: 2px solid;
     display: block;
     padding: 12px 20px;

@@ -25,7 +25,7 @@ module.exports = () => {
                 document.getElementById("username").style.visibility = "hidden"
                 window.location.hash = '#home'
             })
-            .catch((err)=>  document.getElementById("alertContent").innerHTML = templates.info({message : err.message}))
+            .catch((err)=>  document.getElementById("alertContent").innerHTML = templates.error({message : err.message}))
     }
 
 }

@@ -35,15 +35,32 @@ function registerAddToGroup(gameId) {
                 });
                 mainContent.innerHTML = templates.groupsSelect({ groups })
             }).catch(err => {
-                alertContent.innerHTML = templates.info({ message: 'Must be logged in' })
+                alertContent.innerHTML = templates.error({ message: 'Must be logged in' })
                 window.location.hash = "login"
             })
     }
 }
 
+function gameDetails(gameId) {
+    gamesData.getGameById(gameId)
+        .then(games => {
+            var game = games.body.games[0]
+            game.isAuthenticated = games.isAuthenticated
+            mainContent.innerHTML = templates.gameDetails({ game })
+            registerAddToGroup(gameId)
+        })
+}
+
+function topGames() {
+    gamesData.getTopGames()
+        .then(games => mainContent.innerHTML = templates.tableGamesTemplate({ games }))
+}
+
 module.exports = {
 
     registerSearch: registerSearch,
-    registerAddToGroup: registerAddToGroup
+    registerAddToGroup: registerAddToGroup,
+    gameDetails: gameDetails,
+    topGames: topGames
 
 }

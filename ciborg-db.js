@@ -125,6 +125,7 @@ module.exports = function (host) {
             method: 'POST',
             json: true,
             body: {
+                'username': groupBody.username,
                 'name': groupBody.name,
                 'description': groupBody.description,
                 'games': groupBody.games

@@ -16,6 +16,7 @@ module.exports = {
     groups: Handlebars.compile(require('./templates/groups.hbs').default),
     groupsSelect: Handlebars.compile(require('./templates/groupsSelect.hbs').default),
     groupDetails: Handlebars.compile(require('./templates/groupDetails.hbs').default),
-    groupsAddGame: Handlebars.compile(require('./templates/groupsAddGame.hbs').default),
     tableGamesTemplate: Handlebars.compile(tableGamesTemplate),
+    loading:Handlebars.compile(require('./templates/loading.hbs').default),
+    createGroup:Handlebars.compile(require('./templates/createGroup.hbs').default)
 } 

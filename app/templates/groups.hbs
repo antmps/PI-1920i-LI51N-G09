@@ -3,10 +3,18 @@
         <td class="TableNameStyle">Name</td>
         <td class="TableNameStyle">Num of Games</td>
     </tr>
-    {{#each groups.body}}
-        <tr class="TableDataStyle">
-            <td> <a style="color: aliceblue;" href="#groupDetails/{{id}}">{{name}}</a></td>
-            <td>{{games.length}}</td>
+    {{#each groups}}
+        <tr>
+            <td class="TableDataStyle"> <a style="color: aliceblue;" href="#groupDetails/{{id}}">{{name}}</a></td>
+            <td class="TableDataStyle">{{games.length}}</td>
         </tr>
     {{/each}}
+</table>
+
+<table align="center">
+    <tr>
+        <td>
+            <button style="margin-left: 5%; margin-top: 3%;" id="buttonCreateGroup" class="buttonStyle">CREATE GROUP</button>
+        </td>
+    </tr>
 </table>
