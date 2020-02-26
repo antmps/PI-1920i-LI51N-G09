@@ -3,7 +3,9 @@
 const Handlebars = require('../node_modules/handlebars/dist/handlebars')
 
 const tableGamesTemplate = require('./templates/gameTable.hbs').default
+const tableGamesGroupTemplate = require('./templates/gameTableGroups.hbs').default
 Handlebars.registerPartial('tableGamesTemplate', tableGamesTemplate)
+Handlebars.registerPartial('tableGamesGroupTemplate', tableGamesGroupTemplate)
 
 module.exports = {
     home: Handlebars.compile(require('./templates/home.hbs').default),
@@ -17,6 +19,7 @@ module.exports = {
     groupsSelect: Handlebars.compile(require('./templates/groupsSelect.hbs').default),
     groupDetails: Handlebars.compile(require('./templates/groupDetails.hbs').default),
     tableGamesTemplate: Handlebars.compile(tableGamesTemplate),
+    tableGamesGroupTemplate: Handlebars.compile(tableGamesGroupTemplate),
     loading:Handlebars.compile(require('./templates/loading.hbs').default),
     createGroup:Handlebars.compile(require('./templates/createGroup.hbs').default)
 } 

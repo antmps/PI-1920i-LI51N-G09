@@ -93,6 +93,7 @@ module.exports = function (router, service, authService) {
 
 
     function putGroupInfo(req, res) {
+        req.body.username = req.user.username
         service.putGroupInfo(req.params.groupId, req.body)
             .then((body, err) => processResponse(res)(err, body))
     }

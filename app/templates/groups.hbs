@@ -1,4 +1,5 @@
 <table align="center">
+    {{#if groups}}
     <tr>
         <td class="TableNameStyle">Name</td>
         <td class="TableNameStyle">Num of Games</td>
@@ -9,6 +10,11 @@
             <td class="TableDataStyle">{{games.length}}</td>
         </tr>
     {{/each}}
+    {{else}}
+    <tr>
+        <td><h3 class="header3Text">No groups available</h3></td>
+    </tr>
+    {{/if}}
 </table>
 
 <table align="center">

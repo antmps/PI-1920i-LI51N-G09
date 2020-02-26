@@ -82,7 +82,7 @@ module.exports = function (host) {
             .catch(err => { throw err })
     }
 
-    function putGroupInfo(groupId, arrayBody, bodyReceived, cb) {
+    function putGroupInfo(groupId, games, bodyReceived, cb) {
         const options = {
             url: `${baseUrl}/groups/_doc/${groupId}`,
             method: 'PUT',
@@ -91,7 +91,7 @@ module.exports = function (host) {
                 'username': bodyReceived.username,
                 'name': bodyReceived.name,
                 'description': bodyReceived.description,
-                'games': arrayBody
+                'games': games
             }
         };
 

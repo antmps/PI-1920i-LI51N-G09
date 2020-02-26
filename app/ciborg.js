@@ -73,22 +73,25 @@
 const Handlebars = __webpack_require__(14)
 
 const tableGamesTemplate = __webpack_require__(15).default
+const tableGamesGroupTemplate = __webpack_require__(16).default
 Handlebars.registerPartial('tableGamesTemplate', tableGamesTemplate)
+Handlebars.registerPartial('tableGamesGroupTemplate', tableGamesGroupTemplate)
 
 module.exports = {
-    home: Handlebars.compile(__webpack_require__(16).default),
-    games: Handlebars.compile(__webpack_require__(17).default),
-    error: Handlebars.compile(__webpack_require__(18).default),
-    info: Handlebars.compile(__webpack_require__(19).default),
-    login: Handlebars.compile(__webpack_require__(20).default),
-    logout: Handlebars.compile(__webpack_require__(21).default),
-    gameDetails: Handlebars.compile(__webpack_require__(22).default),
-    groups: Handlebars.compile(__webpack_require__(23).default),
-    groupsSelect: Handlebars.compile(__webpack_require__(24).default),
-    groupDetails: Handlebars.compile(__webpack_require__(25).default),
+    home: Handlebars.compile(__webpack_require__(17).default),
+    games: Handlebars.compile(__webpack_require__(18).default),
+    error: Handlebars.compile(__webpack_require__(19).default),
+    info: Handlebars.compile(__webpack_require__(20).default),
+    login: Handlebars.compile(__webpack_require__(21).default),
+    logout: Handlebars.compile(__webpack_require__(22).default),
+    gameDetails: Handlebars.compile(__webpack_require__(23).default),
+    groups: Handlebars.compile(__webpack_require__(24).default),
+    groupsSelect: Handlebars.compile(__webpack_require__(25).default),
+    groupDetails: Handlebars.compile(__webpack_require__(26).default),
     tableGamesTemplate: Handlebars.compile(tableGamesTemplate),
-    loading:Handlebars.compile(__webpack_require__(26).default),
-    createGroup:Handlebars.compile(__webpack_require__(27).default)
+    tableGamesGroupTemplate: Handlebars.compile(tableGamesGroupTemplate),
+    loading:Handlebars.compile(__webpack_require__(27).default),
+    createGroup:Handlebars.compile(__webpack_require__(28).default)
 } 
 
 /***/ }),
@@ -558,8 +561,11 @@ function GroupsApiUris() {
     this.getGroups = () => `${baseUri}groups`
     this.getGroupByIdUri = (id) => `${baseUri}groups/${id}`
     this.getGroupsByUsernameUri = () => `${baseUri}groupsByUsername`
+    this.getGamesFromGroupByPlaytimeUri = (groupId,min,max) => `${baseUri}groups/${groupId}/games?min=${min}&max=${max}`
+    this.postGroupUri = () =>`${baseUri}groups` 
     this.putGameinGroupUri = (groupId) => `${baseUri}groups/${groupId}/games`
     this.deleteGameFromGroupUri = (groupId,gameId)=> `${baseUri}groups/${groupId}/games/${gameId}`
+    this.updateGroupUri = (groupId) => `${baseUri}groups/${groupId}`
 }
 
 const Uris = new GroupsApiUris()
@@ -579,6 +585,27 @@ function getGroupsByUsername() {
         .then(res => res.json())
 }
 
+function getGamesFromGroupByPlaytime(groupId,min,max){
+    return fetch(Uris.getGamesFromGroupByPlaytimeUri(groupId,min,max))
+        .then(res => res.json())
+}
+
+function postGroup(name,desc){
+    const options = {
+        method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify({
+            'name': name,
+            'description': desc
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    return fetch('http://localhost:8080/api/groups', options)
+    .then(res => res.json())
+}
+
 function putGameinGroup(groupId, gameId) {
     const options = {
         method: 'PUT',
@@ -592,6 +619,7 @@ function putGameinGroup(groupId, gameId) {
     }
 
     return fetch(Uris.putGameinGroupUri(groupId), options)
+    .then(res => res.json())
 }
 
 function deleteGameFromGroup(groupId, gameId){
@@ -606,14 +634,35 @@ function deleteGameFromGroup(groupId, gameId){
     }
 
     return fetch(Uris.deleteGameFromGroupUri(groupId,gameId), options)
+    .then(res => res.json())
+}
+
+function updateGroup(groupId, name, desc){
+    const options = {
+        method: 'PUT',
+        credentials: 'include',
+        body: JSON.stringify({
+            'name':name,
+            'description':desc
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    return fetch(Uris.updateGroupUri(groupId), options)
+    .then(res => res.json())
 }
 
 module.exports = {
     getGroups: getGroups,
     getGroupById: getGroupById,
     getGroupsByUsername: getGroupsByUsername,
+    getGamesFromGroupByPlaytime:getGamesFromGroupByPlaytime,
+    postGroup:postGroup,
     putGameinGroup: putGameinGroup,
-    deleteGameFromGroup:deleteGameFromGroup
+    deleteGameFromGroup:deleteGameFromGroup,
+    updateGroup:updateGroup
 }
 
 /***/ }),
@@ -628,14 +677,14 @@ __webpack_require__(8)
 __webpack_require__(10)
 
 const templates = __webpack_require__(0)
-const bookshelfImg = __webpack_require__(28)
+const bookshelfImg = __webpack_require__(29)
 
 const mainContent = document.getElementById('mainContent')
 const alertContent = document.getElementById('alertContent')
-const loginHandler = __webpack_require__(29)
-const logoutHandler = __webpack_require__(30)
-const gamesHandler = __webpack_require__(31)
-const groupsHandler = __webpack_require__(33)
+const loginHandler = __webpack_require__(30)
+const logoutHandler = __webpack_require__(31)
+const gamesHandler = __webpack_require__(32)
+const groupsHandler = __webpack_require__(34)
 
 window.addEventListener('hashchange', handler)
 function isLogedIn() {
@@ -23537,7 +23586,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\">\r\n    <tr>\r\n        <td class=\"TableNameStyle\">Name</td>\r\n        <td class=\"TableNameStyle\">Year</td>\r\n        <td class=\"TableNameStyle\">Rating</td>\r\n    </tr>\r\n    {{#each games.body.games}}\r\n        <tr>\r\n            <td class=\"TableDataStyle\"> <a style=\"color: aliceblue;\" href=\"#gameDetails/{{id}}\">{{name}}</a></td>\r\n            <td class=\"TableDataStyle\">{{year_published}}</td>\r\n            <td class=\"TableDataStyle\">{{average_user_rating}}</td>\r\n        </tr>\r\n    {{/each}}\r\n</table>");
+/* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\">\r\n    {{#if games.games}}\r\n    <tr>\r\n        <td class=\"TableNameStyle\">Name</td>\r\n        <td class=\"TableNameStyle\">Year</td>\r\n        <td class=\"TableNameStyle\">Rating</td>\r\n    </tr>\r\n    {{#each games.games}}\r\n        <tr>\r\n            <td class=\"TableDataStyle\"> <a style=\"color: aliceblue;\" href=\"#gameDetails/{{id}}\">{{name}}</a></td>\r\n            <td class=\"TableDataStyle\">{{year_published}}</td>\r\n            <td class=\"TableDataStyle\">{{average_user_rating}}</td>\r\n        </tr>\r\n    {{/each}}\r\n    {{else}}\r\n    <tr>\r\n        <td><h3 class=\"header3Text\">Nothing to Show</h3></td>\r\n    </tr>\r\n    {{/if}}\r\n</table>");
 
 /***/ }),
 /* 16 */
@@ -23545,7 +23594,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<table>\r\n    <tr>\r\n        <td>\r\n        </td>\r\n    </tr>\r\n</table>");
+/* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\" style=\"margin-top: 2%;\">\r\n    {{#if groups.games}}\r\n    <tr>\r\n        <td class=\"TableNameStyle\">Name</td>\r\n        <td class=\"TableNameStyle\">Min playtime</td>\r\n        <td class=\"TableNameStyle\">Max playtime</td>\r\n    </tr>\r\n    {{#each groups.games}}\r\n    <tr>\r\n        <td class=\"TableDataStyle\"> <a style=\"color: aliceblue;\" href=\"#gameDetails/{{id}}\">{{name}}</a></td>\r\n        <td class=\"TableDataStyle\">{{min_playtime}}</td>\r\n        <td class=\"TableDataStyle\">{{max_playtime}}</td>\r\n        <td class=\"TableDataStyle\"><a style=\"color: aliceblue;\"\r\n                href=\"#removeGameFromGroup/{{../groups.id}}/{{id}}\">Remove</a></td>\r\n    </tr>\r\n    {{/each}}\r\n    {{else}}\r\n    <tr>\r\n        <td>\r\n            <h3 class=\"header3Text\">Nothing to Show</h3>\r\n        </td>\r\n    </tr>\r\n    {{/if}}\r\n</table>");
 
 /***/ }),
 /* 17 */
@@ -23553,7 +23602,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\">\r\n    <tr>\r\n        <td>\r\n            <input class=\"textboxStyle\" id=\"txt_Search_Games\" \r\n                type=\"search\" size=\"50px\" >\r\n        </td>\r\n        <td>\r\n            <button id=\"buttonSearch\" class=\"buttonStyle\">SEARCH</button>\r\n        </td>\r\n    </tr>\r\n</table>\r\n<div id=\"searchContent\">\r\n    {{> tableGamesTemplate}}\r\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<table>\r\n    <tr>\r\n        <td>\r\n        </td>\r\n    </tr>\r\n</table>");
 
 /***/ }),
 /* 18 */
@@ -23561,7 +23610,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"alert alert-warning alert-dismissible fade show\" role=\"alert\">\r\n    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n    <strong>Error</strong>\r\n    <p>{{message}}</p>\r\n    \r\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\">\r\n    <tr>\r\n        <td>\r\n            <input class=\"textboxStyle\" id=\"txt_Search_Games\" \r\n                type=\"search\" size=\"50px\" >\r\n        </td>\r\n        <td>\r\n            <button id=\"buttonSearch\" class=\"buttonStyle\">SEARCH</button>\r\n        </td>\r\n    </tr>\r\n</table>\r\n<div id=\"searchContent\">\r\n    {{> tableGamesTemplate}}\r\n</div>");
 
 /***/ }),
 /* 19 */
@@ -23569,7 +23618,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"alert alert-warning alert-dismissible fade show\" role=\"alert\">\r\n    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n    <p>{{message}}</p>\r\n    \r\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"alert alert-warning alert-dismissible fade show\" role=\"alert\">\r\n    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n    <strong>Error</strong>\r\n    <p>{{message}}</p>\r\n    \r\n</div>");
 
 /***/ }),
 /* 20 */
@@ -23577,7 +23626,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<form>\r\n    <p>\r\n        <label class=\"baseText\">Username:</label>\r\n        <input class=\"textboxStyle\" type=\"text\" id=\"inputUsername\">\r\n    </p>\r\n    <p>\r\n        <label class=\"baseText\">Password:</label>\r\n        <input class=\"textboxStyle\" type=\"password\" id=\"inputPassword\">\r\n    </p>\r\n    <p>\r\n        <button style=\"margin-left: 5%;\" class=\"buttonStyle\" type=\"submit\" id=\"buttonSignup\">Signup</button>\r\n        <button style=\"margin-left: 5%;\" class=\"buttonStyle\" type=\"submit\" id=\"buttonLogin\">Login</button>\r\n    </p>\r\n</form>\r\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"alert alert-warning alert-dismissible fade show\" role=\"alert\">\r\n    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n    <p>{{message}}</p>\r\n    \r\n</div>");
 
 /***/ }),
 /* 21 */
@@ -23585,7 +23634,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<form>\r\n    <p>\r\n        <h1 class=\"baseText\">Are you sure?</h1>\r\n        <button class=\"buttonStyle\" type=\"submit\" id=\"buttonLogout\">Logout</button>\r\n    </p>\r\n</form>");
+/* harmony default export */ __webpack_exports__["default"] = ("<form>\r\n    <p>\r\n        <label class=\"baseText\">Username:</label>\r\n        <input class=\"textboxStyle\" type=\"text\" id=\"inputUsername\">\r\n    </p>\r\n    <p>\r\n        <label class=\"baseText\">Password:</label>\r\n        <input class=\"textboxStyle\" type=\"password\" id=\"inputPassword\">\r\n    </p>\r\n    <p>\r\n        <button style=\"margin-left: 5%;\" class=\"buttonStyle\" type=\"submit\" id=\"buttonSignup\">Signup</button>\r\n        <button style=\"margin-left: 5%;\" class=\"buttonStyle\" type=\"submit\" id=\"buttonLogin\">Login</button>\r\n    </p>\r\n</form>\r\n");
 
 /***/ }),
 /* 22 */
@@ -23593,7 +23642,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<h2 class=\"headerText\">{{game.name}}</h2>\r\n<table style=\"width: 100%; margin-bottom: 2%;\">\r\n    <tr>\r\n        <td bgcolor=\"#ff9900\" colspan=\"20\"></td>\r\n    </tr>\r\n</table>\r\n<table style=\"margin-left: 5%;\" colspan=\"2\">\r\n    <tr>\r\n        <td style=\"white-space: nowrap; width: fit-content;\"><img width=\"500\" height=\"500\" src=\"{{game.image_url}}\" />\r\n        </td>\r\n        <td>\r\n            <button style=\"margin-left: 5%; margin-bottom: 5%;\" id=\"buttonAddToGroup\" class=\"buttonStyle\">ADD TO\r\n                GROUP</button>\r\n            <table class=\"gameDetailsTable\">\r\n                <tr>\r\n                    <td>Year published: {{game.year_published}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Min Players: {{game.min_players}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Players: {{game.max_players}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Min Playtime: {{game.min_playtime}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Max Playtime: {{game.max_playtime}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Min age: {{game.min_age}}</td>\r\n                </tr>\r\n            </table>\r\n        </td>\r\n    </tr>\r\n</table>\r\n<table class=\"DescriptionBox\" style=\"margin-left: 5%;margin-right: 5%;margin-top: 5%;\">\r\n    <tr>\r\n        <td>{{{game.description}}}</td>\r\n    </tr>\r\n</table>");
+/* harmony default export */ __webpack_exports__["default"] = ("<form>\r\n    <p>\r\n        <h1 class=\"baseText\">Are you sure?</h1>\r\n        <button class=\"buttonStyle\" type=\"submit\" id=\"buttonLogout\">Logout</button>\r\n    </p>\r\n</form>");
 
 /***/ }),
 /* 23 */
@@ -23601,7 +23650,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\">\r\n    <tr>\r\n        <td class=\"TableNameStyle\">Name</td>\r\n        <td class=\"TableNameStyle\">Num of Games</td>\r\n    </tr>\r\n    {{#each groups}}\r\n        <tr>\r\n            <td class=\"TableDataStyle\"> <a style=\"color: aliceblue;\" href=\"#groupDetails/{{id}}\">{{name}}</a></td>\r\n            <td class=\"TableDataStyle\">{{games.length}}</td>\r\n        </tr>\r\n    {{/each}}\r\n</table>\r\n\r\n<table align=\"center\">\r\n    <tr>\r\n        <td>\r\n            <button style=\"margin-left: 5%; margin-top: 3%;\" id=\"buttonCreateGroup\" class=\"buttonStyle\">CREATE GROUP</button>\r\n        </td>\r\n    </tr>\r\n</table>");
+/* harmony default export */ __webpack_exports__["default"] = ("<h2 class=\"headerText\">{{game.name}}</h2>\r\n<table style=\"width: 100%; margin-bottom: 2%;\">\r\n    <tr>\r\n        <td bgcolor=\"#ff9900\" colspan=\"20\"></td>\r\n    </tr>\r\n</table>\r\n<table style=\"margin-left: 5%;\" colspan=\"2\">\r\n    <tr>\r\n        <td style=\"white-space: nowrap; width: fit-content;\"><img width=\"500\" height=\"500\" src=\"{{game.image_url}}\" />\r\n        </td>\r\n        <td>\r\n            <button style=\"margin-left: 5%; margin-bottom: 5%;\" id=\"buttonAddToGroup\" class=\"buttonStyle\">ADD TO\r\n                GROUP</button>\r\n            <table class=\"gameDetailsTable\">\r\n                <tr>\r\n                    <td>Year published: {{game.year_published}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Min Players: {{game.min_players}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Players: {{game.max_players}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Min Playtime: {{game.min_playtime}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Max Playtime: {{game.max_playtime}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Min age: {{game.min_age}}</td>\r\n                </tr>\r\n            </table>\r\n        </td>\r\n    </tr>\r\n</table>\r\n<table class=\"DescriptionBox\" style=\"margin-left: 5%;margin-right: 5%;margin-top: 5%;\">\r\n    <tr>\r\n        <td>{{{game.description}}}</td>\r\n    </tr>\r\n</table>");
 
 /***/ }),
 /* 24 */
@@ -23609,7 +23658,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\">\r\n    <tr>\r\n        <td class=\"TableNameStyle\">Name</td>\r\n    </tr>\r\n    \r\n    {{#each groups.body}}\r\n        <tr>\r\n            <td  class=\"TableDataStyle\"> <a style=\"color: aliceblue;\" href=\"#addToGroup/{{id}}/{{gameId}}\">{{name}}</a></td>\r\n        </tr>\r\n    {{/each}}\r\n</table>");
+/* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\">\r\n    {{#if groups}}\r\n    <tr>\r\n        <td class=\"TableNameStyle\">Name</td>\r\n        <td class=\"TableNameStyle\">Num of Games</td>\r\n    </tr>\r\n    {{#each groups}}\r\n        <tr>\r\n            <td class=\"TableDataStyle\"> <a style=\"color: aliceblue;\" href=\"#groupDetails/{{id}}\">{{name}}</a></td>\r\n            <td class=\"TableDataStyle\">{{games.length}}</td>\r\n        </tr>\r\n    {{/each}}\r\n    {{else}}\r\n    <tr>\r\n        <td><h3 class=\"header3Text\">No groups available</h3></td>\r\n    </tr>\r\n    {{/if}}\r\n</table>\r\n\r\n<table align=\"center\">\r\n    <tr>\r\n        <td>\r\n            <button style=\"margin-left: 5%; margin-top: 3%;\" id=\"buttonCreateGroup\" class=\"buttonStyle\">CREATE GROUP</button>\r\n        </td>\r\n    </tr>\r\n</table>");
 
 /***/ }),
 /* 25 */
@@ -23617,7 +23666,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<h2 class=\"header2Text\">{{groups.name}}</h2>\r\n<table style=\"width: 100%; margin-bottom: 1%;\">\r\n    <tr>\r\n        <td bgcolor=\"#ff9900\" colspan=\"20\"></td>\r\n    </tr>\r\n</table>\r\n<table class=\"DescriptionBox\" style=\"margin-left: 5%;margin-right: 5%;\">\r\n    <tr>\r\n        <td>{{{groups.description}}}</td>\r\n    </tr>\r\n</table>\r\n\r\n<table align=\"center\" style=\"padding: 2%; margin-top: 2%;\">\r\n    <tr>\r\n        <td class=\"TableNameStyle\">Name</td>\r\n        <td></td>\r\n    </tr>\r\n    {{#each groups.games}}\r\n    <tr>\r\n        <td class=\"TableDataStyle\"><a style=\"color: aliceblue;\" href=\"#gameDetails/{{id}}\">{{name}}</a></td>\r\n        <td class=\"TableDataStyle\"><a style=\"color: aliceblue;\" href=\"#removeGameFromGroup/{{../groups.id}}/{{id}}\">Remove</a></td>\r\n    </tr>\r\n    {{/each}}\r\n</table>");
+/* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\">\r\n    {{#if groups}}\r\n    <tr>\r\n        <td class=\"TableNameStyle\">Name</td>\r\n    </tr>\r\n    \r\n    {{#each groups}}\r\n        <tr>\r\n            <td  class=\"TableDataStyle\"> <a style=\"color: aliceblue;\" href=\"#addToGroup/{{id}}/{{gameId}}\">{{name}}</a></td>\r\n        </tr>\r\n    {{/each}}\r\n    {{else}}\r\n    <tr>\r\n        <td><h3 class=\"header3Text\">No groups available</h3></td>\r\n    </tr>\r\n    {{/if}}\r\n</table>");
 
 /***/ }),
 /* 26 */
@@ -23625,7 +23674,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\">\r\n    <tr>\r\n        <td>\r\n            <div class=\"loader\"></div>\r\n        </td>\r\n    </tr>\r\n</table>");
+/* harmony default export */ __webpack_exports__["default"] = ("<h2 class=\"header2Text\">\r\n    <div id=\"groupName\">{{groups.name}}</div>\r\n</h2>\r\n<table style=\"width: 100%; margin-bottom: 1%;\">\r\n    <tr>\r\n        <td bgcolor=\"#ff9900\" colspan=\"20\"></td>\r\n    </tr>\r\n</table>\r\n<table class=\"DescriptionBox\" style=\"margin-left: 5%;margin-right: 5%;\">\r\n    <tr>\r\n        <td>\r\n            <div id=\"groupDesc\">{{{groups.description}}}</div>\r\n        </td>\r\n    </tr>\r\n</table>\r\n\r\n<div id=\"groupGamesTable\">\r\n    {{>tableGamesGroupTemplate}}\r\n</div>\r\n\r\n{{#if groups.games}}\r\n<table align=\"center\" style=\"padding: 2%; margin-top: 5%;\">\r\n    <tr>\r\n        <td>\r\n            <label class=\"baseText\">Min playtime:</label>\r\n        </td>\r\n        <td>\r\n            <input class=\"textboxStyle\" type=\"number\" id=\"inputMin\">\r\n        </td>\r\n        <td>\r\n            <label class=\"baseText\">Max playtime:</label>\r\n        </td>\r\n        <td>\r\n            <input class=\"textboxStyle\" type=\"number\" id=\"inputMax\">\r\n        </td>\r\n        <td>\r\n            <button class=\"buttonStyle\" type=\"submit\" id=\"buttonFilter\">Filter</button>\r\n        </td>\r\n    </tr>\r\n</table>\r\n{{/if}}\r\n\r\n<button style=\"margin-left: 5%;\" class=\"buttonStyle\" type=\"submit\" id=\"buttonEditGroup\">Edit</button>");
 
 /***/ }),
 /* 27 */
@@ -23633,16 +23682,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ("<form>\r\n    <p>\r\n        <label class=\"baseText\">Name:</label>\r\n        <input class=\"textboxStyle\" type=\"text\" id=\"inputName\">\r\n    </p>\r\n    <p>\r\n        <label class=\"baseText\">Description:</label>\r\n        <input class=\"textboxStyle\" type=\"text\" id=\"inputDescription\">\r\n    </p>\r\n    <p>\r\n        <button style=\"margin-left: 5%;\" class=\"buttonStyle\" type=\"submit\" id=\"buttonCancel\">Cancel</button>\r\n        <button style=\"margin-left: 5%;\" class=\"buttonStyle\" type=\"submit\" id=\"buttonCreate\">Create</button>\r\n    </p>\r\n</form>");
+/* harmony default export */ __webpack_exports__["default"] = ("<table align=\"center\">\r\n    <tr>\r\n        <td>\r\n            <div class=\"loader\"></div>\r\n        </td>\r\n    </tr>\r\n</table>");
 
 /***/ }),
 /* 28 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ("<form>\r\n    <p>\r\n        <label class=\"baseText\">Name:</label>\r\n        <input class=\"textboxStyle\" type=\"text\" id=\"inputName\">\r\n    </p>\r\n    <p>\r\n        <label class=\"baseText\">Description:</label>\r\n        <input class=\"textboxStyle\" type=\"text\" id=\"inputDescription\">\r\n    </p>\r\n    <p>\r\n        <button style=\"margin-left: 5%;\" class=\"buttonStyle\" type=\"submit\" id=\"buttonCancel\">Cancel</button>\r\n        <button style=\"margin-left: 5%;\" class=\"buttonStyle\" type=\"submit\" id=\"buttonCreate\">Create</button>\r\n    </p>\r\n</form>");
+
+/***/ }),
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "f1cf1e92775d1cff8ae42eb6c9cdd94d.jpg";
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const templates = __webpack_require__(0)
@@ -23736,7 +23793,7 @@ module.exports = () => {
 }
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const templates = __webpack_require__(0)
@@ -23772,13 +23829,13 @@ module.exports = () => {
 }
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const gamesData = __webpack_require__(32)
+const gamesData = __webpack_require__(33)
 const groupsData = __webpack_require__(3)
 const templates = __webpack_require__(0)
 const mainContent = document.getElementById('mainContent')
@@ -23808,7 +23865,7 @@ function registerAddToGroup(gameId) {
         e.preventDefault()
         groupsData.getGroupsByUsername()
             .then(groups => {
-                groups.body.forEach(element => {
+                groups.forEach(element => {
                     element.gameId = gameId
                 });
                 mainContent.innerHTML = templates.groupsSelect({ groups })
@@ -23822,7 +23879,7 @@ function registerAddToGroup(gameId) {
 function gameDetails(gameId) {
     gamesData.getGameById(gameId)
         .then(games => {
-            var game = games.body.games[0]
+            var game = games.games[0]
             game.isAuthenticated = games.isAuthenticated
             mainContent.innerHTML = templates.gameDetails({ game })
             registerAddToGroup(gameId)
@@ -23844,7 +23901,7 @@ module.exports = {
 }
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23926,7 +23983,7 @@ module.exports = {
 }
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23942,11 +23999,85 @@ function groupDetails(groupId) {
         .then(groups => {
             groups.id = groupId
             mainContent.innerHTML = templates.groupDetails({ groups })
+            registerEditGroup(groups)
+            registerFilterGames(groups)
         })
         .catch((err) => {
             alertContent.innerHTML = templates.error({ message: err.message })
             window.location.hash = 'myGroups'
         })
+}
+
+function registerEditGroup(group) {
+    const buttonEditGroup = document.getElementById('buttonEditGroup')
+    buttonEditGroup.addEventListener('click', handleEdit)
+
+    function handleEdit(ev) {
+        ev.preventDefault()
+        const groupName = document.getElementById('groupName')
+        const groupDesc = document.getElementById('groupDesc')
+
+        groupName.innerHTML = '<input class="textboxStyle" type="text" id="inputName">'
+        const inputName = document.querySelector('#inputName')
+        inputName.value = group.name
+
+        groupDesc.innerHTML = '<input class="textboxStyle" type="text" id="inputDesc">'
+        const inputDesc = document.querySelector('#inputDesc')
+        inputDesc.value = group.description
+
+        buttonEditGroup.innerText = 'Save'
+
+        buttonEditGroup.removeEventListener('click', handleEdit)
+        registerSaveEditGroup(group)
+    }
+}
+
+function registerSaveEditGroup(groups) {
+    const buttonEditGroup = document.getElementById('buttonEditGroup')
+    buttonEditGroup.addEventListener('click', handleSave)
+
+    function handleSave(ev) {
+        ev.preventDefault()
+
+        const inputName = document.querySelector('#inputName')
+        var name = inputName.value
+
+        const inputDesc = document.querySelector('#inputDesc')
+        var desc = inputDesc.value
+
+        groupsData.updateGroup(groups.id, name, desc)
+            .then(response => {
+                groups.name = name
+                groups.description = desc
+                alertContent.innerHTML = templates.info({ message: 'Sucessfully updated group' })
+                mainContent.innerHTML = templates.groupDetails({ groups })
+            })
+            .catch((err) => {
+                alertContent.innerHTML = templates.error({ message: err.message })
+                window.location.hash = `myGroups`
+            })
+    }
+}
+
+function registerFilterGames(groups){
+    const buttonFilter = document.getElementById('buttonFilter')
+    buttonFilter.addEventListener('click', handleFilter)
+
+    function handleFilter(ev){
+        ev.preventDefault()
+        const inputMin = document.getElementById('inputMin')
+        const inputMax = document.getElementById('inputMax')
+        const groupGamesTable = document.getElementById('groupGamesTable')
+
+        groupsData.getGamesFromGroupByPlaytime(groups.id,inputMin.value, inputMax.value)
+            .then(games=>{
+                groups.games=games
+                groupGamesTable.innerHTML = templates.tableGamesGroupTemplate({ groups })
+            })
+            .catch((err) => {
+                alertContent.innerHTML = templates.error({ message: err.message })
+            })
+    }
 }
 
 function removeGameFromGroup(groupId, gameId) {
@@ -23968,9 +24099,9 @@ function myGroups() {
             registerCreateGroup()
         })
         .catch((err) => {
-        alertContent.innerHTML = templates.error({ message: err.message })
-        window.location.hash = 'home'
-    }
+            alertContent.innerHTML = templates.error({ message: err.message })
+            window.location.hash = 'home'
+        }
         )
 
 }
@@ -24003,22 +24134,10 @@ function createGroup() {
 
     function handlerCreate(ev) {
         ev.preventDefault()
-        const options = {
-            method: 'POST',
-            credentials: 'include',
-            body: JSON.stringify({
-                'name': inputName.value,
-                'description': inputDescription.value
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }
-        fetch('http://localhost:8080/api/groups', options)
-            .then(res => res.json())
-            .then((res) => {
-                if (res.id != undefined) {
-                    window.location.hash = `#groupDetails/${res.id}`
+        groupsData.postGroup(inputName.value, inputDescription.value)
+            .then((id) => {
+                if (id != undefined) {
+                    window.location.hash = `#groupDetails/${id}`
                 }
                 else {
                     alertContent.innerHTML = templates.error({ message: 'Could not create group' })
@@ -24035,9 +24154,8 @@ function createGroup() {
 
 function addToGroup(groupId, gameId) {
     groupsData.putGameinGroup(groupId, gameId)
-        .then(res => res.json())
         .then(res => {
-            if (res.body == groupId) {//sucessfull
+            if (res == groupId) {//sucessfull
                 alertContent.innerHTML = templates.info({ message: "Successfully added game." })
                 window.location.hash = `groupDetails/${groupId}`
             } else {

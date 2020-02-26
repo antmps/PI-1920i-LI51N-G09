@@ -59,8 +59,8 @@ module.exports = function (boardGamesData, ciborgDb) {
     function putGroupInfo(groupId, body) {
 
         return ciborgDb.getGamesFromGroup(groupId)
-            .then((arrayBody) => {
-                return ciborgDb.putGroupInfo(groupId, arrayBody, body)
+            .then((games) => {
+                return ciborgDb.putGroupInfo(groupId, games, body)
             })
             .catch(err => { throw err })
     }

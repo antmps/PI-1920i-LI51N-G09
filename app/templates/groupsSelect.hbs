@@ -1,11 +1,17 @@
 <table align="center">
+    {{#if groups}}
     <tr>
         <td class="TableNameStyle">Name</td>
     </tr>
     
-    {{#each groups.body}}
+    {{#each groups}}
         <tr>
             <td  class="TableDataStyle"> <a style="color: aliceblue;" href="#addToGroup/{{id}}/{{gameId}}">{{name}}</a></td>
         </tr>
     {{/each}}
+    {{else}}
+    <tr>
+        <td><h3 class="header3Text">No groups available</h3></td>
+    </tr>
+    {{/if}}
 </table>

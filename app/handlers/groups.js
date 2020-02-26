@@ -10,11 +10,85 @@ function groupDetails(groupId) {
         .then(groups => {
             groups.id = groupId
             mainContent.innerHTML = templates.groupDetails({ groups })
+            registerEditGroup(groups)
+            registerFilterGames(groups)
         })
         .catch((err) => {
             alertContent.innerHTML = templates.error({ message: err.message })
             window.location.hash = 'myGroups'
         })
+}
+
+function registerEditGroup(group) {
+    const buttonEditGroup = document.getElementById('buttonEditGroup')
+    buttonEditGroup.addEventListener('click', handleEdit)
+
+    function handleEdit(ev) {
+        ev.preventDefault()
+        const groupName = document.getElementById('groupName')
+        const groupDesc = document.getElementById('groupDesc')
+
+        groupName.innerHTML = '<input class="textboxStyle" type="text" id="inputName">'
+        const inputName = document.querySelector('#inputName')
+        inputName.value = group.name
+
+        groupDesc.innerHTML = '<input class="textboxStyle" type="text" id="inputDesc">'
+        const inputDesc = document.querySelector('#inputDesc')
+        inputDesc.value = group.description
+
+        buttonEditGroup.innerText = 'Save'
+
+        buttonEditGroup.removeEventListener('click', handleEdit)
+        registerSaveEditGroup(group)
+    }
+}
+
+function registerSaveEditGroup(groups) {
+    const buttonEditGroup = document.getElementById('buttonEditGroup')
+    buttonEditGroup.addEventListener('click', handleSave)
+
+    function handleSave(ev) {
+        ev.preventDefault()
+
+        const inputName = document.querySelector('#inputName')
+        var name = inputName.value
+
+        const inputDesc = document.querySelector('#inputDesc')
+        var desc = inputDesc.value
+
+        groupsData.updateGroup(groups.id, name, desc)
+            .then(response => {
+                groups.name = name
+                groups.description = desc
+                alertContent.innerHTML = templates.info({ message: 'Sucessfully updated group' })
+                mainContent.innerHTML = templates.groupDetails({ groups })
+            })
+            .catch((err) => {
+                alertContent.innerHTML = templates.error({ message: err.message })
+                window.location.hash = `myGroups`
+            })
+    }
+}
+
+function registerFilterGames(groups){
+    const buttonFilter = document.getElementById('buttonFilter')
+    buttonFilter.addEventListener('click', handleFilter)
+
+    function handleFilter(ev){
+        ev.preventDefault()
+        const inputMin = document.getElementById('inputMin')
+        const inputMax = document.getElementById('inputMax')
+        const groupGamesTable = document.getElementById('groupGamesTable')
+
+        groupsData.getGamesFromGroupByPlaytime(groups.id,inputMin.value, inputMax.value)
+            .then(games=>{
+                groups.games=games
+                groupGamesTable.innerHTML = templates.tableGamesGroupTemplate({ groups })
+            })
+            .catch((err) => {
+                alertContent.innerHTML = templates.error({ message: err.message })
+            })
+    }
 }
 
 function removeGameFromGroup(groupId, gameId) {
@@ -36,9 +110,9 @@ function myGroups() {
             registerCreateGroup()
         })
         .catch((err) => {
-        alertContent.innerHTML = templates.error({ message: err.message })
-        window.location.hash = 'home'
-    }
+            alertContent.innerHTML = templates.error({ message: err.message })
+            window.location.hash = 'home'
+        }
         )
 
 }
@@ -71,19 +145,7 @@ function createGroup() {
 
     function handlerCreate(ev) {
         ev.preventDefault()
-        const options = {
-            method: 'POST',
-            credentials: 'include',
-            body: JSON.stringify({
-                'name': inputName.value,
-                'description': inputDescription.value
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }
-        fetch('http://localhost:8080/api/groups', options)
-            .then(res => res.json())
+        groupsData.postGroup(inputName.value, inputDescription.value)
             .then((id) => {
                 if (id != undefined) {
                     window.location.hash = `#groupDetails/${id}`
@@ -103,9 +165,8 @@ function createGroup() {
 
 function addToGroup(groupId, gameId) {
     groupsData.putGameinGroup(groupId, gameId)
-        .then(res => res.json())
         .then(res => {
-            if (res.body == groupId) {//sucessfull
+            if (res == groupId) {//sucessfull
                 alertContent.innerHTML = templates.info({ message: "Successfully added game." })
                 window.location.hash = `groupDetails/${groupId}`
             } else {

@@ -6,8 +6,11 @@ function GroupsApiUris() {
     this.getGroups = () => `${baseUri}groups`
     this.getGroupByIdUri = (id) => `${baseUri}groups/${id}`
     this.getGroupsByUsernameUri = () => `${baseUri}groupsByUsername`
+    this.getGamesFromGroupByPlaytimeUri = (groupId,min,max) => `${baseUri}groups/${groupId}/games?min=${min}&max=${max}`
+    this.postGroupUri = () =>`${baseUri}groups` 
     this.putGameinGroupUri = (groupId) => `${baseUri}groups/${groupId}/games`
     this.deleteGameFromGroupUri = (groupId,gameId)=> `${baseUri}groups/${groupId}/games/${gameId}`
+    this.updateGroupUri = (groupId) => `${baseUri}groups/${groupId}`
 }
 
 const Uris = new GroupsApiUris()
@@ -27,6 +30,27 @@ function getGroupsByUsername() {
         .then(res => res.json())
 }
 
+function getGamesFromGroupByPlaytime(groupId,min,max){
+    return fetch(Uris.getGamesFromGroupByPlaytimeUri(groupId,min,max))
+        .then(res => res.json())
+}
+
+function postGroup(name,desc){
+    const options = {
+        method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify({
+            'name': name,
+            'description': desc
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    return fetch('http://localhost:8080/api/groups', options)
+    .then(res => res.json())
+}
+
 function putGameinGroup(groupId, gameId) {
     const options = {
         method: 'PUT',
@@ -40,6 +64,7 @@ function putGameinGroup(groupId, gameId) {
     }
 
     return fetch(Uris.putGameinGroupUri(groupId), options)
+    .then(res => res.json())
 }
 
 function deleteGameFromGroup(groupId, gameId){
@@ -54,12 +79,33 @@ function deleteGameFromGroup(groupId, gameId){
     }
 
     return fetch(Uris.deleteGameFromGroupUri(groupId,gameId), options)
+    .then(res => res.json())
+}
+
+function updateGroup(groupId, name, desc){
+    const options = {
+        method: 'PUT',
+        credentials: 'include',
+        body: JSON.stringify({
+            'name':name,
+            'description':desc
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    return fetch(Uris.updateGroupUri(groupId), options)
+    .then(res => res.json())
 }
 
 module.exports = {
     getGroups: getGroups,
     getGroupById: getGroupById,
     getGroupsByUsername: getGroupsByUsername,
+    getGamesFromGroupByPlaytime:getGamesFromGroupByPlaytime,
+    postGroup:postGroup,
     putGameinGroup: putGameinGroup,
-    deleteGameFromGroup:deleteGameFromGroup
+    deleteGameFromGroup:deleteGameFromGroup,
+    updateGroup:updateGroup
 }

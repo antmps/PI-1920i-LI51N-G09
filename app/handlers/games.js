@@ -30,7 +30,7 @@ function registerAddToGroup(gameId) {
         e.preventDefault()
         groupsData.getGroupsByUsername()
             .then(groups => {
-                groups.body.forEach(element => {
+                groups.forEach(element => {
                     element.gameId = gameId
                 });
                 mainContent.innerHTML = templates.groupsSelect({ groups })
@@ -44,7 +44,7 @@ function registerAddToGroup(gameId) {
 function gameDetails(gameId) {
     gamesData.getGameById(gameId)
         .then(games => {
-            var game = games.body.games[0]
+            var game = games.games[0]
             game.isAuthenticated = games.isAuthenticated
             mainContent.innerHTML = templates.gameDetails({ game })
             registerAddToGroup(gameId)

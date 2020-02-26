@@ -1,14 +1,20 @@
 <table align="center">
+    {{#if games.games}}
     <tr>
         <td class="TableNameStyle">Name</td>
         <td class="TableNameStyle">Year</td>
         <td class="TableNameStyle">Rating</td>
     </tr>
-    {{#each games.body.games}}
+    {{#each games.games}}
         <tr>
             <td class="TableDataStyle"> <a style="color: aliceblue;" href="#gameDetails/{{id}}">{{name}}</a></td>
             <td class="TableDataStyle">{{year_published}}</td>
             <td class="TableDataStyle">{{average_user_rating}}</td>
         </tr>
     {{/each}}
+    {{else}}
+    <tr>
+        <td><h3 class="header3Text">Nothing to Show</h3></td>
+    </tr>
+    {{/if}}
 </table>

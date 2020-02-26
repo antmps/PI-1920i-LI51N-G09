@@ -1,0 +1,24 @@
+<table align="center" style="margin-top: 2%;">
+    {{#if groups.games}}
+    <tr>
+        <td class="TableNameStyle">Name</td>
+        <td class="TableNameStyle">Min playtime</td>
+        <td class="TableNameStyle">Max playtime</td>
+    </tr>
+    {{#each groups.games}}
+    <tr>
+        <td class="TableDataStyle"> <a style="color: aliceblue;" href="#gameDetails/{{id}}">{{name}}</a></td>
+        <td class="TableDataStyle">{{min_playtime}}</td>
+        <td class="TableDataStyle">{{max_playtime}}</td>
+        <td class="TableDataStyle"><a style="color: aliceblue;"
+                href="#removeGameFromGroup/{{../groups.id}}/{{id}}">Remove</a></td>
+    </tr>
+    {{/each}}
+    {{else}}
+    <tr>
+        <td>
+            <h3 class="header3Text">Nothing to Show</h3>
+        </td>
+    </tr>
+    {{/if}}
+</table>
