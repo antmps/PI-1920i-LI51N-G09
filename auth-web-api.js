@@ -44,16 +44,13 @@ module.exports = function (global, router, authService) {
         createUser(req.body.username, req.body.password)
             .then(user => {
                 console.log("Service Signup", user)
-                req.login(user, (err) => {
-                    if (err) sendUnauthorized(resp, err)
-                    else resp.json(user)
-                })
+                resp.json(user)
             })
             .catch(err => sendUnauthorized(resp, err))
     }
 
     async function createUser(username, pass) {
-        return authService.createUser(username,pass)
+        return authService.createUser(username, pass)
     }
 
     function serializeUser(user, done) {
@@ -75,3 +72,4 @@ module.exports = function (global, router, authService) {
 
 }
 
+    

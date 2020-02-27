@@ -154,7 +154,6 @@ module.exports = function (host) {
             method: 'POST',
             json: true,
             body: {
-                'fullName': user.fullName,
                 'username': user.username,
                 'password': user.password
             }

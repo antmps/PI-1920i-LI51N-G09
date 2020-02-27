@@ -62,6 +62,9 @@ function handler() {
                 var id = args[0]
                 gamesHandler.gameDetails(id)
                 break;
+            case 'myGroups':
+                groupsHandler.myGroups()
+                break;
             case 'groupDetails':
                 var id = args[0]
                 groupsHandler.groupDetails(id)
@@ -71,23 +74,20 @@ function handler() {
                 var gameId = args[1]
                 groupsHandler.removeGameFromGroup(groupId, gameId)
                 break;
-            case 'myGroups':
-                groupsHandler.myGroups()
-                break;
-            case 'createGroup':
-                mainContent.innerHTML = templates.createGroup()
-                groupsHandler.createGroup()
-                break;
             case 'addToGroup':
                 var groupId = args[0]
                 var gameId = args[1]
                 groupsHandler.addToGroup(groupId, gameId)
                 break;
+            case 'createGroup':
+                mainContent.innerHTML = templates.createGroup()
+                groupsHandler.createGroup()
+                break;
             default:
                 window.location.hash = "home"
         }
     } catch (err) {
-        alertContent.innerHTML = templates.error({message : err.message})
+        alertContent.innerHTML = templates.error({ message: err.message })
         window.location.hash = "home"
     }
 
