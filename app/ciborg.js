@@ -24069,7 +24069,11 @@ function registerFilterGames(groups){
         const inputMax = document.getElementById('inputMax')
         const groupGamesTable = document.getElementById('groupGamesTable')
 
-        groupsData.getGamesFromGroupByPlaytime(groups.id,inputMin.value, inputMax.value)
+        var min = inputMin.value
+        var max = inputMax.value
+
+        if(min != "" && max != ""){
+            groupsData.getGamesFromGroupByPlaytime(groups.id,min, max)
             .then(games=>{
                 groups.games=games
                 groupGamesTable.innerHTML = templates.tableGamesGroupTemplate({ groups })
@@ -24077,6 +24081,11 @@ function registerFilterGames(groups){
             .catch((err) => {
                 alertContent.innerHTML = templates.error({ message: err.message })
             })
+        }else{
+            groupDetails(groups.id)
+        }
+
+        
     }
 }
 
