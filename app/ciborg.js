@@ -24061,7 +24061,7 @@ function registerSaveEditGroup(groups) {
 
 function registerFilterGames(groups){
     const buttonFilter = document.getElementById('buttonFilter')
-    buttonFilter.addEventListener('click', handleFilter)
+    if(buttonFilter)buttonFilter.addEventListener('click', handleFilter)
 
     function handleFilter(ev){
         ev.preventDefault()
