@@ -27,7 +27,7 @@
     "popper.js": "^1.16.0"
   },
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-session": "^1.17.0",
     "passport": "^0.4.1",
     "request": "^2.88.0",
